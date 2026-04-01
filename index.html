@@ -2654,8 +2654,8 @@ function renderStudentList() {
     const grupoCell = sinGrupoFlag
       ? `<span style="color:var(--absent);font-size:11px;font-weight:600">⚠ Sin grupo</span>`
       : `<span style="font-size:12px;color:var(--text2)">${s.grade}</span>`;
-    const nameSafe = s.name.replace(/\/g,'\\').replace(/'/g,"\'");
-    const codeSafe = s.code.replace(/'/g,"\'");
+    const nameSafe = s.name.replace(/'/g, ' ');
+    const codeSafe = s.code.replace(/'/g, '');
     // Botón asignar/mover siempre visible
     const moveLabel = sinGrupoFlag ? 'Asignar grupo' : 'Mover grupo';
     const moveBg = sinGrupoFlag
