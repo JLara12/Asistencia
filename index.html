@@ -1828,59 +1828,177 @@ function renderStudentList() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  CARGA DE ARCHIVO EXCEL / CSV
+//  CARGA DE ARCHIVO EXCEL / CSV — con vista previa y asignación de grupo
 // ════════════════════════════════════════════════════════════
+
+let _pendingImport = []; // filas leídas esperando confirmación
+
 function handleFileUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
+  // Limpiar input para permitir volver a cargar el mismo archivo
+  e.target.value = '';
+
   const reader = new FileReader();
   reader.onload = function(ev) {
     try {
       let rows = [];
-      if (file.name.endsWith('.csv')) {
+      if (file.name.toLowerCase().endsWith('.csv')) {
         rows = parseCSV(ev.target.result);
       } else {
         const wb = XLSX.read(ev.target.result, { type: 'binary' });
         const ws = wb.Sheets[wb.SheetNames[0]];
         rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
       }
-      // Buscar columnas: código, nombre, grupo
-      const header = rows[0] ? rows[0].map(h => String(h).toLowerCase().trim()) : [];
-      const cIdx = findCol(header, ['código','codigo','cod','code','id']);
-      const nIdx = findCol(header, ['nombre','name','apellido','estudiante']);
-      const gIdx = findCol(header, ['grado','grupo','group','grade','clase']);
 
-      if (cIdx === -1 || nIdx === -1) {
-        toast('No se encontraron columnas Código y Nombre', 'error');
+      // Filtrar filas vacías
+      rows = rows.filter(r => r.some(c => String(c || '').trim() !== ''));
+      if (rows.length < 2) { toast('El archivo está vacío o no tiene datos', 'error'); return; }
+
+      // Detectar columnas por cabecera
+      const header = rows[0].map(h => String(h || '').toLowerCase().trim());
+      const cIdx = findCol(header, ['código','codigo','cod','code','id','nro','no']);
+      const nIdx = findCol(header, ['nombre','name','apellido','estudiante','alumno']);
+      const gIdx = findCol(header, ['grado','grupo','group','grade','clase','curso']);
+
+      // Si no hay columna de código usamos el índice de fila
+      const dataRows = rows.slice(1);
+
+      // Construir lista provisional
+      _pendingImport = dataRows.map((row, i) => {
+        const code = cIdx !== -1 ? String(row[cIdx] || '').trim() : String(i + 1);
+        const name = nIdx !== -1 ? String(row[nIdx] || '').trim() : '';
+        const gradeRaw = gIdx !== -1 ? String(row[gIdx] || '').trim() : '';
+        return { code, name, gradeRaw, gradeAssigned: gradeRaw };
+      }).filter(r => r.name); // descartar filas sin nombre
+
+      if (_pendingImport.length === 0) {
+        toast('No se encontraron estudiantes en el archivo', 'error');
         return;
       }
 
-      let added = 0, skipped = 0;
-      rows.slice(1).forEach(row => {
-        const code = String(row[cIdx] || '').trim();
-        const name = String(row[nIdx] || '').trim();
-        const grade = gIdx !== -1 ? String(row[gIdx] || '').trim() : '';
-        if (!code || !name) return;
-        if (DB.students.find(s => s.code === code)) { skipped++; return; }
-        DB.students.push({ code, name, grade });
-        added++;
-      });
-
-      saveDB();
-      renderStudentList();
-      document.getElementById('uploadPreview').innerHTML =
-        `<div class="toast success" style="position:static;max-width:none">✅ ${added} estudiantes agregados. ${skipped} duplicados omitidos.</div>`;
-      toast(`${added} estudiantes cargados`, 'success');
+      renderImportPreview();
     } catch(err) {
       toast('Error leyendo archivo: ' + err.message, 'error');
+      console.error(err);
     }
   };
-  if (file.name.endsWith('.csv')) reader.readAsText(file);
+
+  if (file.name.toLowerCase().endsWith('.csv')) reader.readAsText(file, 'UTF-8');
   else reader.readAsBinaryString(file);
 }
 
+function renderImportPreview() {
+  const preview = document.getElementById('uploadPreview');
+  const gradeOptions = DB.grades.map(g => `<option value="${g}">${g}</option>`).join('');
+
+  // Detectar si todos vienen del mismo grupo o de diferentes
+  const gruposEnArchivo = [...new Set(_pendingImport.map(r => r.gradeRaw).filter(Boolean))];
+  const mismoGrupo = gruposEnArchivo.length <= 1;
+
+  preview.innerHTML = `
+    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <span class="bold" style="font-size:13px;">📂 Vista previa — ${_pendingImport.length} estudiantes</span>
+        <button class="btn btn-primary btn-sm" onclick="confirmImport()">✅ Confirmar importación</button>
+      </div>
+
+      ${mismoGrupo ? `
+        <div style="margin-bottom:12px;padding:12px;background:var(--surface);border-radius:10px;border:1px solid var(--border);">
+          <label class="form-label">Asignar todos a este grupo:</label>
+          <select class="select-styled" id="importGroupAll" style="width:100%;margin-top:6px;" onchange="assignAllGroup(this.value)">
+            <option value="">— Seleccione grupo —</option>
+            ${gradeOptions}
+          </select>
+          <p class="text-xs text-dim mt-4">Si su archivo ya tenía grupo, aparece preseleccionado. Puede cambiarlo.</p>
+        </div>
+      ` : `
+        <div style="margin-bottom:12px;padding:12px;background:var(--surface);border-radius:10px;border:1px solid var(--border);">
+          <label class="form-label">Asignar grupo diferente a cada fila, o uno global:</label>
+          <select class="select-styled" id="importGroupAll" style="width:60%;margin-top:6px;" onchange="assignAllGroup(this.value)">
+            <option value="">— Asignar el mismo a todos —</option>
+            ${gradeOptions}
+          </select>
+        </div>
+      `}
+
+      <div style="max-height:280px;overflow-y:auto;border-radius:8px;border:1px solid var(--border);">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead>
+            <tr style="background:var(--surface);position:sticky;top:0;">
+              <th style="padding:8px 10px;text-align:left;color:var(--text2);font-size:11px;">Código</th>
+              <th style="padding:8px 10px;text-align:left;color:var(--text2);font-size:11px;">Nombre</th>
+              <th style="padding:8px 10px;text-align:left;color:var(--text2);font-size:11px;">Grupo asignado</th>
+            </tr>
+          </thead>
+          <tbody id="importTableBody">
+            ${_pendingImport.map((r, i) => `
+              <tr style="border-top:1px solid rgba(46,46,58,0.4)">
+                <td style="padding:7px 10px;color:var(--text3);font-family:monospace;font-size:11px;">${r.code}</td>
+                <td style="padding:7px 10px;font-weight:500;">${r.name}</td>
+                <td style="padding:7px 10px;">
+                  <select class="select-styled" style="font-size:11px;padding:4px 8px;"
+                    onchange="_pendingImport[${i}].gradeAssigned=this.value">
+                    <option value="">— Sin grupo —</option>
+                    ${DB.grades.map(g => `<option value="${g}" ${r.gradeRaw === g || r.gradeAssigned === g ? 'selected' : ''}>${g}</option>`).join('')}
+                  </select>
+                </td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-xs text-dim mt-8">⚠️ Los estudiantes sin grupo asignado serán importados pero no aparecerán en ningún grupo hasta que le asigne uno.</p>
+    </div>`;
+
+  // Si el archivo traía un grupo que coincide exactamente, preseleccionarlo
+  const primerGrupo = _pendingImport[0]?.gradeRaw;
+  if (primerGrupo && DB.grades.includes(primerGrupo)) {
+    const sel = document.getElementById('importGroupAll');
+    if (sel) { sel.value = primerGrupo; assignAllGroup(primerGrupo); }
+  }
+}
+
+function assignAllGroup(grade) {
+  _pendingImport.forEach((r, i) => {
+    r.gradeAssigned = grade;
+    // Actualizar selects individuales en la tabla
+    const row = document.getElementById('importTableBody')?.rows[i];
+    if (row) {
+      const sel = row.querySelector('select');
+      if (sel) sel.value = grade;
+    }
+  });
+}
+
+function confirmImport() {
+  let added = 0, skipped = 0, sinGrupo = 0;
+  _pendingImport.forEach(r => {
+    if (!r.name) return;
+    if (DB.students.find(s => s.code === r.code)) { skipped++; return; }
+    if (!r.gradeAssigned) sinGrupo++;
+    DB.students.push({ code: r.code, name: r.name, grade: r.gradeAssigned || '' });
+    added++;
+  });
+
+  _pendingImport = [];
+  saveDB();
+  renderStudentList();
+
+  const warn = sinGrupo > 0 ? ` (${sinGrupo} sin grupo asignado)` : '';
+  document.getElementById('uploadPreview').innerHTML =
+    `<div style="background:rgba(67,217,173,0.1);border:1px solid rgba(67,217,173,0.3);border-radius:10px;padding:12px;font-size:13px;color:var(--present);">
+      ✅ ${added} estudiantes importados${warn}. ${skipped > 0 ? skipped + ' duplicados omitidos.' : ''}
+    </div>`;
+  toast(`${added} estudiantes importados correctamente`, 'success');
+  if (sinGrupo > 0) toast(`${sinGrupo} estudiantes quedaron sin grupo`, 'info');
+}
+
 function parseCSV(text) {
-  return text.split('\n').map(line => line.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+  // Soporte para separadores coma y punto y coma
+  const sep = text.includes(';') ? ';' : ',';
+  return text.split('\n')
+    .map(line => line.split(sep).map(c => c.trim().replace(/^"|"$/g, '')))
+    .filter(r => r.some(c => c !== ''));
 }
 
 function findCol(headers, candidates) {
