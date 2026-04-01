@@ -6,36 +6,38 @@
 <title>Asistencia · I.E.D. Pestalozzi</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  /* TEMAS BASE */
+  /* ══ TEMA CLARO PASTEL — por defecto (imagen 2) ══ */
   :root {
+    --bg:#f0f2f6;--surface:#ffffff;--surface2:#eef0f6;--border:#dde1ec;
+    --text:#1e2235;--text2:#5c6480;--text3:#a0a8c0;
+    --present:#27ae60;--absent:#e74c3c;--excuse:#e67e22;
+    --radius:12px;--shadow:0 4px 20px rgba(100,110,140,0.13);
+    --transition:0.2s cubic-bezier(.4,0,.2,1);
+    --mat:#7c83d6;--mat2:#a5aaee;--mat-bg:rgba(124,131,214,0.13);--mat-border:rgba(124,131,214,0.32);
+  }
+  /* ══ TEMA OSCURO ══ */
+  [data-theme="dark"]{
     --bg:#13141a;--surface:#1e2028;--surface2:#272930;--border:#35383f;
     --text:#ecedf2;--text2:#868c9e;--text3:#484d5c;
     --present:#22c55e;--absent:#f43f5e;--excuse:#f59e0b;
-    --radius:12px;--shadow:0 8px 28px rgba(0,0,0,0.6);
-    --transition:0.2s cubic-bezier(.4,0,.2,1);
-    --mat:#818cf8;--mat2:#a5b4fc;--mat-bg:rgba(129,140,248,0.12);--mat-border:rgba(129,140,248,0.3);
+    --shadow:0 8px 28px rgba(0,0,0,0.6);
   }
-  [data-theme="light"]{
-    --bg:#f3f4f8;--surface:#ffffff;--surface2:#eaecf2;--border:#cdd0da;
-    --text:#111827;--text2:#4b5563;--text3:#9ca3af;
-    --present:#16a34a;--absent:#dc2626;--excuse:#d97706;
-    --shadow:0 4px 16px rgba(0,0,0,0.08);--mat-bg:rgba(129,140,248,0.10);
-  }
-  /* PALETAS POR MATERIA */
-  [data-materia="sociales"]{--mat:#6366f1;--mat2:#818cf8;--mat-bg:rgba(99,102,241,0.13);--mat-border:rgba(99,102,241,0.35);}
-  [data-theme="light"][data-materia="sociales"]{--mat:#4338ca;--mat2:#6366f1;}
-  [data-materia="ciudadania"]{--mat:#a855f7;--mat2:#c084fc;--mat-bg:rgba(168,85,247,0.13);--mat-border:rgba(168,85,247,0.35);}
-  [data-theme="light"][data-materia="ciudadania"]{--mat:#7e22ce;--mat2:#a855f7;}
-  [data-materia="matematicas"]{--mat:#f97316;--mat2:#fb923c;--mat-bg:rgba(249,115,22,0.13);--mat-border:rgba(249,115,22,0.35);}
-  [data-theme="light"][data-materia="matematicas"]{--mat:#c2410c;--mat2:#f97316;}
-  [data-materia="espanol"]{--mat:#ec4899;--mat2:#f472b6;--mat-bg:rgba(236,72,153,0.13);--mat-border:rgba(236,72,153,0.35);}
-  [data-theme="light"][data-materia="espanol"]{--mat:#be185d;--mat2:#ec4899;}
-  [data-materia="naturales"]{--mat:#10b981;--mat2:#34d399;--mat-bg:rgba(16,185,129,0.13);--mat-border:rgba(16,185,129,0.35);}
-  [data-theme="light"][data-materia="naturales"]{--mat:#065f46;--mat2:#10b981;}
-  [data-materia="ingles"]{--mat:#0ea5e9;--mat2:#38bdf8;--mat-bg:rgba(14,165,233,0.13);--mat-border:rgba(14,165,233,0.35);}
-  [data-theme="light"][data-materia="ingles"]{--mat:#0369a1;--mat2:#0ea5e9;}
-  [data-materia="otro"]{--mat:#eab308;--mat2:#facc15;--mat-bg:rgba(234,179,8,0.13);--mat-border:rgba(234,179,8,0.35);}
-  [data-theme="light"][data-materia="otro"]{--mat:#a16207;--mat2:#eab308;}
+  /* ══ PALETAS POR MATERIA — CLARO ══ */
+  [data-materia="sociales"]{--mat:#7c83d6;--mat2:#a5aaee;--mat-bg:rgba(124,131,214,0.13);--mat-border:rgba(124,131,214,0.32);}
+  [data-materia="ciudadania"]{--mat:#4caf8a;--mat2:#72c9a8;--mat-bg:rgba(76,175,138,0.13);--mat-border:rgba(76,175,138,0.32);}
+  [data-materia="matematicas"]{--mat:#e07b8a;--mat2:#f0a0ac;--mat-bg:rgba(224,123,138,0.13);--mat-border:rgba(224,123,138,0.32);}
+  [data-materia="espanol"]{--mat:#d4956a;--mat2:#e8b48a;--mat-bg:rgba(212,149,106,0.13);--mat-border:rgba(212,149,106,0.32);}
+  [data-materia="naturales"]{--mat:#3aaa7a;--mat2:#5ec897;--mat-bg:rgba(58,170,122,0.13);--mat-border:rgba(58,170,122,0.32);}
+  [data-materia="ingles"]{--mat:#5b9bd5;--mat2:#80b8e8;--mat-bg:rgba(91,155,213,0.13);--mat-border:rgba(91,155,213,0.32);}
+  [data-materia="otro"]{--mat:#c9a23a;--mat2:#e0bc60;--mat-bg:rgba(201,162,58,0.13);--mat-border:rgba(201,162,58,0.32);}
+  /* ══ PALETAS POR MATERIA — OSCURO ══ */
+  [data-theme="dark"][data-materia="sociales"]{--mat:#818cf8;--mat2:#a5b4fc;--mat-bg:rgba(129,140,248,0.15);--mat-border:rgba(129,140,248,0.35);}
+  [data-theme="dark"][data-materia="ciudadania"]{--mat:#34d399;--mat2:#6ee7b7;--mat-bg:rgba(52,211,153,0.15);--mat-border:rgba(52,211,153,0.35);}
+  [data-theme="dark"][data-materia="matematicas"]{--mat:#f472b6;--mat2:#f9a8d4;--mat-bg:rgba(244,114,182,0.15);--mat-border:rgba(244,114,182,0.35);}
+  [data-theme="dark"][data-materia="espanol"]{--mat:#fb923c;--mat2:#fdba74;--mat-bg:rgba(251,146,60,0.15);--mat-border:rgba(251,146,60,0.35);}
+  [data-theme="dark"][data-materia="naturales"]{--mat:#4ade80;--mat2:#86efac;--mat-bg:rgba(74,222,128,0.15);--mat-border:rgba(74,222,128,0.35);}
+  [data-theme="dark"][data-materia="ingles"]{--mat:#38bdf8;--mat2:#7dd3fc;--mat-bg:rgba(56,189,248,0.15);--mat-border:rgba(56,189,248,0.35);}
+  [data-theme="dark"][data-materia="otro"]{--mat:#facc15;--mat2:#fde68a;--mat-bg:rgba(250,204,21,0.15);--mat-border:rgba(250,204,21,0.35);}
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1220,7 +1222,7 @@
           <div class="form-group">
             <label class="form-label">Tema</label>
             <div style="display:flex;gap:10px;margin-top:8px">
-              <div id="themeOptDark" onclick="applyTheme('dark')" style="flex:1;padding:16px 8px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#13141a;text-align:center;transition:all .2s">
+              <div id="themeOptDark" onclick="applyTheme('dark')" style="flex:1;padding:16px 8px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#1e2028;text-align:center;transition:all .2s">
                 <div style="font-size:24px">🌙</div>
                 <div style="font-size:12px;color:#868c9e;margin-top:4px">Oscuro</div>
               </div>
@@ -1411,7 +1413,7 @@
 <div class="modal-overlay" id="modalAssignGrade">
   <div class="modal">
     <div class="modal-title">
-      Asignar grupo a estudiante
+      Asignar / Mover grupo
       <span class="modal-close" onclick="closeModal('modalAssignGrade')">×</span>
     </div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:16px" id="assignGradeStudentName"></p>
@@ -1946,27 +1948,31 @@ function updateStats(states) {
 //  GUARDAR EN GOOGLE SHEETS
 // ════════════════════════════════════════════════════════════
 async function saveAttendance() {
-  saveDB(); // siempre guardar local
+  saveDB(); // siempre guardar local — SIEMPRE funciona
+  toast('Guardado localmente ✅', 'success');
 
-  if (!DB.config.scriptUrl) {
-    toast('Configure la URL del Apps Script primero', 'error');
-    return;
-  }
-  if (!currentGrade || !currentDate) {
-    toast('Seleccione grupo y fecha', 'error');
-    return;
-  }
+  // Sync a Google Sheets solo si hay URL configurada
+  if (!DB.config.scriptUrl) return;
+  if (!currentGrade || !currentMonth) return;
 
-  const month = currentMonth || 'Sin mes';
+  const month = currentMonth;
   const session = currentGrade;
-  const rec = getAttKey(currentGrade, month, currentDate, session);
+  const classDays = getClassDays(month);
+
+  // Enviar todos los registros del mes de una vez
+  const allRecords = {};
+  classDays.forEach(f => {
+    const rec = getAttKey(currentGrade, month, f, session);
+    allRecords[f] = rec;
+  });
+
   const payload = {
     action: 'saveAttendance',
     grade: currentGrade,
     month: month,
-    date: currentDate,
+    date: currentMonth,
     session: session,
-    records: rec
+    records: allRecords
   };
 
   document.getElementById('syncStatus').style.display = 'flex';
@@ -2440,9 +2446,25 @@ async function testConnection() {
 }
 
 // Grados
+// Colores pastel por índice (imagen 2)
+const PASTEL_PAIRS = [
+  ['#e8e6f8','#7c83d6'], // lavanda
+  ['#e0f4ed','#4caf8a'], // menta
+  ['#fce8ec','#e07b8a'], // rosa salmón
+  ['#fef3e2','#d4956a'], // durazno
+  ['#e8f5ee','#3aaa7a'], // verde
+  ['#e3f0fb','#5b9bd5'], // celeste
+  ['#fdf6dc','#c9a23a'], // ámbar
+];
+
 function renderGradesList() {
   document.getElementById('gradesList').innerHTML = DB.grades.length
-    ? DB.grades.map(g => `<span class="grade-chip">${g} <span class="remove-chip" onclick="removeGrade('${g}')">×</span></span>`).join('')
+    ? DB.grades.map((g, i) => {
+        const [bg, fg] = PASTEL_PAIRS[i % PASTEL_PAIRS.length];
+        return `<span class="grade-chip"
+          style="background:${bg};border-color:${fg}40;color:${fg}"
+          >${g} <span class="remove-chip" style="color:${fg}99" onclick="removeGrade('${g.replace(/'/g,"\'")}')">×</span></span>`;
+      }).join('')
     : '<p class="text-dim text-sm">No hay grupos. Agréguelos abajo.</p>';
 }
 
@@ -2550,7 +2572,7 @@ function removeStudent(code) {
 
 function renderStudentList() {
   const filter = document.getElementById('stuFilterGrade')?.value || '';
-  const sinGrupo = document.getElementById('stuFilterGrade')?.value === '__sin_grupo__';
+  const sinGrupo = filter === '__sin_grupo__';
   let list;
   if (sinGrupo) list = DB.students.filter(s => !s.grade);
   else if (filter && filter !== '__sin_grupo__') list = DB.students.filter(s => s.grade === filter);
@@ -2561,39 +2583,58 @@ function renderStudentList() {
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text3)">Sin estudiantes</td></tr>';
     return;
   }
-  body.innerHTML = list.map((s, i) => {
+
+  const sinGrupoCount = DB.students.filter(s => !s.grade).length;
+  // Aviso arriba si hay sin grupo
+  const warn = sinGrupoCount > 0 && !sinGrupo
+    ? `<tr><td colspan="5" style="padding:8px 14px;background:rgba(244,63,94,0.07);font-size:12px;color:var(--absent)">
+        ⚠ Hay ${sinGrupoCount} estudiante(s) sin grupo.
+        <button class="btn btn-sm" style="margin-left:8px;padding:2px 10px;font-size:11px;background:rgba(244,63,94,0.12);color:var(--absent);border:1px solid rgba(244,63,94,0.3)"
+          onclick="document.getElementById('stuFilterGrade').value='__sin_grupo__';renderStudentList()">Ver</button>
+      </td></tr>` : '';
+
+  body.innerHTML = warn + list.map((s, i) => {
     const sinGrupoFlag = !s.grade;
     const grupoCell = sinGrupoFlag
       ? `<span style="color:var(--absent);font-size:11px;font-weight:600">⚠ Sin grupo</span>`
       : `<span style="font-size:12px;color:var(--text2)">${s.grade}</span>`;
-    const assignBtn = sinGrupoFlag
-      ? `<button class="btn btn-sm" style="background:rgba(16,185,129,0.15);color:var(--accent2);border:1px solid rgba(16,185,129,0.3);margin-right:6px"
-           onclick="openAssignGrade('${s.code}','${s.name.replace(/'/g,"\'")}')">Asignar grupo</button>`
-      : '';
-    return `<tr style="${sinGrupoFlag?'background:rgba(244,63,94,0.05)':''}">
+    const nameSafe = s.name.replace(/\/g,'\\').replace(/'/g,"\'");
+    const codeSafe = s.code.replace(/'/g,"\'");
+    // Botón asignar/mover siempre visible
+    const moveLabel = sinGrupoFlag ? 'Asignar grupo' : 'Mover grupo';
+    const moveBg = sinGrupoFlag
+      ? 'background:rgba(244,63,94,0.12);color:var(--absent);border:1px solid rgba(244,63,94,0.3)'
+      : 'background:var(--mat-bg);color:var(--mat);border:1px solid var(--mat-border)';
+    return `<tr style="${sinGrupoFlag?'background:rgba(244,63,94,0.04)':''}">
       <td class="text-dim text-xs">${i+1}</td>
       <td class="text-xs" style="font-family:monospace;color:var(--text2)">${s.code}</td>
       <td class="student-name">${s.name}</td>
       <td>${grupoCell}</td>
-      <td style="white-space:nowrap">
-        ${assignBtn}
-        <button class="btn btn-danger btn-sm" onclick="removeStudent('${s.code}')">Eliminar</button>
+      <td style="white-space:nowrap;display:flex;gap:6px;align-items:center">
+        <button class="btn btn-sm" style="${moveBg}"
+          onclick="openAssignGrade('${codeSafe}','${nameSafe}','${s.grade||''}')">${moveLabel}</button>
+        <button class="btn btn-danger btn-sm" onclick="removeStudent('${codeSafe}')">Eliminar</button>
       </td>
     </tr>`;
   }).join('');
 }
 
-// Abrir modal para asignar grupo
-function openAssignGrade(code, name) {
+// Abrir modal para asignar/mover grupo
+function openAssignGrade(code, name, currentGradeOfStu) {
   document.getElementById('assignGradeCode').value = code;
-  document.getElementById('assignGradeStudentName').textContent = `Estudiante: ${name}`;
+  const info = currentGradeOfStu
+    ? `${name} — actualmente en: <strong style="color:var(--mat)">${currentGradeOfStu}</strong>`
+    : `${name} — <span style="color:var(--absent)">sin grupo asignado</span>`;
+  document.getElementById('assignGradeStudentName').innerHTML = info;
   const sel = document.getElementById('assignGradeSelect');
-  sel.innerHTML = '<option value="">— Seleccione —</option>';
+  sel.innerHTML = '<option value="">— Seleccione grupo destino —</option>';
   DB.grades.forEach(g => {
     const o = document.createElement('option');
     o.value = g; o.textContent = g;
+    if (g === currentGradeOfStu) o.textContent += ' (actual)';
     sel.appendChild(o);
   });
+  sel.value = currentGradeOfStu || '';
   openModal('modalAssignGrade');
 }
 
@@ -2812,25 +2853,25 @@ function applyMateriaColor(gradeName) {
 }
 
 function applyTheme(tema) {
-  const isLight = tema === 'light';
-  document.documentElement.setAttribute('data-theme', isLight ? 'light' : '');
-  document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
+  const isDark = tema === 'dark';
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : '');
+  document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
   const lbl = document.querySelector('#themeToggleBtn .nav-label');
-  if (lbl) lbl.textContent = isLight ? 'Tema oscuro' : 'Tema claro';
+  if (lbl) lbl.textContent = isDark ? 'Tema claro' : 'Tema oscuro';
   localStorage.setItem('asistencia_tema', tema);
   const dEl = document.getElementById('themeOptDark');
   const lEl = document.getElementById('themeOptLight');
-  if (dEl) dEl.style.borderColor = isLight ? 'var(--border)' : 'var(--mat)';
-  if (lEl) lEl.style.borderColor = isLight ? 'var(--mat)' : 'var(--border)';
+  if (dEl) dEl.style.borderColor = isDark ? 'var(--mat)' : 'var(--border)';
+  if (lEl) lEl.style.borderColor = isDark ? 'var(--border)' : 'var(--mat)';
 }
 
 function toggleTheme() {
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-  applyTheme(isLight ? 'dark' : 'light');
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  applyTheme(isDark ? 'light' : 'dark');
 }
 
 function loadTheme() {
-  const tema = localStorage.getItem('asistencia_tema') || 'dark';
+  const tema = localStorage.getItem('asistencia_tema') || 'light';
   applyTheme(tema);
   const materia = localStorage.getItem('asistencia_materia') || 'sociales';
   document.documentElement.setAttribute('data-materia', materia);
