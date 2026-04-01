@@ -6,42 +6,36 @@
 <title>Asistencia · I.E.D. Pestalozzi</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  /* ── TEMA AZUL MARINO (igual plataforma de notas) ── */
+  /* TEMAS BASE */
   :root {
-    --bg: #05111f;
-    --surface: #0a1f3d;
-    --surface2: #0d2a52;
-    --border: #1a3a6e;
-    --accent: #3b82f6;
-    --accent2: #60a5fa;
-    --accent3: #43d9ad;
-    --text: #e8f0fe;
-    --text2: #7a9cc8;
-    --text3: #3d5a80;
-    --present: #43d9ad;
-    --absent: #ff6584;
-    --excuse: #f7c948;
-    --radius: 14px;
-    --shadow: 0 8px 32px rgba(0,0,0,0.5);
-    --transition: 0.22s cubic-bezier(.4,0,.2,1);
+    --bg:#13141a;--surface:#1e2028;--surface2:#272930;--border:#35383f;
+    --text:#ecedf2;--text2:#868c9e;--text3:#484d5c;
+    --present:#22c55e;--absent:#f43f5e;--excuse:#f59e0b;
+    --radius:12px;--shadow:0 8px 28px rgba(0,0,0,0.6);
+    --transition:0.2s cubic-bezier(.4,0,.2,1);
+    --mat:#818cf8;--mat2:#a5b4fc;--mat-bg:rgba(129,140,248,0.12);--mat-border:rgba(129,140,248,0.3);
   }
-  /* ── TEMA BLANCO ── */
-  [data-theme="light"] {
-    --bg: #f0f4f8;
-    --surface: #ffffff;
-    --surface2: #e8f0fe;
-    --border: #c5d5ea;
-    --accent: #1d4ed8;
-    --accent2: #3b82f6;
-    --accent3: #059669;
-    --text: #0f172a;
-    --text2: #475569;
-    --text3: #94a3b8;
-    --present: #059669;
-    --absent: #dc2626;
-    --excuse: #d97706;
-    --shadow: 0 4px 20px rgba(0,0,0,0.1);
+  [data-theme="light"]{
+    --bg:#f3f4f8;--surface:#ffffff;--surface2:#eaecf2;--border:#cdd0da;
+    --text:#111827;--text2:#4b5563;--text3:#9ca3af;
+    --present:#16a34a;--absent:#dc2626;--excuse:#d97706;
+    --shadow:0 4px 16px rgba(0,0,0,0.08);--mat-bg:rgba(129,140,248,0.10);
   }
+  /* PALETAS POR MATERIA */
+  [data-materia="sociales"]{--mat:#6366f1;--mat2:#818cf8;--mat-bg:rgba(99,102,241,0.13);--mat-border:rgba(99,102,241,0.35);}
+  [data-theme="light"][data-materia="sociales"]{--mat:#4338ca;--mat2:#6366f1;}
+  [data-materia="ciudadania"]{--mat:#a855f7;--mat2:#c084fc;--mat-bg:rgba(168,85,247,0.13);--mat-border:rgba(168,85,247,0.35);}
+  [data-theme="light"][data-materia="ciudadania"]{--mat:#7e22ce;--mat2:#a855f7;}
+  [data-materia="matematicas"]{--mat:#f97316;--mat2:#fb923c;--mat-bg:rgba(249,115,22,0.13);--mat-border:rgba(249,115,22,0.35);}
+  [data-theme="light"][data-materia="matematicas"]{--mat:#c2410c;--mat2:#f97316;}
+  [data-materia="espanol"]{--mat:#ec4899;--mat2:#f472b6;--mat-bg:rgba(236,72,153,0.13);--mat-border:rgba(236,72,153,0.35);}
+  [data-theme="light"][data-materia="espanol"]{--mat:#be185d;--mat2:#ec4899;}
+  [data-materia="naturales"]{--mat:#10b981;--mat2:#34d399;--mat-bg:rgba(16,185,129,0.13);--mat-border:rgba(16,185,129,0.35);}
+  [data-theme="light"][data-materia="naturales"]{--mat:#065f46;--mat2:#10b981;}
+  [data-materia="ingles"]{--mat:#0ea5e9;--mat2:#38bdf8;--mat-bg:rgba(14,165,233,0.13);--mat-border:rgba(14,165,233,0.35);}
+  [data-theme="light"][data-materia="ingles"]{--mat:#0369a1;--mat2:#0ea5e9;}
+  [data-materia="otro"]{--mat:#eab308;--mat2:#facc15;--mat-bg:rgba(234,179,8,0.13);--mat-border:rgba(234,179,8,0.35);}
+  [data-theme="light"][data-materia="otro"]{--mat:#a16207;--mat2:#eab308;}
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -83,7 +77,7 @@
 
   .logo {
     width: 40px; height: 40px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    background: linear-gradient(135deg, var(--mat), var(--mat2));
     border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Syne', sans-serif;
@@ -110,8 +104,8 @@
     position: relative;
   }
   .nav-item:hover { background: var(--surface2); color: var(--text); }
-  .nav-item.active { background: rgba(108,99,255,0.15); color: var(--accent); }
-  .nav-item.active .nav-icon { color: var(--accent); }
+  .nav-item.active { background: var(--mat-bg); color: var(--mat); }
+  .nav-item.active .nav-icon { color: var(--mat); }
   .nav-icon { font-size: 20px; flex-shrink: 0; width: 24px; text-align: center; }
   .nav-label { font-size: 13px; font-weight: 500; opacity: 0; transition: opacity var(--transition); }
   .sidebar:hover .nav-label { opacity: 1; }
@@ -160,8 +154,8 @@
     transition: all var(--transition);
     font-family: 'DM Sans', sans-serif;
   }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #5a52e0; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(108,99,255,0.4); }
+  .btn-primary { background: var(--mat); color: #fff; }
+  .btn-primary:hover { filter:brightness(1.12); transform:translateY(-1px); box-shadow:0 4px 20px var(--mat-bg); }
   .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
   .btn-secondary:hover { background: var(--border); }
   .btn-danger { background: rgba(255,101,132,0.15); color: var(--absent); border: 1px solid rgba(255,101,132,0.3); }
@@ -216,7 +210,7 @@
   .stat-present::before { background: var(--present); }
   .stat-absent::before { background: var(--absent); }
   .stat-excuse::before { background: var(--excuse); }
-  .stat-total::before { background: var(--accent); }
+  .stat-total::before { background: var(--mat); }
 
   .stat-label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
   .stat-value { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; }
@@ -249,7 +243,7 @@
     background-position: right 10px center;
     padding-right: 32px;
   }
-  .select-styled:focus { border-color: var(--accent); }
+  .select-styled:focus { border-color:var(--accent); }
 
   .input-styled {
     background: var(--surface2);
@@ -262,7 +256,7 @@
     outline: none;
     width: 100%;
   }
-  .input-styled:focus { border-color: var(--accent); }
+  .input-styled:focus { border-color:var(--accent); }
   .input-styled::placeholder { color: var(--text3); }
 
   /* ── ATTENDANCE TABLE ── */
@@ -355,13 +349,13 @@
     color: var(--text2);
     transition: all var(--transition);
   }
-  .month-tab:hover { border-color: var(--accent); color: var(--text); }
-  .month-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .month-tab:hover { border-color:var(--accent); color: var(--text); }
+  .month-tab.active { background: var(--accent); border-color:var(--accent); color: #fff; }
   .month-tab.add-month {
     border-style: dashed;
     color: var(--text3);
   }
-  .month-tab.add-month:hover { color: var(--accent); border-color: var(--accent); }
+  .month-tab.add-month:hover { color: var(--accent); border-color:var(--accent); }
 
   /* ── DATE SESSIONS ── */
   .session-header {
@@ -386,8 +380,8 @@
     color: var(--text2);
     transition: all var(--transition);
   }
-  .session-tab:hover { border-color: var(--accent); color: var(--text); }
-  .session-tab.active { background: rgba(108,99,255,0.15); border-color: var(--accent); color: var(--accent); }
+  .session-tab:hover { border-color:var(--accent); color: var(--text); }
+  .session-tab.active { background: rgba(108,99,255,0.15); border-color:var(--accent); color: var(--accent); }
 
   /* ── GRID LAYOUT ── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
@@ -486,8 +480,8 @@
     cursor: pointer;
     transition: all var(--transition);
   }
-  .icon-opt:hover { border-color: var(--accent); transform: scale(1.1); }
-  .icon-opt.selected { border-color: var(--accent); background: rgba(108,99,255,0.15); }
+  .icon-opt:hover { border-color:var(--accent); transform: scale(1.1); }
+  .icon-opt.selected { border-color:var(--accent); background: rgba(108,99,255,0.15); }
 
   /* ── UPLOAD ZONE ── */
   .upload-zone {
@@ -498,7 +492,7 @@
     cursor: pointer;
     transition: all var(--transition);
   }
-  .upload-zone:hover { border-color: var(--accent); background: rgba(108,99,255,0.05); }
+  .upload-zone:hover { border-color:var(--accent); background: rgba(108,99,255,0.05); }
   .upload-zone .upload-icon { font-size: 40px; margin-bottom: 12px; }
   .upload-zone p { font-size: 13px; color: var(--text2); }
   .upload-zone strong { color: var(--accent); }
@@ -577,12 +571,12 @@
   .grade-chip {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 5px 12px;
-    background: rgba(108,99,255,0.12);
-    border: 1px solid rgba(108,99,255,0.25);
+    background: var(--mat-bg);
+    border: 1px solid var(--mat-border);
     border-radius: 99px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--accent);
+    color: var(--mat);
     cursor: pointer;
     transition: all var(--transition);
     margin: 3px;
@@ -673,9 +667,9 @@
     cursor: pointer;
     transition: background var(--transition);
   }
-  .att-grid-header .col-date:hover { background: rgba(59,130,246,0.1); }
+  .att-grid-header .col-date:hover { background: rgba(16,185,129,0.1); }
   .att-grid-header .col-date.active-date {
-    background: rgba(59,130,246,0.18);
+    background: rgba(16,185,129,0.18);
   }
   .col-date .day-name {
     font-size: 11px;
@@ -692,10 +686,10 @@
   .att-grid-row {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid rgba(26,58,110,0.35);
+    border-bottom: 1px solid rgba(50,54,63,0.35);
     transition: background var(--transition);
   }
-  .att-grid-row:hover { background: rgba(59,130,246,0.04); }
+  .att-grid-row:hover { background: rgba(16,185,129,0.04); }
   .att-grid-row:last-child { border-bottom: none; }
   .col-student-cell {
     min-width: 220px;
@@ -764,7 +758,7 @@
     align-items: center;
     justify-content: center;
     padding: 10px 4px;
-    border-left: 1px solid rgba(26,58,110,0.2);
+    border-left: 1px solid rgba(50,54,63,0.2);
   }
   /* Círculo de asistencia — clic para cambiar */
   .att-circle {
@@ -844,7 +838,7 @@
     padding: 4px 2px;
     font-size: 10px;
     font-weight: 600;
-    border-left: 1px solid rgba(26,58,110,0.3);
+    border-left: 1px solid rgba(50,54,63,0.3);
     vertical-align: bottom;
     line-height: 1.2;
   }
@@ -862,8 +856,8 @@
     display: block;
   }
   /* Día activo (hay clase) */
-  .planillon-table th.col-dia.dia-activo .dia-num { color: var(--accent2); }
-  .planillon-table th.col-dia.dia-activo .dia-name { color: var(--accent); }
+  .planillon-table th.col-dia.dia-activo .dia-num { color: var(--mat2); }
+  .planillon-table th.col-dia.dia-activo .dia-name { color: var(--mat); }
   /* Fin de semana */
   .planillon-table th.col-dia.dia-finde { background: rgba(0,0,0,0.15); }
   .planillon-table th.col-dia.dia-finde .dia-num { color: var(--text3); }
@@ -883,17 +877,17 @@
     text-align: center;
     color: var(--text3);
   }
-  .btn-toggle-dia:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-toggle-dia:hover { border-color:var(--accent); color: var(--accent); }
   .btn-toggle-dia.activo {
     background: var(--accent);
-    border-color: var(--accent);
+    border-color:var(--accent);
     color: #fff;
   }
   /* Celda de asistencia */
   .planillon-table td.col-att {
     text-align: center;
     padding: 4px 2px;
-    border-left: 1px solid rgba(26,58,110,0.2);
+    border-left: 1px solid rgba(50,54,63,0.2);
     vertical-align: middle;
   }
   .planillon-table td.col-att.dia-finde {
@@ -904,10 +898,10 @@
   }
   /* Fila de estudiante */
   .planillon-table tbody tr {
-    border-bottom: 1px solid rgba(26,58,110,0.25);
+    border-bottom: 1px solid rgba(50,54,63,0.25);
     transition: background 0.12s;
   }
-  .planillon-table tbody tr:hover { background: rgba(59,130,246,0.04); }
+  .planillon-table tbody tr:hover { background: rgba(16,185,129,0.04); }
   .planillon-table tbody tr:last-child { border-bottom: none; }
   /* Celda de nombre */
   .planillon-table td.col-nombre {
@@ -922,7 +916,7 @@
     font-size: 10px;
     text-align: center;
     padding: 5px 2px;
-    border-left: 1px solid rgba(26,58,110,0.3);
+    border-left: 1px solid rgba(50,54,63,0.3);
     font-weight: 700;
   }
   .planillon-table tfoot td.col-nombre {
@@ -988,7 +982,7 @@
     font-size: 20px;
     transition: all var(--transition);
   }
-  .add-date-col:hover { color: var(--accent); background: rgba(59,130,246,0.08); }
+  .add-date-col:hover { color: var(--accent); background: rgba(16,185,129,0.08); }
 </style>
 </head>
 <body>
@@ -1015,7 +1009,7 @@
   <div class="sidebar-spacer"></div>
   <div class="nav-item" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema">
     <span class="nav-icon" id="themeIcon">☀️</span>
-    <span class="nav-label">Tema claro</span>
+    <span class="nav-label" id="themeLabelNav">Tema claro</span>
   </div>
   <div class="nav-item" onclick="showPage('config')">
     <span class="nav-icon">⚙️</span>
@@ -1220,15 +1214,29 @@
 
       <div class="two-col section-gap">
 
-        <!-- Iconos -->
+        <!-- Apariencia -->
         <div class="card">
-          <div class="card-title">🎨 Iconos de Estado</div>
+          <div class="card-title">🎨 Apariencia</div>
           <div class="form-group">
-            <label class="form-label">✅ Asistencia (Presente)</label>
+            <label class="form-label">Tema</label>
+            <div style="display:flex;gap:10px;margin-top:8px">
+              <div id="themeOptDark" onclick="applyTheme('dark')" style="flex:1;padding:16px 8px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#13141a;text-align:center;transition:all .2s">
+                <div style="font-size:24px">🌙</div>
+                <div style="font-size:12px;color:#868c9e;margin-top:4px">Oscuro</div>
+              </div>
+              <div id="themeOptLight" onclick="applyTheme('light')" style="flex:1;padding:16px 8px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#f3f4f8;text-align:center;transition:all .2s">
+                <div style="font-size:24px">☀️</div>
+                <div style="font-size:12px;color:#4b5563;margin-top:4px">Claro</div>
+              </div>
+            </div>
+          </div>
+          <hr style="margin:14px 0">
+          <div class="form-group">
+            <label class="form-label">✅ Presente</label>
             <div class="icon-picker" id="iconPickerP"></div>
           </div>
           <div class="form-group">
-            <label class="form-label">❌ Falla (Ausente)</label>
+            <label class="form-label">❌ Falla</label>
             <div class="icon-picker" id="iconPickerA"></div>
           </div>
           <div class="form-group">
@@ -1268,12 +1276,52 @@
         <!-- Grados / Grupos -->
         <div class="card">
           <div class="card-title">🏫 Grados y Grupos</div>
-          <div id="gradesList" style="margin-bottom:16px;"></div>
-          <div style="display:flex;gap:8px;">
-            <input class="input-styled" id="newGradeName" placeholder="Ej: 6A — Sociales" style="flex:1">
-            <button class="btn btn-primary btn-sm" onclick="addGrade()">＋ Agregar</button>
+          <div id="gradesList" style="margin-bottom:16px;min-height:32px;"></div>
+          <div style="display:grid;grid-template-columns:1fr 80px 80px auto;gap:8px;align-items:end;margin-bottom:12px;">
+            <div>
+              <label class="form-label">Materia</label>
+              <input class="input-styled" id="newGradeMateria" placeholder="Sociales, Ciudadanía…" list="materiasSuggestions">
+              <datalist id="materiasSuggestions">
+                <option value="Ciencias Sociales">
+                  <option value="Competencias Ciudadanas">
+                  <option value="Sociales">
+                  <option value="Ciudadanía">
+              </datalist>
+            </div>
+            <div>
+              <label class="form-label">Grado</label>
+              <select class="select-styled" id="newGradeNum" style="width:100%">
+                <option value="">—</option>
+                <option>6</option><option>7</option><option>8</option>
+                <option>9</option><option>10</option><option>11</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Grupo</label>
+              <select class="select-styled" id="newGradeLetter" style="width:100%">
+                <option value="">—</option>
+                <option>A</option><option>B</option><option>C</option>
+              </select>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="addGrade()" style="height:38px;margin-top:auto">＋</button>
           </div>
-          <p class="text-xs text-dim mt-8">El nombre debe incluir grado y asignatura para la sesión.</p>
+          <p class="text-xs text-dim">Resultado: <span id="gradePreview" style="color:var(--accent2)">—</span></p>
+
+          <hr style="margin:16px 0">
+
+          <!-- Configuración del planillón -->
+          <div class="card-title" style="margin-bottom:12px">📅 Planillón mensual</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;">
+              <input type="checkbox" id="cfgIncludeSat" onchange="savePlanillonConfig()" style="width:16px;height:16px;accent-color:var(--accent)">
+              Incluir <strong>sábados</strong> en el planillón
+            </label>
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:13px;">
+              <input type="checkbox" id="cfgIncludeSun" onchange="savePlanillonConfig()" style="width:16px;height:16px;accent-color:var(--accent)">
+              Incluir <strong>domingos</strong> en el planillón
+            </label>
+          </div>
+          <p class="text-xs text-dim mt-8">Los días incluidos aparecerán en el planillón pero desactivados por defecto. Usted decide cuáles marcar como días de clase.</p>
         </div>
 
         <!-- Meses del año -->
@@ -1346,7 +1394,7 @@
         </div>
         <div class="att-table-wrap">
           <table class="report-table">
-            <thead><tr><th>#</th><th>Código</th><th>Nombre</th><th>Grupo</th><th></th></tr></thead>
+            <thead><tr><th>#</th><th>Código</th><th>Nombre</th><th>Grupo</th><th>Acciones</th></tr></thead>
             <tbody id="studentListBody"></tbody>
           </table>
         </div>
@@ -1359,24 +1407,24 @@
 
 <!-- ═══════════════════════════════ MODALS ═══════════════════════════════ -->
 
-<!-- Modal: Agregar sesión -->
-<div class="modal-overlay" id="modalSession">
+<!-- Modal: Asignar grado a estudiante -->
+<div class="modal-overlay" id="modalAssignGrade">
   <div class="modal">
     <div class="modal-title">
-      Nueva Sesión de Clase
-      <span class="modal-close" onclick="closeModal('modalSession')">×</span>
+      Asignar grupo a estudiante
+      <span class="modal-close" onclick="closeModal('modalAssignGrade')">×</span>
     </div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:16px" id="assignGradeStudentName"></p>
+    <input type="hidden" id="assignGradeCode">
     <div class="form-group">
-      <label class="form-label">Asignatura + Grupo</label>
-      <input class="input-styled" id="sesName" placeholder="Ej: Ciencias Sociales 6A">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Hora (opcional)</label>
-      <input class="input-styled" id="sesTime" type="time">
+      <label class="form-label">Seleccione el grupo</label>
+      <select class="select-styled" id="assignGradeSelect" style="width:100%">
+        <option value="">— Seleccione —</option>
+      </select>
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px;">
-      <button class="btn btn-secondary" onclick="closeModal('modalSession')">Cancelar</button>
-      <button class="btn btn-primary" onclick="addSession()">Agregar sesión</button>
+      <button class="btn btn-secondary" onclick="closeModal('modalAssignGrade')">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmAssignGrade()">Asignar</button>
     </div>
   </div>
 </div>
@@ -1577,19 +1625,20 @@ function populateSelects() {
 let currentGrade = '', currentMonth = '', currentDate = '', currentSession = '';
 
 function onMateriaChange() {
-  // Al cambiar materia, actualizar grupos disponibles y limpiar selección
   currentGrade = '';
   currentSession = '';
   document.getElementById('selGrade').value = '';
-  populateSelects(); // re-filtra el select de grupo
+  const mat = document.getElementById('selMateria')?.value || '';
+  if (mat) applyMateriaColor(mat);
+  populateSelects();
   renderAttTable();
   updateHeaderSubtitle();
 }
 
 function onGradeChange() {
   currentGrade = document.getElementById('selGrade').value;
-  // La "sesión" ahora ES el nombre completo del grupo (materia + grupo)
   currentSession = currentGrade;
+  if (currentGrade) applyMateriaColor(currentGrade);
   renderAttTable();
   updateHeaderSubtitle();
 }
@@ -1699,7 +1748,7 @@ function renderAttTable() {
   const mesNum = MESES_NUM[month] || 1;
   const diasEnMes = new Date(year, mesNum, 0).getDate(); // días totales del mes
   const classDays = getClassDays(month);
-  const avatarColors = ['#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
+  const avatarColors = ['#10b981','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
 
   // Generar array de todos los días del mes
   const allDays = Array.from({length: diasEnMes}, (_, i) => {
@@ -1707,7 +1756,9 @@ function renderAttTable() {
     const dateStr = `${year}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dt = new Date(dateStr + 'T12:00:00');
     const dow = dt.getDay(); // 0=Dom, 6=Sáb
-    const isFinde = dow === 0 || dow === 6;
+    const incSat = DB.config.includeSat || false;
+    const incSun = DB.config.includeSun || false;
+    const isFinde = (dow === 6 && !incSat) || (dow === 0 && !incSun);
     const isClaseDay = classDays.includes(dateStr);
     return { d, dateStr, dow, isFinde, isClaseDay, diaNombre: DIAS_ES[dow] };
   });
@@ -2159,7 +2210,7 @@ function renderReporte() {
   if (vista === 'year') {
     // Vista año: columna por período
     colHeaders = Object.keys(PERIODOS).map(p =>
-      `<th style="text-align:center;background:#0d2a52;color:#60a5fa;font-size:10px;padding:8px 6px">${PERIODO_LABELS[p]}<br><span style="font-size:9px;color:#7a9cc8">${(PERIODOS[p].filter(m=>DB.months.includes(m))).map(m=>m.substr(0,3)).join('-')}</span></th>`
+      `<th style="text-align:center;background:#24272f;color:#34d399;font-size:10px;padding:8px 6px">${PERIODO_LABELS[p]}<br><span style="font-size:9px;color:#7a9cc8">${(PERIODOS[p].filter(m=>DB.months.includes(m))).map(m=>m.substr(0,3)).join('-')}</span></th>`
     ).join('') + '<th style="text-align:center;font-size:10px">Total F</th><th style="text-align:center;font-size:10px">Total E</th><th style="text-align:center;font-size:10px">% Asist.</th>';
 
     buildRow = (s, i) => {
@@ -2240,9 +2291,9 @@ function renderReporte() {
           const lbl = v==='year'?'Año completo':v==='month'?'Por mes':PERIODO_LABELS[v];
           const active = v===vista;
           return `<button onclick="document.getElementById('repView').value='${v}';renderReporte()"
-            style="padding:5px 12px;border-radius:99px;border:1px solid ${active?'#3b82f6':'var(--border)'};
-            background:${active?'rgba(59,130,246,0.2)':'var(--surface2)'};
-            color:${active?'#60a5fa':'var(--text2)'};font-size:12px;cursor:pointer;font-family:inherit">${lbl}</button>`;
+            style="padding:5px 12px;border-radius:99px;border:1px solid ${active?'#10b981':'var(--border)'};
+            background:${active?'rgba(16,185,129,0.2)':'var(--surface2)'};
+            color:${active?'#34d399':'var(--text2)'};font-size:12px;cursor:pointer;font-family:inherit">${lbl}</button>`;
         }).join('')}
       </div>
 
@@ -2308,6 +2359,13 @@ const ICON_OPTIONS = {
 };
 
 function renderConfig() {
+  // Highlight tema activo
+  const _tema = localStorage.getItem('asistencia_tema') || 'dark';
+  const _dEl = document.getElementById('themeOptDark');
+  const _lEl = document.getElementById('themeOptLight');
+  if (_dEl) _dEl.style.borderColor = _tema === 'dark' ? 'var(--mat)' : 'var(--border)';
+  if (_lEl) _lEl.style.borderColor = _tema === 'light' ? 'var(--mat)' : 'var(--border)';
+
   // Iconos
   ['P','A','E'].forEach(state => {
     const picker = document.getElementById('iconPicker' + state);
@@ -2326,6 +2384,21 @@ function renderConfig() {
   // Grados
   renderGradesList();
   renderMonthsList();
+
+  // Agregar opción "sin grupo" al filtro
+  const sfg = document.getElementById('stuFilterGrade');
+  if (sfg && ![...sfg.options].find(o => o.value === '__sin_grupo__')) {
+    const o = document.createElement('option');
+    o.value = '__sin_grupo__'; o.textContent = '⚠ Sin grupo asignado';
+    sfg.appendChild(o);
+  }
+
+  // Cargar config planillón
+  if (document.getElementById('cfgIncludeSat'))
+    document.getElementById('cfgIncludeSat').checked = DB.config.includeSat || false;
+  if (document.getElementById('cfgIncludeSun'))
+    document.getElementById('cfgIncludeSun').checked = DB.config.includeSun || false;
+
   renderStudentList();
 }
 
@@ -2373,17 +2446,49 @@ function renderGradesList() {
     : '<p class="text-dim text-sm">No hay grupos. Agréguelos abajo.</p>';
 }
 
+// Preview del nombre del grupo al escribir
+function updateGradePreview() {
+  const mat = document.getElementById('newGradeMateria')?.value.trim() || '';
+  const num = document.getElementById('newGradeNum')?.value || '';
+  const let_ = document.getElementById('newGradeLetter')?.value || '';
+  const preview = document.getElementById('gradePreview');
+  if (preview) preview.textContent = (mat && num && let_) ? `${mat} ${num}${let_}` : '—';
+}
+
+// Agregar listeners para preview
+['newGradeMateria','newGradeNum','newGradeLetter'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', updateGradePreview);
+  if (el) el.addEventListener('change', updateGradePreview);
+});
+
 function addGrade() {
-  const name = document.getElementById('newGradeName').value.trim();
-  if (!name) { toast('Escriba el nombre del grupo', 'error'); return; }
-  if (DB.grades.includes(name)) { toast('Ese grupo ya existe', 'error'); return; }
+  const mat = document.getElementById('newGradeMateria')?.value.trim();
+  const num = document.getElementById('newGradeNum')?.value;
+  const let_ = document.getElementById('newGradeLetter')?.value;
+  if (!mat) { toast('Escriba el nombre de la materia', 'error'); return; }
+  if (!num) { toast('Seleccione el grado', 'error'); return; }
+  if (!let_) { toast('Seleccione el grupo (letra)', 'error'); return; }
+  const name = `${mat} ${num}${let_}`;
+  if (DB.grades.includes(name)) { toast('Ese grupo ya existe: ' + name, 'error'); return; }
   DB.grades.push(name);
   DB.sessions[name] = [];
-  document.getElementById('newGradeName').value = '';
+  document.getElementById('newGradeMateria').value = '';
+  document.getElementById('newGradeNum').value = '';
+  document.getElementById('newGradeLetter').value = '';
+  document.getElementById('gradePreview').textContent = '—';
   saveDB();
   renderGradesList();
   populateSelects();
   toast('Grupo agregado: ' + name, 'success');
+}
+
+// Guardar config planillón (sábados/domingos)
+function savePlanillonConfig() {
+  DB.config.includeSat = document.getElementById('cfgIncludeSat')?.checked || false;
+  DB.config.includeSun = document.getElementById('cfgIncludeSun')?.checked || false;
+  saveDB();
+  renderAttTable();
 }
 
 function removeGrade(g) {
@@ -2445,20 +2550,61 @@ function removeStudent(code) {
 
 function renderStudentList() {
   const filter = document.getElementById('stuFilterGrade')?.value || '';
-  const list = filter ? DB.students.filter(s => s.grade === filter) : DB.students;
+  const sinGrupo = document.getElementById('stuFilterGrade')?.value === '__sin_grupo__';
+  let list;
+  if (sinGrupo) list = DB.students.filter(s => !s.grade);
+  else if (filter && filter !== '__sin_grupo__') list = DB.students.filter(s => s.grade === filter);
+  else list = DB.students;
+
   const body = document.getElementById('studentListBody');
   if (!list.length) {
     body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text3)">Sin estudiantes</td></tr>';
     return;
   }
-  body.innerHTML = list.map((s, i) => `
-    <tr>
+  body.innerHTML = list.map((s, i) => {
+    const sinGrupoFlag = !s.grade;
+    const grupoCell = sinGrupoFlag
+      ? `<span style="color:var(--absent);font-size:11px;font-weight:600">⚠ Sin grupo</span>`
+      : `<span style="font-size:12px;color:var(--text2)">${s.grade}</span>`;
+    const assignBtn = sinGrupoFlag
+      ? `<button class="btn btn-sm" style="background:rgba(16,185,129,0.15);color:var(--accent2);border:1px solid rgba(16,185,129,0.3);margin-right:6px"
+           onclick="openAssignGrade('${s.code}','${s.name.replace(/'/g,"\'")}')">Asignar grupo</button>`
+      : '';
+    return `<tr style="${sinGrupoFlag?'background:rgba(244,63,94,0.05)':''}">
       <td class="text-dim text-xs">${i+1}</td>
       <td class="text-xs" style="font-family:monospace;color:var(--text2)">${s.code}</td>
       <td class="student-name">${s.name}</td>
-      <td><span style="font-size:12px;color:var(--text2)">${s.grade}</span></td>
-      <td><button class="btn btn-danger btn-sm" onclick="removeStudent('${s.code}')">Eliminar</button></td>
-    </tr>`).join('');
+      <td>${grupoCell}</td>
+      <td style="white-space:nowrap">
+        ${assignBtn}
+        <button class="btn btn-danger btn-sm" onclick="removeStudent('${s.code}')">Eliminar</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// Abrir modal para asignar grupo
+function openAssignGrade(code, name) {
+  document.getElementById('assignGradeCode').value = code;
+  document.getElementById('assignGradeStudentName').textContent = `Estudiante: ${name}`;
+  const sel = document.getElementById('assignGradeSelect');
+  sel.innerHTML = '<option value="">— Seleccione —</option>';
+  DB.grades.forEach(g => {
+    const o = document.createElement('option');
+    o.value = g; o.textContent = g;
+    sel.appendChild(o);
+  });
+  openModal('modalAssignGrade');
+}
+
+function confirmAssignGrade() {
+  const code = document.getElementById('assignGradeCode').value;
+  const grade = document.getElementById('assignGradeSelect').value;
+  if (!grade) { toast('Seleccione un grupo', 'error'); return; }
+  const stu = DB.students.find(s => s.code === code);
+  if (stu) { stu.grade = grade; saveDB(); renderStudentList(); }
+  closeModal('modalAssignGrade');
+  toast('Grupo asignado: ' + grade, 'success');
 }
 
 // ════════════════════════════════════════════════════════════
@@ -2646,21 +2792,48 @@ function findCol(headers, candidates) {
 // ════════════════════════════════════════════════════════════
 //  TEMA CLARO / AZUL MARINO
 // ════════════════════════════════════════════════════════════
+// ── Mapeo nombre de materia → paleta ──
+function getMateriaKey(gradeName) {
+  if (!gradeName) return 'otro';
+  const n = gradeName.toLowerCase();
+  if (n.includes('social') || n.includes('historia') || n.includes('geograf')) return 'sociales';
+  if (n.includes('ciudadan') || n.includes('competen') || n.includes('etica') || n.includes('moral')) return 'ciudadania';
+  if (n.includes('mat') || n.includes('algebra') || n.includes('calculo')) return 'matematicas';
+  if (n.includes('espa') || n.includes('liter') || n.includes('lengua') || n.includes('comunicac')) return 'espanol';
+  if (n.includes('natural') || n.includes('biolog') || n.includes('quimic') || n.includes('fisic')) return 'naturales';
+  if (n.includes('ingles') || n.includes('english')) return 'ingles';
+  return 'otro';
+}
+
+function applyMateriaColor(gradeName) {
+  const key = getMateriaKey(gradeName);
+  document.documentElement.setAttribute('data-materia', key);
+  localStorage.setItem('asistencia_materia', key);
+}
+
+function applyTheme(tema) {
+  const isLight = tema === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? 'light' : '');
+  document.getElementById('themeIcon').textContent = isLight ? '🌙' : '☀️';
+  const lbl = document.querySelector('#themeToggleBtn .nav-label');
+  if (lbl) lbl.textContent = isLight ? 'Tema oscuro' : 'Tema claro';
+  localStorage.setItem('asistencia_tema', tema);
+  const dEl = document.getElementById('themeOptDark');
+  const lEl = document.getElementById('themeOptLight');
+  if (dEl) dEl.style.borderColor = isLight ? 'var(--border)' : 'var(--mat)';
+  if (lEl) lEl.style.borderColor = isLight ? 'var(--mat)' : 'var(--border)';
+}
+
 function toggleTheme() {
   const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-  document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
-  document.getElementById('themeIcon').textContent = isLight ? '☀️' : '🌙';
-  document.querySelector('#themeToggleBtn .nav-label').textContent = isLight ? 'Tema claro' : 'Tema oscuro';
-  localStorage.setItem('asistencia_tema', isLight ? 'dark' : 'light');
+  applyTheme(isLight ? 'dark' : 'light');
 }
 
 function loadTheme() {
   const tema = localStorage.getItem('asistencia_tema') || 'dark';
-  if (tema === 'light') {
-    document.documentElement.setAttribute('data-theme', 'light');
-    document.getElementById('themeIcon').textContent = '🌙';
-    document.querySelector('#themeToggleBtn .nav-label').textContent = 'Tema oscuro';
-  }
+  applyTheme(tema);
+  const materia = localStorage.getItem('asistencia_materia') || 'sociales';
+  document.documentElement.setAttribute('data-materia', materia);
 }
 
 // ════════════════════════════════════════════════════════════
@@ -2688,7 +2861,7 @@ function renderMonthCalendar() {
     const dia = d.toLocaleDateString('es-CO',{weekday:'short',day:'numeric'});
     const isSelected = f === currentDate;
     return `<th style="text-align:center;font-size:10px;padding:6px 4px;min-width:48px;cursor:pointer;
-      ${isSelected?'background:rgba(59,130,246,0.25);color:#60a5fa;':''}border-radius:6px"
+      ${isSelected?'background:rgba(16,185,129,0.25);color:#34d399;':''}border-radius:6px"
       onclick="document.getElementById('selDate').value='${f}';onDateChange()">${dia}</th>`;
   }).join('');
 
@@ -2698,13 +2871,13 @@ function renderMonthCalendar() {
       const session = currentGrade;
       const val = ((mData[f] || {})[session] || {})[s.code] || '';
       const isSelected = f === currentDate;
-      if (!val) return `<td style="text-align:center;padding:4px;${isSelected?'background:rgba(59,130,246,0.1)':''}">
+      if (!val) return `<td style="text-align:center;padding:4px;${isSelected?'background:rgba(16,185,129,0.1)':''}">
         <span style="color:var(--text3);font-size:11px">—</span></td>`;
       const bg = val==='P'?'rgba(67,217,173,0.12)':val==='A'?'rgba(255,101,132,0.12)':'rgba(247,201,72,0.12)';
-      return `<td style="text-align:center;padding:4px;background:${isSelected?'rgba(59,130,246,0.15)':bg}">
+      return `<td style="text-align:center;padding:4px;background:${isSelected?'rgba(16,185,129,0.15)':bg}">
         <span style="font-size:15px">${icons[val]||val}</span></td>`;
     }).join('');
-    return `<tr style="border-bottom:1px solid rgba(26,58,110,0.3)">
+    return `<tr style="border-bottom:1px solid rgba(50,54,63,0.3)">
       <td style="padding:6px 10px;font-size:12px;white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis">${s.name}</td>
       ${cells}
     </tr>`;
