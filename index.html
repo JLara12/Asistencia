@@ -1657,18 +1657,44 @@ async function syncToSheets(showToast=true) {
   if (!DB.config.scriptUrl || !curGrade || !curMonth) { setSyncState('local'); return false; }
   const month = curMonth, session = curGrade;
   const classDays = getClassDays(month);
+
+  if (!classDays.length) {
+    setSyncState('local');
+    if (showToast) toast('Sin días activos para guardar','info');
+    return false;
+  }
+
+  // Construir registros — solo incluir celdas que tienen estado registrado
   const allRecords = {};
-  classDays.forEach(f => { allRecords[f] = getAttKey(curGrade, month, f, session); });
-  const payload = { action:'saveAttendance', grade:curGrade, month, session, classDays, records:allRecords,
-    students: DB.students.filter(s=>s.grade===curGrade).map(s=>({code:s.code,name:s.name})) };
+  classDays.forEach(f => {
+    const rec = getAttKey(curGrade, month, f, session);
+    const filtered = {};
+    Object.keys(rec).forEach(code => { if (rec[code]) filtered[code] = rec[code]; });
+    if (Object.keys(filtered).length) allRecords[f] = filtered;
+  });
+
+  // Payload mínimo: sin lista de estudiantes para reducir tamaño
+  const payload = {
+    action: 'saveAttendance',
+    grade: curGrade,
+    month: month,
+    session: session,
+    classDays: classDays,
+    records: allRecords
+  };
+
   setSyncState('loading');
   try {
     const r = await callScript(payload);
-    if (r?.ok) { setSyncState('ok'); if(showToast) toast('Guardado en Google Sheets ✅','success'); return true; }
-    throw new Error(r?.msg||'Error');
+    if (r?.ok) {
+      setSyncState('ok');
+      if (showToast) toast('Guardado en Google Sheets ✅', 'success');
+      return true;
+    }
+    throw new Error(r?.msg || 'Respuesta inválida');
   } catch(e) {
     setSyncState('pending');
-    if(showToast) toast('Error al guardar: ' + e.message + ' — datos guardados localmente','info');
+    if (showToast) toast('Error al guardar: ' + e.message, 'info');
     return false;
   }
 }
@@ -1683,7 +1709,7 @@ function callScript(params) {
     s.src = DB.config.scriptUrl + '?' + qs;
     s.onerror = () => { reject(new Error('Error de red')); if(s.parentNode) s.remove(); delete window[cb]; };
     document.head.appendChild(s);
-    setTimeout(() => { reject(new Error('Timeout')); if(s.parentNode) s.remove(); delete window[cb]; }, 15000);
+    setTimeout(() => { reject(new Error('Timeout — el script tardó más de 30 segundos')); if(s.parentNode) s.remove(); delete window[cb]; }, 30000);
   });
 }
 
