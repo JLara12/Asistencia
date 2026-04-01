@@ -22,6 +22,22 @@
     --present:#22c55e;--absent:#f43f5e;--excuse:#f59e0b;
     --shadow:0 8px 28px rgba(0,0,0,0.6);
   }
+  /* ══ TEMA PASTEL — inspirado imagen 2 ══ */
+  [data-theme="pastel"]{
+    --bg:#f8f6f2;--surface:#ffffff;--surface2:#f2eff8;--border:#e2ddf0;
+    --text:#2d2640;--text2:#6b6380;--text3:#b0a8c8;
+    --present:#4caf7d;--absent:#e07070;--excuse:#d4943a;
+    --shadow:0 4px 24px rgba(120,100,160,0.12);
+    --mat:#9b8ec4;--mat2:#bfb3df;--mat-bg:rgba(155,142,196,0.14);--mat-border:rgba(155,142,196,0.35);
+    --row0:#fce8ec;--row0t:#c0404a;  /* rosa salmón */
+    --row1:#ede8f8;--row1t:#6b52b8;  /* lavanda */
+    --row2:#e4f4ec;--row2t:#2d7a50;  /* verde menta */
+    --row3:#fef3e2;--row3t:#b8620a;  /* durazno */
+    --row4:#e8f0fc;--row4t:#3460b0;  /* azul cielo */
+    --row5:#fce8f4;--row5t:#a03080;  /* lila rosa */
+    --row6:#edf8e4;--row6t:#3a7a28;  /* verde lima */
+    --row7:#fff0e4;--row7t:#b05020;  /* melocotón */
+  }
   /* ══ PALETAS POR MATERIA — CLARO ══ */
   [data-materia="sociales"]{--mat:#7c83d6;--mat2:#a5aaee;--mat-bg:rgba(124,131,214,0.13);--mat-border:rgba(124,131,214,0.32);}
   [data-materia="ciudadania"]{--mat:#4caf8a;--mat2:#72c9a8;--mat-bg:rgba(76,175,138,0.13);--mat-border:rgba(76,175,138,0.32);}
@@ -903,8 +919,53 @@
     border-bottom: 1px solid rgba(50,54,63,0.25);
     transition: background 0.12s;
   }
-  .planillon-table tbody tr:hover { background: rgba(16,185,129,0.04); }
+  .planillon-table tbody tr:hover { filter: brightness(0.96); }
   .planillon-table tbody tr:last-child { border-bottom: none; }
+
+  /* ── TEMA PASTEL: filas de color alterno ── */
+  [data-theme="pastel"] body::before{opacity:.15;}
+  [data-theme="pastel"] .sidebar{background:#ede8f8;border-color:#d8d0ee;}
+  [data-theme="pastel"] .header{background:rgba(248,246,242,0.95);border-color:#e2ddf0;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+1) td{background:#fce8ec !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+2) td{background:#ede8f8 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+3) td{background:#e4f4ec !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+4) td{background:#fef3e2 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+5) td{background:#e8f0fc !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+6) td{background:#fce8f4 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+7) td{background:#edf8e4 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+8) td{background:#fff0e4 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+1) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+1) td.col-conteo{background:#fce8ec !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+2) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+2) td.col-conteo{background:#ede8f8 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+3) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+3) td.col-conteo{background:#e4f4ec !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+4) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+4) td.col-conteo{background:#fef3e2 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+5) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+5) td.col-conteo{background:#e8f0fc !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+6) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+6) td.col-conteo{background:#fce8f4 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+7) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+7) td.col-conteo{background:#edf8e4 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+8) td.col-nombre,
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+8) td.col-conteo{background:#fff0e4 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+1) .stu-name{color:#c0404a !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+2) .stu-name{color:#6b52b8 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+3) .stu-name{color:#2d7a50 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+4) .stu-name{color:#b8620a !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+5) .stu-name{color:#3460b0 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+6) .stu-name{color:#a03080 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+7) .stu-name{color:#3a7a28 !important;}
+  [data-theme="pastel"] .planillon-table tbody tr:nth-child(8n+8) .stu-name{color:#b05020 !important;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+1) td{background:#fce8ec;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+2) td{background:#ede8f8;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+3) td{background:#e4f4ec;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+4) td{background:#fef3e2;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+5) td{background:#e8f0fc;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+6) td{background:#fce8f4;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+7) td{background:#edf8e4;}
+  [data-theme="pastel"] .report-table tbody tr:nth-child(8n+8) td{background:#fff0e4;}
   /* Celda de nombre */
   .planillon-table td.col-nombre {
     padding: 7px 10px 7px 14px;
@@ -1267,13 +1328,17 @@
           <div class="form-group">
             <label class="form-label">Tema</label>
             <div style="display:flex;gap:10px;margin-top:8px">
-              <div id="themeOptDark" onclick="applyTheme('dark')" style="flex:1;padding:16px 8px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#1e2028;text-align:center;transition:all .2s">
-                <div style="font-size:24px">🌙</div>
-                <div style="font-size:12px;color:#868c9e;margin-top:4px">Oscuro</div>
+              <div id="themeOptLight" onclick="applyTheme('light')" style="flex:1;padding:14px 6px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#f0f2f6;text-align:center;transition:all .2s">
+                <div style="font-size:22px">☀️</div>
+                <div style="font-size:11px;color:#4b5563;margin-top:3px">Claro</div>
               </div>
-              <div id="themeOptLight" onclick="applyTheme('light')" style="flex:1;padding:16px 8px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#f3f4f8;text-align:center;transition:all .2s">
-                <div style="font-size:24px">☀️</div>
-                <div style="font-size:12px;color:#4b5563;margin-top:4px">Claro</div>
+              <div id="themeOptDark" onclick="applyTheme('dark')" style="flex:1;padding:14px 6px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:#1e2028;text-align:center;transition:all .2s">
+                <div style="font-size:22px">🌙</div>
+                <div style="font-size:11px;color:#868c9e;margin-top:3px">Oscuro</div>
+              </div>
+              <div id="themeOptPastel" onclick="applyTheme('pastel')" style="flex:1;padding:14px 6px;border-radius:10px;cursor:pointer;border:2px solid var(--border);background:linear-gradient(135deg,#fce8ec,#ede8f8,#e4f4ec,#fef3e2);text-align:center;transition:all .2s">
+                <div style="font-size:22px">🌈</div>
+                <div style="font-size:11px;color:#6b52b8;margin-top:3px">Pastel</div>
               </div>
             </div>
           </div>
@@ -1798,7 +1863,9 @@ function renderAttTable() {
   const mesNum = MESES_NUM[month] || 1;
   const diasEnMes = new Date(year, mesNum, 0).getDate(); // días totales del mes
   const classDays = getClassDays(month);
-  const avatarColors = ['#10b981','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
+  const isPastel = document.documentElement.getAttribute('data-theme') === 'pastel';
+  const pastelRowColors = ['#c0404a','#6b52b8','#2d7a50','#b8620a','#3460b0','#a03080','#3a7a28','#b05020'];
+  const avatarColors = isPastel ? pastelRowColors : ['#10b981','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
 
   // Generar array de todos los días del mes
   const allDays = Array.from({length: diasEnMes}, (_, i) => {
@@ -2420,12 +2487,15 @@ const ICON_OPTIONS = {
 };
 
 function renderConfig() {
-  // Highlight tema activo
-  const _tema = localStorage.getItem('asistencia_tema') || 'dark';
-  const _dEl = document.getElementById('themeOptDark');
-  const _lEl = document.getElementById('themeOptLight');
-  if (_dEl) _dEl.style.borderColor = _tema === 'dark' ? 'var(--mat)' : 'var(--border)';
-  if (_lEl) _lEl.style.borderColor = _tema === 'light' ? 'var(--mat)' : 'var(--border)';
+  // Highlight tema activo (3 opciones)
+  const _tema = localStorage.getItem('asistencia_tema') || 'pastel';
+  ['themeOptLight','themeOptDark','themeOptPastel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.borderColor = 'var(--border)';
+  });
+  const _activeId = _tema === 'dark' ? 'themeOptDark' : _tema === 'pastel' ? 'themeOptPastel' : 'themeOptLight';
+  const _activeEl = document.getElementById(_activeId);
+  if (_activeEl) _activeEl.style.borderColor = 'var(--mat)';
 
   // Iconos
   ['P','A','E'].forEach(state => {
@@ -2909,25 +2979,33 @@ function applyMateriaColor(gradeName) {
 }
 
 function applyTheme(tema) {
-  const isDark = tema === 'dark';
-  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : '');
-  document.getElementById('themeIcon').textContent = isDark ? '☀️' : '🌙';
+  // Aplicar data-theme al <html>
+  document.documentElement.setAttribute('data-theme', tema === 'dark' ? 'dark' : tema === 'pastel' ? 'pastel' : '');
+  // Icono del sidebar — cicla entre los 3
+  const icons = { light:'☀️', dark:'🌙', pastel:'🌈' };
+  const labels = { light:'Tema claro', dark:'Tema oscuro', pastel:'Tema pastel' };
+  document.getElementById('themeIcon').textContent = icons[tema] || '☀️';
   const lbl = document.querySelector('#themeToggleBtn .nav-label');
-  if (lbl) lbl.textContent = isDark ? 'Tema claro' : 'Tema oscuro';
+  if (lbl) lbl.textContent = labels[tema] || 'Tema claro';
   localStorage.setItem('asistencia_tema', tema);
-  const dEl = document.getElementById('themeOptDark');
-  const lEl = document.getElementById('themeOptLight');
-  if (dEl) dEl.style.borderColor = isDark ? 'var(--mat)' : 'var(--border)';
-  if (lEl) lEl.style.borderColor = isDark ? 'var(--border)' : 'var(--mat)';
+  // Highlight botones en config
+  ['themeOptLight','themeOptDark','themeOptPastel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.borderColor = 'var(--border)';
+  });
+  const activeId = tema === 'dark' ? 'themeOptDark' : tema === 'pastel' ? 'themeOptPastel' : 'themeOptLight';
+  const activeEl = document.getElementById(activeId);
+  if (activeEl) activeEl.style.borderColor = 'var(--mat)';
 }
 
 function toggleTheme() {
-  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  applyTheme(isDark ? 'light' : 'dark');
+  const cur = document.documentElement.getAttribute('data-theme') || '';
+  const next = cur === '' ? 'dark' : cur === 'dark' ? 'pastel' : 'light';
+  applyTheme(next);
 }
 
 function loadTheme() {
-  const tema = localStorage.getItem('asistencia_tema') || 'light';
+  const tema = localStorage.getItem('asistencia_tema') || 'pastel';
   applyTheme(tema);
   const materia = localStorage.getItem('asistencia_materia') || 'sociales';
   document.documentElement.setAttribute('data-materia', materia);
