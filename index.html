@@ -1668,7 +1668,7 @@ async function syncToSheets(showToast=true) {
     throw new Error(r?.msg||'Error');
   } catch(e) {
     setSyncState('pending');
-    if(showToast) toast('Sin conexión — guardado localmente','info');
+    if(showToast) toast('Error al guardar: ' + e.message + ' — datos guardados localmente','info');
     return false;
   }
 }
@@ -1677,13 +1677,13 @@ function callScript(params) {
   return new Promise((resolve, reject) => {
     if (!DB.config.scriptUrl) { reject(new Error('Sin URL')); return; }
     const cb = '_cb_' + Date.now();
-    window[cb] = r => { resolve(r); delete window[cb]; s.remove(); };
     const qs = 'data=' + encodeURIComponent(JSON.stringify(params)) + '&callback=' + cb;
     const s = document.createElement('script');
+    window[cb] = r => { resolve(r); delete window[cb]; if(s.parentNode) s.remove(); };
     s.src = DB.config.scriptUrl + '?' + qs;
-    s.onerror = () => { reject(new Error('Error')); s.remove(); delete window[cb]; };
+    s.onerror = () => { reject(new Error('Error de red')); if(s.parentNode) s.remove(); delete window[cb]; };
     document.head.appendChild(s);
-    setTimeout(() => { reject(new Error('Timeout')); s.remove(); delete window[cb]; }, 12000);
+    setTimeout(() => { reject(new Error('Timeout')); if(s.parentNode) s.remove(); delete window[cb]; }, 15000);
   });
 }
 
@@ -2134,6 +2134,11 @@ function confirmImport() {
 //  INIT
 // ════════════════════════════════════════
 loadDB();
+// Si no hay URL configurada, precargar la URL del docente
+if (!DB.config.scriptUrl) {
+  DB.config.scriptUrl = 'https://script.google.com/macros/s/AKfycbxgSjR15usgYSx5aU9hR-chGeF6DbJTorXiA-MrJNlBFcpFanwvdASjjfkrFL5hOvuc/exec';
+  saveDB();
+}
 if (!DB.months.length) {
   DB.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
   saveDB();
