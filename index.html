@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asistencia · I.E.D. Pestalozzi</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f13;
+    --surface: #18181f;
+    --surface2: #22222c;
+    --border: #2e2e3a;
+    --accent: #6c63ff;
+    --accent2: #ff6584;
+    --accent3: #43d9ad;
+    --text: #eeeef5;
+    --text2: #8888a0;
+    --text3: #55556a;
+    --present: #43d9ad;
+    --absent: #ff6584;
+    --excuse: #f7c948;
+    --radius: 14px;
+    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --transition: 0.22s cubic-bezier(.4,0,.2,1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.5;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    width: 72px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    gap: 8px;
+    z-index: 100;
+    transition: width var(--transition);
+  }
+  .sidebar:hover { width: 200px; }
+
+  .logo {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 16px;
+    color: #fff;
+    margin-bottom: 16px;
+    flex-shrink: 0;
+  }
+
+  .nav-item {
+    width: calc(100% - 16px);
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: var(--text2);
+    transition: all var(--transition);
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: rgba(108,99,255,0.15); color: var(--accent); }
+  .nav-item.active .nav-icon { color: var(--accent); }
+  .nav-icon { font-size: 20px; flex-shrink: 0; width: 24px; text-align: center; }
+  .nav-label { font-size: 13px; font-weight: 500; opacity: 0; transition: opacity var(--transition); }
+  .sidebar:hover .nav-label { opacity: 1; }
+
+  .sidebar-spacer { flex: 1; }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: 72px;
+    min-height: 100vh;
+    transition: margin-left var(--transition);
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 24px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    background: rgba(15,15,19,0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-left h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .header-left p { font-size: 13px; color: var(--text2); margin-top: 2px; }
+
+  .header-right { display: flex; align-items: center; gap: 10px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #5a52e0; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(108,99,255,0.4); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { background: var(--border); }
+  .btn-danger { background: rgba(255,101,132,0.15); color: var(--absent); border: 1px solid rgba(255,101,132,0.3); }
+  .btn-danger:hover { background: rgba(255,101,132,0.25); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  /* ── CONTENT ── */
+  .content { padding: 28px 32px; }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .stat-present::before { background: var(--present); }
+  .stat-absent::before { background: var(--absent); }
+  .stat-excuse::before { background: var(--excuse); }
+  .stat-total::before { background: var(--accent); }
+
+  .stat-label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; }
+  .stat-value { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; }
+  .stat-present .stat-value { color: var(--present); }
+  .stat-absent .stat-value { color: var(--absent); }
+  .stat-excuse .stat-value { color: var(--excuse); }
+  .stat-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+  /* ── FILTERS ── */
+  .filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  .select-styled {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238888a0' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 32px;
+  }
+  .select-styled:focus { border-color: var(--accent); }
+
+  .input-styled {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 9px 14px;
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    outline: none;
+    width: 100%;
+  }
+  .input-styled:focus { border-color: var(--accent); }
+  .input-styled::placeholder { color: var(--text3); }
+
+  /* ── ATTENDANCE TABLE ── */
+  .att-table-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .att-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .att-table th {
+    background: var(--surface2);
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+  }
+  .att-table th:first-child { min-width: 200px; }
+  .att-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(46,46,58,0.5);
+    vertical-align: middle;
+  }
+  .att-table tr:last-child td { border-bottom: none; }
+  .att-table tr:hover td { background: rgba(108,99,255,0.04); }
+
+  .student-name { font-weight: 500; }
+  .student-code { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+  /* ── ATTENDANCE TOGGLE BUTTON ── */
+  .att-btn {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+    background: var(--surface2);
+    position: relative;
+  }
+  .att-btn:hover { transform: scale(1.1); }
+  .att-btn.state-P { background: rgba(67,217,173,0.15); border: 1px solid rgba(67,217,173,0.3); }
+  .att-btn.state-A { background: rgba(255,101,132,0.15); border: 1px solid rgba(255,101,132,0.3); }
+  .att-btn.state-E { background: rgba(247,201,72,0.15); border: 1px solid rgba(247,201,72,0.3); }
+
+  /* ── MINI BADGE ── */
+  .badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-P { background: rgba(67,217,173,0.15); color: var(--present); }
+  .badge-A { background: rgba(255,101,132,0.15); color: var(--absent); }
+  .badge-E { background: rgba(247,201,72,0.15); color: var(--excuse); }
+
+  /* ── PROGRESS BAR ── */
+  .progress-bar-wrap { background: var(--surface2); border-radius: 99px; height: 6px; overflow: hidden; width: 80px; }
+  .progress-bar-fill { height: 100%; border-radius: 99px; transition: width 0.4s ease; }
+
+  /* ── MONTH TABS ── */
+  .month-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .month-tab {
+    padding: 7px 16px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    transition: all var(--transition);
+  }
+  .month-tab:hover { border-color: var(--accent); color: var(--text); }
+  .month-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .month-tab.add-month {
+    border-style: dashed;
+    color: var(--text3);
+  }
+  .month-tab.add-month:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── DATE SESSIONS ── */
+  .session-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .session-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .session-tab {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    transition: all var(--transition);
+  }
+  .session-tab:hover { border-color: var(--accent); color: var(--text); }
+  .session-tab.active { background: rgba(108,99,255,0.15); border-color: var(--accent); color: var(--accent); }
+
+  /* ── GRID LAYOUT ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) {
+    .two-col { grid-template-columns: 1fr; }
+    .three-col { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ── REPORT SECTION ── */
+  .report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .report-table th {
+    background: var(--surface2);
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+    font-weight: 600;
+  }
+  .report-table td { padding: 10px 14px; border-bottom: 1px solid rgba(46,46,58,0.4); }
+  .report-table tr:last-child td { border-bottom: none; }
+  .report-table tr:hover td { background: rgba(108,99,255,0.04); }
+
+  /* ── ACCUMULATOR CIRCLES ── */
+  .acc-circle {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+  }
+  .acc-circle .val { font-size: 16px; font-weight: 800; line-height: 1; }
+  .acc-circle .lbl { font-size: 9px; text-transform: uppercase; letter-spacing: 0.3px; margin-top: 1px; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(6px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition);
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: var(--shadow);
+    transform: translateY(20px);
+    transition: transform var(--transition);
+  }
+  .modal-overlay.open .modal { transform: translateY(0); }
+  .modal-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .modal-close { cursor: pointer; color: var(--text3); font-size: 22px; line-height: 1; }
+  .modal-close:hover { color: var(--text); }
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; display: block; font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+
+  /* ── CONFIG PAGE ── */
+  .icon-picker {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .icon-opt {
+    width: 48px; height: 48px;
+    border-radius: 12px;
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .icon-opt:hover { border-color: var(--accent); transform: scale(1.1); }
+  .icon-opt.selected { border-color: var(--accent); background: rgba(108,99,255,0.15); }
+
+  /* ── UPLOAD ZONE ── */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .upload-zone:hover { border-color: var(--accent); background: rgba(108,99,255,0.05); }
+  .upload-zone .upload-icon { font-size: 40px; margin-bottom: 12px; }
+  .upload-zone p { font-size: 13px; color: var(--text2); }
+  .upload-zone strong { color: var(--accent); }
+
+  /* ── TOAST ── */
+  .toast-container {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .toast {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 13px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: slideIn 0.3s ease;
+    max-width: 320px;
+  }
+  .toast.success { border-left: 3px solid var(--present); }
+  .toast.error { border-left: 3px solid var(--absent); }
+  .toast.info { border-left: 3px solid var(--accent); }
+  @keyframes slideIn { from { transform: translateX(40px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+  /* ── LOADING STATE ── */
+  .loading-bar {
+    position: fixed;
+    top: 0; left: 72px; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    z-index: 200;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+  .loading-bar.active { animation: loadBar 1.5s ease infinite; }
+  @keyframes loadBar { 0%,100%{transform:scaleX(0.1)} 50%{transform:scaleX(0.8)} }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text3);
+  }
+  .empty-state .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-state h3 { font-family: 'Syne', sans-serif; font-size: 16px; color: var(--text2); margin-bottom: 8px; }
+  .empty-state p { font-size: 13px; }
+
+  /* ── SEMESTER SUMMARY ── */
+  .semester-card {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+  }
+  .semester-label { font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .semester-donut {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    position: relative;
+  }
+
+  /* ── GRADE CHIP ── */
+  .grade-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px;
+    background: rgba(108,99,255,0.12);
+    border: 1px solid rgba(108,99,255,0.25);
+    border-radius: 99px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all var(--transition);
+    margin: 3px;
+  }
+  .grade-chip:hover { background: rgba(108,99,255,0.25); }
+  .grade-chip .remove-chip { color: var(--text3); font-size: 16px; line-height: 1; }
+  .grade-chip .remove-chip:hover { color: var(--absent); }
+
+  /* ── SUMMARY TABLE ACCUMULATOR ── */
+  .acc-row { display: flex; align-items: center; gap: 8px; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
+
+  /* ── SEPARADOR ── */
+  .section-gap { margin-bottom: 24px; }
+
+  /* ── DOTS ANIM LOADING ── */
+  .syncing { display: inline-flex; align-items: center; gap: 4px; color: var(--text3); font-size: 12px; }
+  .syncing span { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; animation: bounce 1s infinite; }
+  .syncing span:nth-child(2) { animation-delay: 0.15s; }
+  .syncing span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+
+  .chip-status {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .chip-status.ok { background: rgba(67,217,173,0.15); color: var(--present); }
+  .chip-status.warn { background: rgba(247,201,72,0.15); color: var(--excuse); }
+  .chip-status.bad { background: rgba(255,101,132,0.15); color: var(--absent); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+  hr { border: none; border-top: 1px solid var(--border); }
+
+  .flex-center { display: flex; align-items: center; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .mt-4 { margin-top: 4px; }
+  .mt-8 { margin-top: 8px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-16 { margin-top: 16px; }
+  .mb-16 { margin-bottom: 16px; }
+  .text-sm { font-size: 13px; }
+  .text-xs { font-size: 11px; }
+  .text-muted { color: var(--text2); }
+  .text-dim { color: var(--text3); }
+  .bold { font-weight: 600; }
+  .font-syne { font-family: 'Syne', sans-serif; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ SIDEBAR ═══════════════════════════════ -->
+<nav class="sidebar" id="sidebar">
+  <div class="logo">P</div>
+  <div class="nav-item active" onclick="showPage('registro')">
+    <span class="nav-icon">📋</span>
+    <span class="nav-label">Registro diario</span>
+  </div>
+  <div class="nav-item" onclick="showPage('resumen')">
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">Resumen</span>
+  </div>
+  <div class="nav-item" onclick="showPage('acumulado')">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">Acumulado</span>
+  </div>
+  <div class="nav-item" onclick="showPage('reporte')">
+    <span class="nav-icon">📄</span>
+    <span class="nav-label">Reporte / Boletín</span>
+  </div>
+  <div class="sidebar-spacer"></div>
+  <div class="nav-item" onclick="showPage('config')">
+    <span class="nav-icon">⚙️</span>
+    <span class="nav-label">Configuración</span>
+  </div>
+</nav>
+
+<div class="loading-bar" id="loadingBar"></div>
+
+<!-- ═══════════════════════════════ MAIN ═══════════════════════════════ -->
+<main class="main">
+
+  <!-- ──────────── PAGE: REGISTRO ──────────── -->
+  <div id="page-registro" class="page active">
+    <div class="header">
+      <div class="header-left">
+        <h1>📋 Registro de Asistencia</h1>
+        <p id="headerSubtitle">Seleccione grupo y sesión para comenzar</p>
+      </div>
+      <div class="header-right">
+        <div id="syncStatus" class="syncing" style="display:none">
+          <span></span><span></span><span></span>
+          <span style="width:auto;height:auto;background:none;border-radius:0;animation:none">Guardando…</span>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="markAll('P')">✅ Todos presentes</button>
+        <button class="btn btn-secondary btn-sm" onclick="markAll('A')">❌ Todos ausentes</button>
+        <button class="btn btn-primary" onclick="saveAttendance()">💾 Guardar</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- Filtros -->
+      <div class="filters">
+        <select class="select-styled" id="selGrade" onchange="onGradeChange()">
+          <option value="">— Grado / Grupo —</option>
+        </select>
+        <select class="select-styled" id="selMonth" onchange="onMonthChange()">
+          <option value="">— Mes —</option>
+        </select>
+        <input type="date" class="select-styled" id="selDate" onchange="onDateChange()">
+        <select class="select-styled" id="selSession" onchange="onSessionChange()">
+          <option value="">— Sesión —</option>
+        </select>
+        <button class="btn btn-secondary btn-sm" onclick="openAddSessionModal()">＋ Sesión</button>
+      </div>
+
+      <!-- Stats rápidas -->
+      <div class="stats-row" id="quickStats">
+        <div class="stat-card stat-total">
+          <div class="stat-label">Total</div>
+          <div class="stat-value" id="statTotal">—</div>
+          <div class="stat-sub">estudiantes</div>
+        </div>
+        <div class="stat-card stat-present">
+          <div class="stat-label">Presentes</div>
+          <div class="stat-value" id="statPresent">—</div>
+          <div class="stat-sub" id="statPresentPct"></div>
+        </div>
+        <div class="stat-card stat-absent">
+          <div class="stat-label">Ausentes</div>
+          <div class="stat-value" id="statAbsent">—</div>
+          <div class="stat-sub" id="statAbsentPct"></div>
+        </div>
+        <div class="stat-card stat-excuse">
+          <div class="stat-label">Excusas</div>
+          <div class="stat-value" id="statExcuse">—</div>
+          <div class="stat-sub" id="statExcusePct"></div>
+        </div>
+      </div>
+
+      <!-- Tabla de asistencia -->
+      <div class="att-table-wrap" id="attTableWrap">
+        <div class="empty-state">
+          <div class="empty-icon">🎒</div>
+          <h3>Ninguna sesión seleccionada</h3>
+          <p>Elija un grupo, mes, fecha y sesión para registrar asistencia.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ──────────── PAGE: RESUMEN ──────────── -->
+  <div id="page-resumen" class="page">
+    <div class="header">
+      <div class="header-left">
+        <h1>📊 Resumen por Estudiante</h1>
+        <p>Conteo acumulado de asistencia, fallas y excusas</p>
+      </div>
+      <div class="header-right">
+        <select class="select-styled" id="resGrade" onchange="renderResumen()">
+          <option value="">— Todos los grupos —</option>
+        </select>
+        <select class="select-styled" id="resMonth" onchange="renderResumen()">
+          <option value="">— Todos los meses —</option>
+        </select>
+      </div>
+    </div>
+    <div class="content">
+      <div class="att-table-wrap">
+        <table class="report-table" id="resumenTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Estudiante</th>
+              <th>Grupo</th>
+              <th>✅ Presencias</th>
+              <th>❌ Fallas</th>
+              <th>📋 Excusas</th>
+              <th>% Asistencia</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="resumenBody">
+            <tr><td colspan="8" class="empty-state" style="padding:40px;text-align:center;color:var(--text3)">Sin datos aún</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────── PAGE: ACUMULADO ──────────── -->
+  <div id="page-acumulado" class="page">
+    <div class="header">
+      <div class="header-left">
+        <h1>📅 Acumulado</h1>
+        <p>Por mes, semestre y año académico</p>
+      </div>
+      <div class="header-right">
+        <select class="select-styled" id="accGrade" onchange="renderAcumulado()">
+          <option value="">— Todos los grupos —</option>
+        </select>
+      </div>
+    </div>
+    <div class="content">
+      <!-- Por mes -->
+      <div class="card section-gap">
+        <div class="card-title">📆 Por mes</div>
+        <div id="accMonthGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;"></div>
+      </div>
+      <!-- Por semestre -->
+      <div class="two-col section-gap">
+        <div class="card">
+          <div class="card-title">🔵 Primer Semestre</div>
+          <div id="accSem1" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🟣 Segundo Semestre</div>
+          <div id="accSem2" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;text-align:center;"></div>
+        </div>
+      </div>
+      <!-- Anual -->
+      <div class="card">
+        <div class="card-title">🗓️ Resumen Anual</div>
+        <div class="three-col" id="accYear"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────── PAGE: REPORTE ──────────── -->
+  <div id="page-reporte" class="page">
+    <div class="header">
+      <div class="header-left">
+        <h1>📄 Reporte para Boletín</h1>
+        <p>Exportar resumen oficial para coordinación o boletín</p>
+      </div>
+      <div class="header-right">
+        <select class="select-styled" id="repGrade" onchange="renderReporte()">
+          <option value="">— Seleccione grupo —</option>
+        </select>
+        <select class="select-styled" id="repPeriod">
+          <option value="month">Por mes</option>
+          <option value="sem1">Semestre 1</option>
+          <option value="sem2">Semestre 2</option>
+          <option value="year">Año completo</option>
+        </select>
+        <button class="btn btn-primary" onclick="printReport()">🖨️ Imprimir</button>
+      </div>
+    </div>
+    <div class="content" id="reportContent">
+      <div class="empty-state">
+        <div class="empty-icon">📄</div>
+        <h3>Seleccione un grupo</h3>
+        <p>Se generará el reporte para boletín o coordinación.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────────── PAGE: CONFIG ──────────── -->
+  <div id="page-config" class="page">
+    <div class="header">
+      <div class="header-left">
+        <h1>⚙️ Configuración</h1>
+        <p>Personalización, grupos, estudiantes y conexión</p>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="two-col section-gap">
+
+        <!-- Iconos -->
+        <div class="card">
+          <div class="card-title">🎨 Iconos de Estado</div>
+          <div class="form-group">
+            <label class="form-label">✅ Asistencia (Presente)</label>
+            <div class="icon-picker" id="iconPickerP"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">❌ Falla (Ausente)</label>
+            <div class="icon-picker" id="iconPickerA"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">📋 Excusa</label>
+            <div class="icon-picker" id="iconPickerE"></div>
+          </div>
+          <button class="btn btn-primary btn-sm mt-8" onclick="saveIcons()">Guardar iconos</button>
+        </div>
+
+        <!-- Conexión Apps Script -->
+        <div class="card">
+          <div class="card-title">🔗 Conexión Google Sheets</div>
+          <div class="form-group">
+            <label class="form-label">URL del Apps Script</label>
+            <input class="input-styled" id="cfgScriptUrl" placeholder="https://script.google.com/macros/s/..." style="font-size:11px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre del docente</label>
+            <input class="input-styled" id="cfgTeacher" placeholder="Jhon Jairo Lara Martínez">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Institución</label>
+            <input class="input-styled" id="cfgSchool" placeholder="I.E.D. Pestalozzi">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Año académico</label>
+            <input class="input-styled" id="cfgYear" placeholder="2025" type="number">
+          </div>
+          <button class="btn btn-primary btn-sm mt-8" onclick="saveConfig()">💾 Guardar configuración</button>
+          <button class="btn btn-secondary btn-sm mt-8" onclick="testConnection()" style="margin-left:8px">🔌 Probar conexión</button>
+        </div>
+
+      </div>
+
+      <div class="two-col section-gap">
+
+        <!-- Grados / Grupos -->
+        <div class="card">
+          <div class="card-title">🏫 Grados y Grupos</div>
+          <div id="gradesList" style="margin-bottom:16px;"></div>
+          <div style="display:flex;gap:8px;">
+            <input class="input-styled" id="newGradeName" placeholder="Ej: 6A — Sociales" style="flex:1">
+            <button class="btn btn-primary btn-sm" onclick="addGrade()">＋ Agregar</button>
+          </div>
+          <p class="text-xs text-dim mt-8">El nombre debe incluir grado y asignatura para la sesión.</p>
+        </div>
+
+        <!-- Meses del año -->
+        <div class="card">
+          <div class="card-title">📆 Meses Habilitados</div>
+          <div id="monthsList" style="margin-bottom:16px;"></div>
+          <div style="display:flex;gap:8px;">
+            <select class="select-styled" id="newMonthSel" style="flex:1">
+              <option value="">— Seleccionar mes —</option>
+              <option value="Enero">Enero</option>
+              <option value="Febrero">Febrero</option>
+              <option value="Marzo">Marzo</option>
+              <option value="Abril">Abril</option>
+              <option value="Mayo">Mayo</option>
+              <option value="Junio">Junio</option>
+              <option value="Julio">Julio</option>
+              <option value="Agosto">Agosto</option>
+              <option value="Septiembre">Septiembre</option>
+              <option value="Octubre">Octubre</option>
+              <option value="Noviembre">Noviembre</option>
+              <option value="Diciembre">Diciembre</option>
+            </select>
+            <button class="btn btn-primary btn-sm" onclick="addMonth()">＋</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Estudiantes -->
+      <div class="card section-gap">
+        <div class="card-title">👨‍🎓 Estudiantes</div>
+        <div class="two-col">
+          <!-- Agregar manual -->
+          <div>
+            <p class="text-sm text-muted mb-16">Ingreso manual</p>
+            <div class="form-group">
+              <label class="form-label">Grupo</label>
+              <select class="select-styled" id="stuGrade" style="width:100%"></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Código</label>
+              <input class="input-styled" id="stuCode" placeholder="Ej: 6A001">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre completo</label>
+              <input class="input-styled" id="stuName" placeholder="Apellido, Nombre">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="addStudent()">＋ Agregar estudiante</button>
+          </div>
+          <!-- Cargar Excel / CSV -->
+          <div>
+            <p class="text-sm text-muted mb-16">Cargar desde Excel / CSV</p>
+            <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+              <div class="upload-icon">📂</div>
+              <p><strong>Haga clic</strong> o arrastre su archivo aquí</p>
+              <p style="margin-top:6px;font-size:11px">Excel (.xlsx) o CSV — Columnas: Código, Nombre, Grupo</p>
+            </div>
+            <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)">
+            <div id="uploadPreview" style="margin-top:12px;"></div>
+          </div>
+        </div>
+
+        <!-- Lista de estudiantes -->
+        <hr style="margin:20px 0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <div class="card-title" style="margin:0">Lista actual</div>
+          <select class="select-styled" id="stuFilterGrade" onchange="renderStudentList()">
+            <option value="">— Todos —</option>
+          </select>
+        </div>
+        <div class="att-table-wrap">
+          <table class="report-table">
+            <thead><tr><th>#</th><th>Código</th><th>Nombre</th><th>Grupo</th><th></th></tr></thead>
+            <tbody id="studentListBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════ MODALS ═══════════════════════════════ -->
+
+<!-- Modal: Agregar sesión -->
+<div class="modal-overlay" id="modalSession">
+  <div class="modal">
+    <div class="modal-title">
+      Nueva Sesión de Clase
+      <span class="modal-close" onclick="closeModal('modalSession')">×</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Asignatura + Grupo</label>
+      <input class="input-styled" id="sesName" placeholder="Ej: Ciencias Sociales 6A">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Hora (opcional)</label>
+      <input class="input-styled" id="sesTime" type="time">
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px;">
+      <button class="btn btn-secondary" onclick="closeModal('modalSession')">Cancelar</button>
+      <button class="btn btn-primary" onclick="addSession()">Agregar sesión</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Agregar mes -->
+<div class="modal-overlay" id="modalMonth">
+  <div class="modal">
+    <div class="modal-title">
+      Agregar Mes
+      <span class="modal-close" onclick="closeModal('modalMonth')">×</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Mes</label>
+      <select class="select-styled" id="newMonthModal" style="width:100%">
+        <option>Enero</option><option>Febrero</option><option>Marzo</option>
+        <option>Abril</option><option>Mayo</option><option>Junio</option>
+        <option>Julio</option><option>Agosto</option><option>Septiembre</option>
+        <option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:20px;">
+      <button class="btn btn-secondary" onclick="closeModal('modalMonth')">Cancelar</button>
+      <button class="btn btn-primary" onclick="addMonthFromModal()">Agregar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toasts -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ════════════════════════════════ SCRIPTS ════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════
+//  ESTADO GLOBAL
+// ════════════════════════════════════════════════════════════
+const DB = {
+  config: {
+    scriptUrl: '',
+    teacher: 'Jhon Jairo Lara Martínez',
+    school: 'I.E.D. Pestalozzi',
+    year: new Date().getFullYear(),
+    icons: { P: '✅', A: '❌', E: '📋' }
+  },
+  grades: [],       // ['Sociales 6A', 'Ciudadanía 8B', ...]
+  months: [],       // ['Enero','Febrero', ...]
+  sessions: {},     // { 'Sociales 6A': ['7:00 - Sociales 6A', '9:00 - Sociales 6A'] }
+  students: [],     // [{ code, name, grade }]
+  // attendance[grade][month][date][session][code] = 'P'|'A'|'E'
+  attendance: {}
+};
+
+// ── Cargar de localStorage ──
+function loadDB() {
+  try {
+    const saved = localStorage.getItem('asistencia_ied_pestalozzi');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      Object.assign(DB, parsed);
+    }
+  } catch(e) { console.warn('No se pudo cargar DB local', e); }
+}
+
+function saveDB() {
+  localStorage.setItem('asistencia_ied_pestalozzi', JSON.stringify(DB));
+}
+
+// ════════════════════════════════════════════════════════════
+//  NAVEGACIÓN
+// ════════════════════════════════════════════════════════════
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  // Highlight nav
+  const navItems = document.querySelectorAll('.nav-item');
+  const map = { registro:0, resumen:1, acumulado:2, reporte:3, config:4 };
+  if (map[name] !== undefined) navItems[map[name]].classList.add('active');
+
+  // Render on show
+  if (name === 'resumen') renderResumen();
+  if (name === 'acumulado') renderAcumulado();
+  if (name === 'reporte') renderReporte();
+  if (name === 'config') renderConfig();
+}
+
+// ════════════════════════════════════════════════════════════
+//  MODALES
+// ════════════════════════════════════════════════════════════
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ════════════════════════════════════════════════════════════
+//  TOASTS
+// ════════════════════════════════════════════════════════════
+function toast(msg, type = 'info') {
+  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<span>${icons[type]}</span> ${msg}`;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3500);
+}
+
+// ════════════════════════════════════════════════════════════
+//  POBLAR SELECTS
+// ════════════════════════════════════════════════════════════
+function populateSelects() {
+  const gradeSelects = ['selGrade','resGrade','accGrade','repGrade','stuGrade','stuFilterGrade'];
+  gradeSelects.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const val = el.value;
+    const isFilter = ['resGrade','accGrade','repGrade','stuFilterGrade'].includes(id);
+    el.innerHTML = isFilter ? '<option value="">— Todos los grupos —</option>' : '<option value="">— Grado / Grupo —</option>';
+    DB.grades.forEach(g => {
+      const opt = document.createElement('option');
+      opt.value = g; opt.textContent = g;
+      el.appendChild(opt);
+    });
+    el.value = val;
+  });
+
+  const monthSelects = ['selMonth','resMonth'];
+  monthSelects.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const val = el.value;
+    el.innerHTML = '<option value="">— Mes —</option>';
+    DB.months.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; opt.textContent = m;
+      el.appendChild(opt);
+    });
+    el.value = val;
+  });
+}
+
+// ════════════════════════════════════════════════════════════
+//  REGISTRO: EVENTOS
+// ════════════════════════════════════════════════════════════
+let currentGrade = '', currentMonth = '', currentDate = '', currentSession = '';
+
+function onGradeChange() {
+  currentGrade = document.getElementById('selGrade').value;
+  updateSessionSel();
+  renderAttTable();
+}
+function onMonthChange() {
+  currentMonth = document.getElementById('selMonth').value;
+  renderAttTable();
+}
+function onDateChange() {
+  currentDate = document.getElementById('selDate').value;
+  renderAttTable();
+}
+function onSessionChange() {
+  currentSession = document.getElementById('selSession').value;
+  renderAttTable();
+  updateHeaderSubtitle();
+}
+
+function updateHeaderSubtitle() {
+  if (currentGrade && currentSession && currentDate) {
+    const d = new Date(currentDate + 'T12:00:00');
+    const dateStr = d.toLocaleDateString('es-CO', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+    document.getElementById('headerSubtitle').textContent = `${currentSession} · ${dateStr}`;
+  } else {
+    document.getElementById('headerSubtitle').textContent = 'Seleccione grupo y sesión para comenzar';
+  }
+}
+
+function updateSessionSel() {
+  const sel = document.getElementById('selSession');
+  sel.innerHTML = '<option value="">— Sesión —</option>';
+  const sessions = (DB.sessions[currentGrade] || []);
+  sessions.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+function openAddSessionModal() {
+  document.getElementById('sesName').value = currentGrade || '';
+  openModal('modalSession');
+}
+
+function addSession() {
+  const name = document.getElementById('sesName').value.trim();
+  const time = document.getElementById('sesTime').value;
+  if (!name) { toast('Ingrese el nombre de la sesión', 'error'); return; }
+  const label = time ? `${time} · ${name}` : name;
+  if (!DB.sessions[name]) DB.sessions[name] = [];
+  DB.sessions[name].push(label);
+  // también guardar en el grado actual
+  if (currentGrade) {
+    if (!DB.sessions[currentGrade]) DB.sessions[currentGrade] = [];
+    if (!DB.sessions[currentGrade].includes(label)) DB.sessions[currentGrade].push(label);
+  }
+  saveDB();
+  updateSessionSel();
+  closeModal('modalSession');
+  toast('Sesión agregada', 'success');
+}
+
+// ════════════════════════════════════════════════════════════
+//  TABLA DE ASISTENCIA
+// ════════════════════════════════════════════════════════════
+function getAttKey(grade, month, date, session) {
+  if (!DB.attendance[grade]) DB.attendance[grade] = {};
+  if (!DB.attendance[grade][month]) DB.attendance[grade][month] = {};
+  if (!DB.attendance[grade][month][date]) DB.attendance[grade][month][date] = {};
+  if (!DB.attendance[grade][month][date][session]) DB.attendance[grade][month][date][session] = {};
+  return DB.attendance[grade][month][date][session];
+}
+
+function renderAttTable() {
+  const wrap = document.getElementById('attTableWrap');
+  if (!currentGrade || !currentDate || !currentSession) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎒</div><h3>Ninguna sesión seleccionada</h3><p>Elija un grupo, fecha y sesión.</p></div>`;
+    updateStats([]);
+    return;
+  }
+
+  const students = DB.students.filter(s => s.grade === currentGrade);
+  if (students.length === 0) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes</h3><p>Agregue estudiantes en Configuración.</p></div>`;
+    updateStats([]);
+    return;
+  }
+
+  const month = currentMonth || 'Sin mes';
+  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const icons = DB.config.icons;
+
+  let rows = students.map((s, i) => {
+    const state = rec[s.code] || 'P';
+    return `
+      <tr>
+        <td><span class="text-dim text-xs">${i+1}</span></td>
+        <td>
+          <div class="student-name">${s.name}</div>
+          <div class="student-code">${s.code}</div>
+        </td>
+        <td>
+          <div style="display:flex;gap:8px;">
+            <button class="att-btn state-${state === 'P' ? 'P' : ''}" 
+              id="btn-${s.code}" 
+              onclick="toggleAttendance('${s.code}')"
+              title="Toca para cambiar estado">
+              ${state === 'P' ? icons.P : state === 'A' ? icons.A : icons.E}
+            </button>
+            <span class="badge badge-${state}" id="badge-${s.code}">
+              ${state === 'P' ? 'Presente' : state === 'A' ? 'Ausente' : 'Excusa'}
+            </span>
+          </div>
+        </td>
+        <td>
+          <div style="display:flex;gap:4px;">
+            <button class="btn btn-sm ${state==='P'?'btn-primary':'btn-secondary'}" style="padding:4px 10px;font-size:11px" onclick="setState('${s.code}','P')">P</button>
+            <button class="btn btn-sm ${state==='A'?'btn-danger':'btn-secondary'}" style="padding:4px 10px;font-size:11px" onclick="setState('${s.code}','A')">F</button>
+            <button class="btn btn-sm" style="padding:4px 10px;font-size:11px;${state==='E'?'background:rgba(247,201,72,0.2);color:var(--excuse);border:1px solid rgba(247,201,72,0.4)':''}" onclick="setState('${s.code}','E')">E</button>
+          </div>
+        </td>
+      </tr>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <table class="att-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Estudiante</th>
+          <th>Estado</th>
+          <th>Cambiar</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>`;
+
+  updateStats(students.map(s => rec[s.code] || 'P'));
+}
+
+function toggleAttendance(code) {
+  const month = currentMonth || 'Sin mes';
+  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const states = ['P','A','E'];
+  const cur = rec[code] || 'P';
+  rec[code] = states[(states.indexOf(cur)+1) % states.length];
+  renderAttTable();
+}
+
+function setState(code, state) {
+  const month = currentMonth || 'Sin mes';
+  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  rec[code] = state;
+  renderAttTable();
+}
+
+function markAll(state) {
+  if (!currentGrade || !currentDate || !currentSession) { toast('Seleccione grupo, fecha y sesión', 'error'); return; }
+  const month = currentMonth || 'Sin mes';
+  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  DB.students.filter(s => s.grade === currentGrade).forEach(s => rec[s.code] = state);
+  renderAttTable();
+  toast(`Todos marcados como ${state === 'P' ? 'Presentes' : state === 'A' ? 'Ausentes' : 'Excusas'}`, 'success');
+}
+
+function updateStats(states) {
+  const total = states.length;
+  const p = states.filter(s => s === 'P').length;
+  const a = states.filter(s => s === 'A').length;
+  const e = states.filter(s => s === 'E').length;
+  document.getElementById('statTotal').textContent = total || '—';
+  document.getElementById('statPresent').textContent = total ? p : '—';
+  document.getElementById('statAbsent').textContent = total ? a : '—';
+  document.getElementById('statExcuse').textContent = total ? e : '—';
+  if (total) {
+    document.getElementById('statPresentPct').textContent = Math.round(p/total*100) + '%';
+    document.getElementById('statAbsentPct').textContent = Math.round(a/total*100) + '%';
+    document.getElementById('statExcusePct').textContent = Math.round(e/total*100) + '%';
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  GUARDAR EN GOOGLE SHEETS
+// ════════════════════════════════════════════════════════════
+async function saveAttendance() {
+  saveDB(); // siempre guardar local
+
+  if (!DB.config.scriptUrl) {
+    toast('Configure la URL del Apps Script primero', 'error');
+    return;
+  }
+  if (!currentGrade || !currentDate || !currentSession) {
+    toast('Seleccione grupo, fecha y sesión', 'error');
+    return;
+  }
+
+  const month = currentMonth || 'Sin mes';
+  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const payload = {
+    action: 'saveAttendance',
+    grade: currentGrade,
+    month: month,
+    date: currentDate,
+    session: currentSession,
+    records: rec
+  };
+
+  document.getElementById('syncStatus').style.display = 'flex';
+  try {
+    const url = DB.config.scriptUrl + '?data=' + encodeURIComponent(JSON.stringify(payload)) + '&callback=cb';
+    await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      window.cb = (r) => { resolve(r); s.remove(); delete window.cb; };
+      s.src = url;
+      s.onerror = reject;
+      document.head.appendChild(s);
+      setTimeout(() => reject(new Error('timeout')), 10000);
+    });
+    toast('Guardado en Google Sheets ✅', 'success');
+  } catch(e) {
+    toast('Solo guardado localmente (sin conexión o URL inválida)', 'info');
+  } finally {
+    document.getElementById('syncStatus').style.display = 'none';
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  RESUMEN POR ESTUDIANTE
+// ════════════════════════════════════════════════════════════
+function renderResumen() {
+  const gradeFilter = document.getElementById('resGrade')?.value || '';
+  const monthFilter = document.getElementById('resMonth')?.value || '';
+
+  const students = DB.students.filter(s => !gradeFilter || s.grade === gradeFilter);
+  const body = document.getElementById('resumenBody');
+  if (!students.length) {
+    body.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text3)">Sin estudiantes registrados</td></tr>';
+    return;
+  }
+
+  const rows = students.map((s, i) => {
+    const stats = getStudentStats(s.code, s.grade, monthFilter);
+    const total = stats.P + stats.A + stats.E;
+    const pct = total ? Math.round(stats.P / total * 100) : 0;
+    const status = pct >= 80 ? 'ok' : pct >= 60 ? 'warn' : 'bad';
+    const statusLabel = pct >= 80 ? 'Regular' : pct >= 60 ? 'En riesgo' : 'Crítico';
+    return `<tr>
+      <td class="text-dim text-xs">${i+1}</td>
+      <td><div class="student-name">${s.name}</div></td>
+      <td><span style="font-size:12px;color:var(--text2)">${s.grade}</span></td>
+      <td><span style="color:var(--present);font-weight:700">${stats.P}</span></td>
+      <td><span style="color:var(--absent);font-weight:700">${stats.A}</span></td>
+      <td><span style="color:var(--excuse);font-weight:700">${stats.E}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%;background:${pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)'}"></div></div>
+          <span class="text-sm bold">${pct}%</span>
+        </div>
+      </td>
+      <td><span class="chip-status ${status}">${statusLabel}</span></td>
+    </tr>`;
+  }).join('');
+  body.innerHTML = rows;
+}
+
+function getStudentStats(code, grade, monthFilter = '') {
+  const stats = { P: 0, A: 0, E: 0 };
+  const gradeData = DB.attendance[grade] || {};
+  const months = monthFilter ? [monthFilter] : Object.keys(gradeData);
+  months.forEach(m => {
+    const mData = gradeData[m] || {};
+    Object.keys(mData).forEach(date => {
+      Object.keys(mData[date]).forEach(session => {
+        const val = mData[date][session][code];
+        if (val) stats[val] = (stats[val] || 0) + 1;
+        else stats['P'] = (stats['P'] || 0) + 1; // default presente si fue registrado
+      });
+    });
+  });
+  return stats;
+}
+
+// ════════════════════════════════════════════════════════════
+//  ACUMULADO
+// ════════════════════════════════════════════════════════════
+const SEM1 = ['Enero','Febrero','Marzo','Abril','Mayo','Junio'];
+const SEM2 = ['Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function renderAcumulado() {
+  const gradeFilter = document.getElementById('accGrade')?.value || '';
+  const students = DB.students.filter(s => !gradeFilter || s.grade === gradeFilter);
+
+  // Por mes
+  const monthGrid = document.getElementById('accMonthGrid');
+  monthGrid.innerHTML = DB.months.length ? DB.months.map(m => {
+    const data = calcMonthStats(students, m);
+    const total = data.P + data.A + data.E;
+    const pct = total ? Math.round(data.P / total * 100) : 0;
+    return `<div class="semester-card">
+      <div class="semester-label">${m}</div>
+      <div style="display:flex;justify-content:space-around;margin-bottom:12px;">
+        <div class="acc-circle" style="background:rgba(67,217,173,0.1)">
+          <span class="val" style="color:var(--present)">${data.P}</span>
+          <span class="lbl" style="color:var(--text3)">Pres.</span>
+        </div>
+        <div class="acc-circle" style="background:rgba(255,101,132,0.1)">
+          <span class="val" style="color:var(--absent)">${data.A}</span>
+          <span class="lbl" style="color:var(--text3)">Fall.</span>
+        </div>
+        <div class="acc-circle" style="background:rgba(247,201,72,0.1)">
+          <span class="val" style="color:var(--excuse)">${data.E}</span>
+          <span class="lbl" style="color:var(--text3)">Exc.</span>
+        </div>
+      </div>
+      <div class="progress-bar-wrap" style="width:100%;height:8px;border-radius:99px;">
+        <div class="progress-bar-fill" style="width:${pct}%;background:${pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)'}"></div>
+      </div>
+      <div style="font-size:12px;color:var(--text2);margin-top:6px;">${pct}% asistencia</div>
+    </div>`;
+  }).join('') : '<p class="text-dim text-sm">No hay meses habilitados. Configúrelos en ⚙️.</p>';
+
+  // Semestres
+  renderSemester('accSem1', students, SEM1);
+  renderSemester('accSem2', students, SEM2);
+
+  // Anual
+  const allData = calcMonthStatsMultiple(students, DB.months);
+  const allTotal = allData.P + allData.A + allData.E;
+  const allPct = allTotal ? Math.round(allData.P / allTotal * 100) : 0;
+  document.getElementById('accYear').innerHTML = `
+    <div class="semester-card">
+      <div class="semester-label">✅ Total Presencias</div>
+      <div class="stat-value" style="color:var(--present);font-family:'Syne',sans-serif;font-size:40px;font-weight:800">${allData.P}</div>
+    </div>
+    <div class="semester-card">
+      <div class="semester-label">❌ Total Fallas</div>
+      <div class="stat-value" style="color:var(--absent);font-family:'Syne',sans-serif;font-size:40px;font-weight:800">${allData.A}</div>
+    </div>
+    <div class="semester-card">
+      <div class="semester-label">📋 Total Excusas</div>
+      <div class="stat-value" style="color:var(--excuse);font-family:'Syne',sans-serif;font-size:40px;font-weight:800">${allData.E}</div>
+    </div>`;
+}
+
+function renderSemester(id, students, months) {
+  const data = calcMonthStatsMultiple(students, months.filter(m => DB.months.includes(m)));
+  document.getElementById(id).innerHTML = `
+    <div class="semester-card">
+      <div class="semester-label">Presencias</div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--present)">${data.P}</div>
+    </div>
+    <div class="semester-card">
+      <div class="semester-label">Fallas</div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--absent)">${data.A}</div>
+    </div>
+    <div class="semester-card">
+      <div class="semester-label">Excusas</div>
+      <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--excuse)">${data.E}</div>
+    </div>`;
+}
+
+function calcMonthStats(students, month) {
+  const result = { P: 0, A: 0, E: 0 };
+  students.forEach(s => {
+    const gradeData = (DB.attendance[s.grade] || {})[month] || {};
+    Object.keys(gradeData).forEach(date => {
+      Object.keys(gradeData[date]).forEach(session => {
+        const val = gradeData[date][session][s.code] || 'P';
+        result[val] = (result[val] || 0) + 1;
+      });
+    });
+  });
+  return result;
+}
+
+function calcMonthStatsMultiple(students, months) {
+  const result = { P: 0, A: 0, E: 0 };
+  months.forEach(m => {
+    const r = calcMonthStats(students, m);
+    result.P += r.P; result.A += r.A; result.E += r.E;
+  });
+  return result;
+}
+
+// ════════════════════════════════════════════════════════════
+//  REPORTE BOLETÍN
+// ════════════════════════════════════════════════════════════
+function renderReporte() {
+  const grade = document.getElementById('repGrade')?.value || '';
+  const container = document.getElementById('reportContent');
+  if (!grade) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📄</div><h3>Seleccione un grupo</h3></div>';
+    return;
+  }
+
+  const students = DB.students.filter(s => s.grade === grade);
+  const rows = students.map((s, i) => {
+    const year = getStudentStats(s.code, s.grade);
+    const total = year.P + year.A + year.E;
+    const pct = total ? Math.round(year.P / total * 100) : 0;
+    const monthCells = DB.months.map(m => {
+      const ms = getStudentStatsByMonth(s.code, s.grade, m);
+      return `<td style="text-align:center;font-size:11px">
+        <span style="color:var(--absent);font-weight:700">${ms.A}</span>${ms.E ? `<span style="color:var(--excuse)">+${ms.E}</span>` : ''}
+      </td>`;
+    }).join('');
+    return `<tr>
+      <td style="font-size:11px;color:var(--text3)">${i+1}</td>
+      <td style="font-weight:500;white-space:nowrap">${s.name}</td>
+      ${monthCells}
+      <td style="text-align:center;font-weight:700;color:var(--absent)">${year.A}</td>
+      <td style="text-align:center;font-weight:700;color:var(--excuse)">${year.E}</td>
+      <td style="text-align:center;font-weight:700;color:${pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)'}">${pct}%</td>
+    </tr>`;
+  }).join('');
+
+  const monthHeaders = DB.months.map(m => `<th style="text-align:center;font-size:9px">${m.substr(0,3)}</th>`).join('');
+
+  container.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px" id="printZone">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800">${DB.config.school}</div>
+          <div style="font-size:13px;color:var(--text2)">Reporte de Asistencia — ${grade}</div>
+          <div style="font-size:12px;color:var(--text3)">${DB.config.teacher} · Año ${DB.config.year}</div>
+        </div>
+        <div style="text-align:right;font-size:11px;color:var(--text3)">
+          Generado: ${new Date().toLocaleDateString('es-CO')}<br>
+          ${students.length} estudiantes
+        </div>
+      </div>
+      <div class="att-table-wrap">
+        <table class="report-table" style="font-size:12px">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Estudiante</th>
+              ${monthHeaders}
+              <th style="text-align:center">Tot.F</th>
+              <th style="text-align:center">Tot.E</th>
+              <th style="text-align:center">%Asist</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+      <div style="font-size:10px;color:var(--text3);margin-top:16px">
+        F = Falla sin excusa &nbsp;|&nbsp; E = Excusa &nbsp;|&nbsp; % = Porcentaje de asistencia
+      </div>
+    </div>`;
+}
+
+function getStudentStatsByMonth(code, grade, month) {
+  const stats = { P: 0, A: 0, E: 0 };
+  const mData = ((DB.attendance[grade] || {})[month]) || {};
+  Object.keys(mData).forEach(date => {
+    Object.keys(mData[date]).forEach(session => {
+      const val = mData[date][session][code];
+      if (val) stats[val]++;
+    });
+  });
+  return stats;
+}
+
+function printReport() {
+  const zone = document.getElementById('printZone');
+  if (!zone) { toast('Seleccione un grupo primero', 'error'); return; }
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8"><title>Reporte Asistencia</title>
+    <style>
+      body{font-family:Arial,sans-serif;color:#111;background:#fff;padding:20px}
+      table{width:100%;border-collapse:collapse;font-size:11px}
+      th,td{border:1px solid #ccc;padding:5px 8px}
+      th{background:#f0f0f0;font-weight:600}
+    </style>
+    </head><body>
+    ${zone.innerHTML}
+    </body></html>`);
+  w.document.close();
+  w.print();
+}
+
+// ════════════════════════════════════════════════════════════
+//  CONFIGURACIÓN
+// ════════════════════════════════════════════════════════════
+const ICON_OPTIONS = {
+  P: ['✅','☑️','👍','🟢','⭐','🎯','✔️','🙋'],
+  A: ['❌','🔴','😴','⛔','✖️','🚫','💤','😶'],
+  E: ['📋','📝','🟡','⚠️','🔖','📌','🗒️','💬']
+};
+
+function renderConfig() {
+  // Iconos
+  ['P','A','E'].forEach(state => {
+    const picker = document.getElementById('iconPicker' + state);
+    picker.innerHTML = ICON_OPTIONS[state].map(icon => `
+      <div class="icon-opt ${DB.config.icons[state] === icon ? 'selected' : ''}"
+        onclick="selectIcon('${state}','${icon}',this)">${icon}</div>
+    `).join('');
+  });
+
+  // Campos config
+  document.getElementById('cfgScriptUrl').value = DB.config.scriptUrl || '';
+  document.getElementById('cfgTeacher').value = DB.config.teacher || '';
+  document.getElementById('cfgSchool').value = DB.config.school || '';
+  document.getElementById('cfgYear').value = DB.config.year || new Date().getFullYear();
+
+  // Grados
+  renderGradesList();
+  renderMonthsList();
+  renderStudentList();
+}
+
+function selectIcon(state, icon, el) {
+  document.querySelectorAll('#iconPicker' + state + ' .icon-opt').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  DB.config.icons[state] = icon;
+}
+
+function saveIcons() {
+  saveDB();
+  toast('Iconos guardados', 'success');
+}
+
+function saveConfig() {
+  DB.config.scriptUrl = document.getElementById('cfgScriptUrl').value.trim();
+  DB.config.teacher = document.getElementById('cfgTeacher').value.trim();
+  DB.config.school = document.getElementById('cfgSchool').value.trim();
+  DB.config.year = parseInt(document.getElementById('cfgYear').value) || new Date().getFullYear();
+  saveDB();
+  toast('Configuración guardada', 'success');
+}
+
+async function testConnection() {
+  if (!DB.config.scriptUrl) { toast('URL no configurada', 'error'); return; }
+  try {
+    const url = DB.config.scriptUrl + '?action=ping&callback=pingCb';
+    await new Promise((res, rej) => {
+      const s = document.createElement('script');
+      window.pingCb = r => { res(r); s.remove(); delete window.pingCb; };
+      s.src = url; s.onerror = rej;
+      document.head.appendChild(s);
+      setTimeout(() => rej(new Error('timeout')), 8000);
+    });
+    toast('Conexión exitosa ✅', 'success');
+  } catch(e) {
+    toast('No se pudo conectar — revise la URL', 'error');
+  }
+}
+
+// Grados
+function renderGradesList() {
+  document.getElementById('gradesList').innerHTML = DB.grades.length
+    ? DB.grades.map(g => `<span class="grade-chip">${g} <span class="remove-chip" onclick="removeGrade('${g}')">×</span></span>`).join('')
+    : '<p class="text-dim text-sm">No hay grupos. Agréguelos abajo.</p>';
+}
+
+function addGrade() {
+  const name = document.getElementById('newGradeName').value.trim();
+  if (!name) { toast('Escriba el nombre del grupo', 'error'); return; }
+  if (DB.grades.includes(name)) { toast('Ese grupo ya existe', 'error'); return; }
+  DB.grades.push(name);
+  DB.sessions[name] = [];
+  document.getElementById('newGradeName').value = '';
+  saveDB();
+  renderGradesList();
+  populateSelects();
+  toast('Grupo agregado: ' + name, 'success');
+}
+
+function removeGrade(g) {
+  if (!confirm('¿Eliminar el grupo "' + g + '"? Se perderán sus datos de asistencia.')) return;
+  DB.grades = DB.grades.filter(x => x !== g);
+  delete DB.sessions[g];
+  delete DB.attendance[g];
+  saveDB();
+  renderGradesList();
+  populateSelects();
+  toast('Grupo eliminado', 'info');
+}
+
+// Meses
+function renderMonthsList() {
+  document.getElementById('monthsList').innerHTML = DB.months.length
+    ? DB.months.map(m => `<span class="grade-chip" style="background:rgba(67,217,173,0.1);border-color:rgba(67,217,173,0.3);color:var(--present)">${m} <span class="remove-chip" onclick="removeMonth('${m}')">×</span></span>`).join('')
+    : '<p class="text-dim text-sm">No hay meses activos.</p>';
+}
+
+function addMonth() {
+  const m = document.getElementById('newMonthSel').value;
+  if (!m) { toast('Seleccione un mes', 'error'); return; }
+  if (DB.months.includes(m)) { toast('Ese mes ya está activo', 'error'); return; }
+  DB.months.push(m);
+  saveDB();
+  renderMonthsList();
+  populateSelects();
+  toast('Mes agregado: ' + m, 'success');
+}
+
+function removeMonth(m) {
+  DB.months = DB.months.filter(x => x !== m);
+  saveDB();
+  renderMonthsList();
+  populateSelects();
+}
+
+// Estudiantes
+function addStudent() {
+  const grade = document.getElementById('stuGrade').value;
+  const code = document.getElementById('stuCode').value.trim();
+  const name = document.getElementById('stuName').value.trim();
+  if (!grade || !code || !name) { toast('Complete todos los campos', 'error'); return; }
+  if (DB.students.find(s => s.code === code)) { toast('Código duplicado', 'error'); return; }
+  DB.students.push({ code, name, grade });
+  document.getElementById('stuCode').value = '';
+  document.getElementById('stuName').value = '';
+  saveDB();
+  renderStudentList();
+  toast('Estudiante agregado', 'success');
+}
+
+function removeStudent(code) {
+  DB.students = DB.students.filter(s => s.code !== code);
+  saveDB();
+  renderStudentList();
+}
+
+function renderStudentList() {
+  const filter = document.getElementById('stuFilterGrade')?.value || '';
+  const list = filter ? DB.students.filter(s => s.grade === filter) : DB.students;
+  const body = document.getElementById('studentListBody');
+  if (!list.length) {
+    body.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text3)">Sin estudiantes</td></tr>';
+    return;
+  }
+  body.innerHTML = list.map((s, i) => `
+    <tr>
+      <td class="text-dim text-xs">${i+1}</td>
+      <td class="text-xs" style="font-family:monospace;color:var(--text2)">${s.code}</td>
+      <td class="student-name">${s.name}</td>
+      <td><span style="font-size:12px;color:var(--text2)">${s.grade}</span></td>
+      <td><button class="btn btn-danger btn-sm" onclick="removeStudent('${s.code}')">Eliminar</button></td>
+    </tr>`).join('');
+}
+
+// ════════════════════════════════════════════════════════════
+//  CARGA DE ARCHIVO EXCEL / CSV
+// ════════════════════════════════════════════════════════════
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    try {
+      let rows = [];
+      if (file.name.endsWith('.csv')) {
+        rows = parseCSV(ev.target.result);
+      } else {
+        const wb = XLSX.read(ev.target.result, { type: 'binary' });
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
+      }
+      // Buscar columnas: código, nombre, grupo
+      const header = rows[0] ? rows[0].map(h => String(h).toLowerCase().trim()) : [];
+      const cIdx = findCol(header, ['código','codigo','cod','code','id']);
+      const nIdx = findCol(header, ['nombre','name','apellido','estudiante']);
+      const gIdx = findCol(header, ['grado','grupo','group','grade','clase']);
+
+      if (cIdx === -1 || nIdx === -1) {
+        toast('No se encontraron columnas Código y Nombre', 'error');
+        return;
+      }
+
+      let added = 0, skipped = 0;
+      rows.slice(1).forEach(row => {
+        const code = String(row[cIdx] || '').trim();
+        const name = String(row[nIdx] || '').trim();
+        const grade = gIdx !== -1 ? String(row[gIdx] || '').trim() : '';
+        if (!code || !name) return;
+        if (DB.students.find(s => s.code === code)) { skipped++; return; }
+        DB.students.push({ code, name, grade });
+        added++;
+      });
+
+      saveDB();
+      renderStudentList();
+      document.getElementById('uploadPreview').innerHTML =
+        `<div class="toast success" style="position:static;max-width:none">✅ ${added} estudiantes agregados. ${skipped} duplicados omitidos.</div>`;
+      toast(`${added} estudiantes cargados`, 'success');
+    } catch(err) {
+      toast('Error leyendo archivo: ' + err.message, 'error');
+    }
+  };
+  if (file.name.endsWith('.csv')) reader.readAsText(file);
+  else reader.readAsBinaryString(file);
+}
+
+function parseCSV(text) {
+  return text.split('\n').map(line => line.split(',').map(c => c.trim().replace(/^"|"$/g, '')));
+}
+
+function findCol(headers, candidates) {
+  for (const c of candidates) {
+    const idx = headers.findIndex(h => h.includes(c));
+    if (idx !== -1) return idx;
+  }
+  return -1;
+}
+
+// ════════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════════
+loadDB();
+populateSelects();
+
+// Si no hay datos, agregar meses por defecto del año escolar colombiano
+if (!DB.months.length) {
+  DB.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
+  saveDB();
+}
+
+// Fecha de hoy por defecto
+document.getElementById('selDate').value = new Date().toISOString().split('T')[0];
+
+// Render inicial config si es necesario
+populateSelects();
+</script>
+</body>
+</html>
