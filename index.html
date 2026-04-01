@@ -972,6 +972,51 @@
   }
 
   /* Añadir fecha button */
+  /* ── CALENDARIO DE FESTIVOS ── */
+  .festivos-wrap { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+  .festivos-mes-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 14px; background: var(--surface2);
+    cursor: pointer; user-select: none;
+    font-size: 13px; font-weight: 600;
+    transition: background var(--transition);
+  }
+  .festivos-mes-header:hover { background: var(--mat-bg); }
+  .festivos-mes-header .chevron { transition: transform 0.2s; font-size: 11px; color: var(--text3); }
+  .festivos-mes-body { display: none; padding: 12px; border-top: 1px solid var(--border); }
+  .festivos-mes-body.open { display: block; }
+  .mini-cal {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 3px; margin-top: 8px;
+  }
+  .mini-cal .cal-head {
+    text-align: center; font-size: 9px; font-weight: 700;
+    color: var(--text3); text-transform: uppercase; padding: 3px 0;
+  }
+  .mini-cal .cal-day {
+    text-align: center; font-size: 11px; font-weight: 500;
+    padding: 5px 2px; border-radius: 6px; cursor: pointer;
+    transition: all 0.15s; border: 1px solid transparent;
+    min-height: 28px; display: flex; align-items: center; justify-content: center;
+  }
+  .mini-cal .cal-day:hover { background: var(--mat-bg); border-color: var(--mat-border); }
+  .mini-cal .cal-day.festivo {
+    background: rgba(244,63,94,0.15); border-color: rgba(244,63,94,0.4);
+    color: var(--absent); font-weight: 700;
+  }
+  .mini-cal .cal-day.finde { color: var(--text3); }
+  .mini-cal .cal-day.empty { cursor: default; pointer-events: none; }
+  .mini-cal .cal-day.hoy { border-color: var(--mat); }
+  .festivos-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .festivo-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 600;
+    background: rgba(244,63,94,0.12); color: var(--absent);
+    border: 1px solid rgba(244,63,94,0.3);
+  }
+  .festivo-chip .rm { cursor: pointer; opacity: 0.6; }
+  .festivo-chip .rm:hover { opacity: 1; }
+
   .add-date-col {
     min-width: 60px;
     display: flex;
@@ -1333,23 +1378,26 @@
           <div style="display:flex;gap:8px;">
             <select class="select-styled" id="newMonthSel" style="flex:1">
               <option value="">— Seleccionar mes —</option>
-              <option value="Enero">Enero</option>
-              <option value="Febrero">Febrero</option>
-              <option value="Marzo">Marzo</option>
-              <option value="Abril">Abril</option>
-              <option value="Mayo">Mayo</option>
-              <option value="Junio">Junio</option>
-              <option value="Julio">Julio</option>
-              <option value="Agosto">Agosto</option>
-              <option value="Septiembre">Septiembre</option>
-              <option value="Octubre">Octubre</option>
-              <option value="Noviembre">Noviembre</option>
-              <option value="Diciembre">Diciembre</option>
+              <option value="Enero">Enero</option><option value="Febrero">Febrero</option>
+              <option value="Marzo">Marzo</option><option value="Abril">Abril</option>
+              <option value="Mayo">Mayo</option><option value="Junio">Junio</option>
+              <option value="Julio">Julio</option><option value="Agosto">Agosto</option>
+              <option value="Septiembre">Septiembre</option><option value="Octubre">Octubre</option>
+              <option value="Noviembre">Noviembre</option><option value="Diciembre">Diciembre</option>
             </select>
             <button class="btn btn-primary btn-sm" onclick="addMonth()">＋</button>
           </div>
         </div>
 
+      </div>
+
+      <!-- Festivos -->
+      <div class="card section-gap">
+        <div class="card-title">🗓️ Días Festivos</div>
+        <p class="text-sm text-muted" style="margin-bottom:14px">
+          Marque los festivos haciendo clic en el día en el calendario. Los festivos aparecerán bloqueados en el planillón y no se podrán activar como días de clase.
+        </p>
+        <div class="festivos-wrap" id="festivosCalendario"></div>
       </div>
 
       <!-- Estudiantes -->
@@ -1761,20 +1809,23 @@ function renderAttTable() {
     const incSat = DB.config.includeSat || false;
     const incSun = DB.config.includeSun || false;
     const isFinde = (dow === 6 && !incSat) || (dow === 0 && !incSun);
+    const isFestivo = getFestivos().includes(dateStr);
     const isClaseDay = classDays.includes(dateStr);
     return { d, dateStr, dow, isFinde, isClaseDay, diaNombre: DIAS_ES[dow] };
   });
 
   // ── CABECERA ──
   const thDias = allDays.map(day => {
-    const cls = day.isFinde ? 'col-dia dia-finde' : day.isClaseDay ? 'col-dia dia-activo' : 'col-dia';
+    const isBlocked = day.isFinde || day.isFestivo;
+    const cls = isBlocked ? (day.isFestivo ? 'col-dia dia-finde' : 'col-dia dia-finde') : day.isClaseDay ? 'col-dia dia-activo' : 'col-dia';
     const btnCls = day.isClaseDay ? 'btn-toggle-dia activo' : 'btn-toggle-dia';
-    const btnTitle = day.isClaseDay ? 'Quitar clase' : 'Marcar como día de clase';
-    const toggleFn = day.isFinde ? '' : `onclick="toggleClassDay('${month}','${day.dateStr}')" title="${btnTitle}"`;
-    return `<th class="${cls}">
+    const btnTitle = day.isFestivo ? 'Festivo — no disponible' : day.isClaseDay ? 'Quitar clase' : 'Marcar como día de clase';
+    const toggleFn = isBlocked ? '' : `onclick="toggleClassDay('${month}','${day.dateStr}')" title="${btnTitle}"`;
+    const festivoMark = day.isFestivo ? '<span style="font-size:9px;color:var(--absent)">festivo</span>' : '';
+    return `<th class="${cls}" ${day.isFestivo ? 'title="Día festivo"' : ''}>
       <span class="dia-name">${day.diaNombre}</span>
       <span class="dia-num">${day.d}</span>
-      ${!day.isFinde ? `<button class="${btnCls}" ${toggleFn}>${day.isClaseDay ? '✓' : '+'}</button>` : '<span style="display:block;height:22px"></span>'}
+      ${day.isFestivo ? `<span style="display:block;font-size:8px;color:var(--absent);margin-top:2px">🔴</span>` : !isBlocked ? `<button class="${btnCls}" ${toggleFn}>${day.isClaseDay ? '✓' : '+'}</button>` : '<span style="display:block;height:22px"></span>'}
     </th>`;
   }).join('');
 
@@ -1785,6 +1836,9 @@ function renderAttTable() {
     let stuP = 0, stuA = 0, stuE = 0;
 
     const tdDias = allDays.map(day => {
+      if (day.isFestivo) {
+        return `<td class="col-att dia-finde" title="Día festivo — no hay clase"><div class="att-circle inactive" style="font-size:12px">🔴</div></td>`;
+      }
       if (day.isFinde) {
         return `<td class="col-att dia-finde"><div class="att-circle inactive"></div></td>`;
       }
@@ -1913,9 +1967,10 @@ function cycleState(code, dateStr, month) {
 }
 
 function markAll(state) {
-  if (!currentGrade || !currentMonth) { toast('Seleccione grupo y mes primero', 'error'); return; }
+  if (!currentGrade) { toast('Seleccione primero una materia y grupo', 'error'); return; }
+  if (!currentMonth) { toast('Seleccione el mes', 'error'); return; }
   const classDays = getClassDays(currentMonth);
-  if (!classDays.length) { toast('No hay días de clase marcados en este mes', 'error'); return; }
+  if (!classDays.length) { toast('Active primero los días de clase en el planillón (botón +)', 'info'); return; }
   const session = currentGrade;
   DB.students.filter(s => s.grade === currentGrade).forEach(s => {
     classDays.forEach(f => {
@@ -1925,7 +1980,7 @@ function markAll(state) {
   });
   saveDB();
   renderAttTable();
-  toast(`Todos marcados como ${state === 'P' ? 'Presentes' : 'Ausentes'} en ${classDays.length} días`, 'success');
+  toast(`Todos marcados como ${state === 'P' ? 'Presentes' : 'Ausentes'} — ${classDays.length} días`, 'success');
 }
 
 function updateStats(states) {
@@ -2390,6 +2445,7 @@ function renderConfig() {
   // Grados
   renderGradesList();
   renderMonthsList();
+  renderFestivosCalendario();
 
   // Agregar opción "sin grupo" al filtro
   const sfg = document.getElementById('stuFilterGrade');
@@ -2970,6 +3026,106 @@ function addTodayEntry() {
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('selDate').value = today;
   onDateChange();
+}
+
+// ════════════════════════════════════════════════════════════
+//  DÍAS FESTIVOS — calendario por mes en configuración
+// ════════════════════════════════════════════════════════════
+
+// DB.festivos = ['2025-01-01','2025-03-24',...] — fechas ISO
+
+function getFestivos() {
+  if (!DB.festivos) DB.festivos = [];
+  return DB.festivos;
+}
+
+function toggleFestivo(dateStr) {
+  const festivos = getFestivos();
+  const idx = festivos.indexOf(dateStr);
+  if (idx === -1) festivos.push(dateStr);
+  else festivos.splice(idx, 1);
+  saveDB();
+  renderFestivosCalendario();
+  // Si el planillón está activo, re-renderizar
+  if (currentGrade && currentMonth) renderAttTable();
+}
+
+function renderFestivosCalendario() {
+  const wrap = document.getElementById('festivosCalendario');
+  if (!wrap) return;
+  const year = DB.config.year || new Date().getFullYear();
+  const festivos = getFestivos();
+  const hoy = new Date().toISOString().split('T')[0];
+
+  const mesesActivos = DB.months.length ? DB.months : [
+    'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+    'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+  ];
+
+  wrap.innerHTML = mesesActivos.map(mes => {
+    const mesNum = MESES_NUM[mes] || 1;
+    const diasEnMes = new Date(year, mesNum, 0).getDate();
+    const primerDia = new Date(`${year}-${String(mesNum).padStart(2,'0')}-01T12:00:00`).getDay();
+    const festivosMes = festivos.filter(f => f.startsWith(`${year}-${String(mesNum).padStart(2,'0')}`));
+    const count = festivosMes.length;
+
+    // Chips de festivos del mes
+    const chips = festivosMes.map(f => {
+      const d = new Date(f + 'T12:00:00');
+      const label = d.toLocaleDateString('es-CO', {day:'numeric', weekday:'short'});
+      return `<span class="festivo-chip">${label}
+        <span class="rm" onclick="toggleFestivo('${f}')" title="Quitar">×</span>
+      </span>`;
+    }).join('');
+
+    // Celdas del calendario
+    const heads = ['D','L','M','X','J','V','S'].map(d =>
+      `<div class="cal-head">${d}</div>`).join('');
+
+    const empties = Array(primerDia).fill('<div class="cal-day empty"></div>').join('');
+
+    const days = Array.from({length: diasEnMes}, (_, i) => {
+      const d = i + 1;
+      const dateStr = `${year}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dt = new Date(dateStr + 'T12:00:00');
+      const dow = dt.getDay();
+      const isFinde = dow === 0 || dow === 6;
+      const isFestivo = festivos.includes(dateStr);
+      const isHoy = dateStr === hoy;
+      const cls = [
+        'cal-day',
+        isFestivo ? 'festivo' : '',
+        isFinde ? 'finde' : '',
+        isHoy ? 'hoy' : ''
+      ].filter(Boolean).join(' ');
+      return `<div class="${cls}" onclick="toggleFestivo('${dateStr}')" title="${dateStr}">${d}</div>`;
+    }).join('');
+
+    return `<div>
+      <div class="festivos-mes-header" onclick="toggleFestivosMes(this)">
+        <span>${mes} ${year} ${count ? `<span style="color:var(--absent);font-size:11px">(${count} festivo${count>1?'s':''})</span>` : ''}</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="festivos-mes-body">
+        <div class="mini-cal">
+          ${heads}${empties}${days}
+        </div>
+        ${chips ? `<div class="festivos-chips">${chips}</div>` : '<p class="text-xs text-dim mt-8">Sin festivos marcados este mes.</p>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleFestivosMes(header) {
+  const body = header.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  // Cerrar todos
+  document.querySelectorAll('.festivos-mes-body').forEach(b => b.classList.remove('open'));
+  document.querySelectorAll('.festivos-mes-header .chevron').forEach(c => c.style.transform = '');
+  if (!isOpen) {
+    body.classList.add('open');
+    header.querySelector('.chevron').style.transform = 'rotate(180deg)';
+  }
 }
 
 // ════════════════════════════════════════════════════════════
