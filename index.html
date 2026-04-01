@@ -6,23 +6,41 @@
 <title>Asistencia · I.E.D. Pestalozzi</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
+  /* ── TEMA AZUL MARINO (igual plataforma de notas) ── */
   :root {
-    --bg: #0f0f13;
-    --surface: #18181f;
-    --surface2: #22222c;
-    --border: #2e2e3a;
-    --accent: #6c63ff;
-    --accent2: #ff6584;
+    --bg: #05111f;
+    --surface: #0a1f3d;
+    --surface2: #0d2a52;
+    --border: #1a3a6e;
+    --accent: #3b82f6;
+    --accent2: #60a5fa;
     --accent3: #43d9ad;
-    --text: #eeeef5;
-    --text2: #8888a0;
-    --text3: #55556a;
+    --text: #e8f0fe;
+    --text2: #7a9cc8;
+    --text3: #3d5a80;
     --present: #43d9ad;
     --absent: #ff6584;
     --excuse: #f7c948;
     --radius: 14px;
-    --shadow: 0 8px 32px rgba(0,0,0,0.4);
+    --shadow: 0 8px 32px rgba(0,0,0,0.5);
     --transition: 0.22s cubic-bezier(.4,0,.2,1);
+  }
+  /* ── TEMA BLANCO ── */
+  [data-theme="light"] {
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --surface2: #e8f0fe;
+    --border: #c5d5ea;
+    --accent: #1d4ed8;
+    --accent2: #3b82f6;
+    --accent3: #059669;
+    --text: #0f172a;
+    --text2: #475569;
+    --text3: #94a3b8;
+    --present: #059669;
+    --absent: #dc2626;
+    --excuse: #d97706;
+    --shadow: 0 4px 20px rgba(0,0,0,0.1);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -644,6 +662,10 @@
     <span class="nav-label">Reporte / Boletín</span>
   </div>
   <div class="sidebar-spacer"></div>
+  <div class="nav-item" id="themeToggleBtn" onclick="toggleTheme()" title="Cambiar tema">
+    <span class="nav-icon" id="themeIcon">☀️</span>
+    <span class="nav-label">Tema claro</span>
+  </div>
   <div class="nav-item" onclick="showPage('config')">
     <span class="nav-icon">⚙️</span>
     <span class="nav-label">Configuración</span>
@@ -685,8 +707,11 @@
         <select class="select-styled" id="selMonth" onchange="onMonthChange()">
           <option value="">— Mes —</option>
         </select>
-        <input type="date" class="select-styled" id="selDate" onchange="onDateChange()">
+        <input type="date" class="select-styled" id="selDate" onchange="onDateChange()" title="Registrar fecha específica">
+        <button class="btn btn-secondary btn-sm" onclick="addTodayEntry()" title="Agregar entrada para hoy">📅 Hoy</button>
       </div>
+      <!-- Vista mes completo -->
+      <div id="monthCalendarWrap" style="display:none;margin-bottom:20px;"></div>
 
       <!-- Stats rápidas -->
       <div class="stats-row" id="quickStats">
@@ -806,17 +831,22 @@
     <div class="header">
       <div class="header-left">
         <h1>📄 Reporte para Boletín</h1>
-        <p>Exportar resumen oficial para coordinación o boletín</p>
+        <p>Reporte oficial para coordinación o boletín — 4 períodos</p>
       </div>
-      <div class="header-right">
+      <div class="header-right" style="flex-wrap:wrap;gap:8px;">
         <select class="select-styled" id="repGrade" onchange="renderReporte()">
           <option value="">— Seleccione grupo —</option>
         </select>
-        <select class="select-styled" id="repPeriod">
-          <option value="month">Por mes</option>
-          <option value="sem1">Semestre 1</option>
-          <option value="sem2">Semestre 2</option>
-          <option value="year">Año completo</option>
+        <select class="select-styled" id="repView" onchange="renderReporte()">
+          <option value="year">📅 Año completo</option>
+          <option value="p1">Período 1</option>
+          <option value="p2">Período 2</option>
+          <option value="p3">Período 3</option>
+          <option value="p4">Período 4</option>
+          <option value="month">Por mes específico</option>
+        </select>
+        <select class="select-styled" id="repMonth" onchange="renderReporte()" style="display:none">
+          <option value="">— Mes —</option>
         </select>
         <button class="btn btn-primary" onclick="printReport()">🖨️ Imprimir</button>
       </div>
@@ -1213,17 +1243,20 @@ function onGradeChange() {
   // La "sesión" ahora ES el nombre completo del grupo (materia + grupo)
   currentSession = currentGrade;
   renderAttTable();
+  renderMonthCalendar();
   updateHeaderSubtitle();
 }
 
 function onMonthChange() {
   currentMonth = document.getElementById('selMonth').value;
   renderAttTable();
+  renderMonthCalendar();
 }
 
 function onDateChange() {
   currentDate = document.getElementById('selDate').value;
   renderAttTable();
+  renderMonthCalendar();
   updateHeaderSubtitle();
 }
 
@@ -1566,69 +1599,173 @@ function calcMonthStatsMultiple(students, months) {
 }
 
 // ════════════════════════════════════════════════════════════
-//  REPORTE BOLETÍN
+//  PERIODOS — 4 períodos del año escolar colombiano
+//  Configurable: cada período = array de meses
+// ════════════════════════════════════════════════════════════
+const PERIODOS = {
+  p1: ['Enero','Febrero','Marzo'],
+  p2: ['Abril','Mayo','Junio'],
+  p3: ['Julio','Agosto','Septiembre'],
+  p4: ['Octubre','Noviembre','Diciembre']
+};
+const PERIODO_LABELS = { p1:'Período 1', p2:'Período 2', p3:'Período 3', p4:'Período 4' };
+
+function getMesesParaVista(vista, mesEspecifico) {
+  if (vista === 'year') return DB.months;
+  if (vista === 'month') return mesEspecifico ? [mesEspecifico] : DB.months.slice(0,1);
+  return (PERIODOS[vista] || []).filter(m => DB.months.includes(m));
+}
+
+// ════════════════════════════════════════════════════════════
+//  REPORTE BOLETÍN — 4 períodos + mes + año
 // ════════════════════════════════════════════════════════════
 function renderReporte() {
   const grade = document.getElementById('repGrade')?.value || '';
+  const vista = document.getElementById('repView')?.value || 'year';
+  const mesEspecifico = document.getElementById('repMonth')?.value || '';
   const container = document.getElementById('reportContent');
+
+  // Mostrar/ocultar select de mes
+  const repMonthSel = document.getElementById('repMonth');
+  if (repMonthSel) {
+    repMonthSel.style.display = vista === 'month' ? '' : 'none';
+    // Poblar meses si está vacío
+    if (repMonthSel.options.length <= 1) {
+      DB.months.forEach(m => {
+        const o = document.createElement('option');
+        o.value = m; o.textContent = m;
+        repMonthSel.appendChild(o);
+      });
+    }
+  }
+
   if (!grade) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">📄</div><h3>Seleccione un grupo</h3></div>';
     return;
   }
 
   const students = DB.students.filter(s => s.grade === grade);
-  const rows = students.map((s, i) => {
-    const year = getStudentStats(s.code, s.grade);
-    const total = year.P + year.A + year.E;
-    const pct = total ? Math.round(year.P / total * 100) : 0;
-    const monthCells = DB.months.map(m => {
-      const ms = getStudentStatsByMonth(s.code, s.grade, m);
-      return `<td style="text-align:center;font-size:11px">
-        <span style="color:var(--absent);font-weight:700">${ms.A}</span>${ms.E ? `<span style="color:var(--excuse)">+${ms.E}</span>` : ''}
-      </td>`;
-    }).join('');
-    return `<tr>
-      <td style="font-size:11px;color:var(--text3)">${i+1}</td>
-      <td style="font-weight:500;white-space:nowrap">${s.name}</td>
-      ${monthCells}
-      <td style="text-align:center;font-weight:700;color:var(--absent)">${year.A}</td>
-      <td style="text-align:center;font-weight:700;color:var(--excuse)">${year.E}</td>
-      <td style="text-align:center;font-weight:700;color:${pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)'}">${pct}%</td>
-    </tr>`;
-  }).join('');
+  if (!students.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3></div>';
+    return;
+  }
 
-  const monthHeaders = DB.months.map(m => `<th style="text-align:center;font-size:9px">${m.substr(0,3)}</th>`).join('');
+  const mesesVista = getMesesParaVista(vista, mesEspecifico);
+  const vistaLabel = vista === 'year' ? 'Año completo' :
+                     vista === 'month' ? (mesEspecifico || 'Mes') :
+                     PERIODO_LABELS[vista];
+
+  // ── Cabeceras de columnas según vista ──
+  let colHeaders = '';
+  let buildRow;
+
+  if (vista === 'year') {
+    // Vista año: columna por período
+    colHeaders = Object.keys(PERIODOS).map(p =>
+      `<th style="text-align:center;background:#0d2a52;color:#60a5fa;font-size:10px;padding:8px 6px">${PERIODO_LABELS[p]}<br><span style="font-size:9px;color:#7a9cc8">${(PERIODOS[p].filter(m=>DB.months.includes(m))).map(m=>m.substr(0,3)).join('-')}</span></th>`
+    ).join('') + '<th style="text-align:center;font-size:10px">Total F</th><th style="text-align:center;font-size:10px">Total E</th><th style="text-align:center;font-size:10px">% Asist.</th>';
+
+    buildRow = (s, i) => {
+      const pCells = Object.keys(PERIODOS).map(p => {
+        const meses = PERIODOS[p].filter(m => DB.months.includes(m));
+        const stats = meses.reduce((acc, m) => {
+          const ms = getStudentStatsByMonth(s.code, s.grade, m);
+          acc.A += ms.A; acc.E += ms.E; acc.P += ms.P;
+          return acc;
+        }, {A:0,E:0,P:0});
+        return `<td style="text-align:center;font-size:12px">
+          <span style="color:#ff6584;font-weight:700">${stats.A}</span>${stats.E?`<span style="color:#f7c948;font-size:10px"> +${stats.E}E</span>`:''}
+        </td>`;
+      }).join('');
+      const total = getStudentStats(s.code, s.grade);
+      const totalN = total.P+total.A+total.E;
+      const pct = totalN ? Math.round(total.P/totalN*100) : 0;
+      const pctColor = pct>=80?'#43d9ad':pct>=60?'#f7c948':'#ff6584';
+      return `<tr>
+        <td style="font-size:11px;color:#3d5a80;padding:7px 10px">${i+1}</td>
+        <td style="font-weight:500;white-space:nowrap;padding:7px 10px">${s.name}</td>
+        ${pCells}
+        <td style="text-align:center;font-weight:700;color:#ff6584;padding:7px">${total.A}</td>
+        <td style="text-align:center;font-weight:700;color:#f7c948;padding:7px">${total.E}</td>
+        <td style="text-align:center;font-weight:700;color:${pctColor};padding:7px">${pct}%</td>
+      </tr>`;
+    };
+
+  } else {
+    // Vista período o mes: columna por mes dentro de ese período/mes
+    colHeaders = mesesVista.map(m =>
+      `<th style="text-align:center;font-size:10px;padding:8px 6px">${m}</th>`
+    ).join('') + '<th style="text-align:center;font-size:10px">Total F</th><th style="text-align:center;font-size:10px">Total E</th><th style="text-align:center;font-size:10px">% Asist.</th>';
+
+    buildRow = (s, i) => {
+      const mCells = mesesVista.map(m => {
+        const ms = getStudentStatsByMonth(s.code, s.grade, m);
+        return `<td style="text-align:center;font-size:12px;padding:7px 6px">
+          <span style="color:#ff6584;font-weight:700">${ms.A||0}</span>${ms.E?`<span style="color:#f7c948;font-size:10px"> +${ms.E}E</span>`:''}
+        </td>`;
+      }).join('');
+      const totalA = mesesVista.reduce((a,m)=>a+getStudentStatsByMonth(s.code,s.grade,m).A,0);
+      const totalE = mesesVista.reduce((a,m)=>a+getStudentStatsByMonth(s.code,s.grade,m).E,0);
+      const totalP = mesesVista.reduce((a,m)=>a+getStudentStatsByMonth(s.code,s.grade,m).P,0);
+      const totalN = totalP+totalA+totalE;
+      const pct = totalN ? Math.round(totalP/totalN*100) : 0;
+      const pctColor = pct>=80?'#43d9ad':pct>=60?'#f7c948':'#ff6584';
+      return `<tr>
+        <td style="font-size:11px;color:#3d5a80;padding:7px 10px">${i+1}</td>
+        <td style="font-weight:500;white-space:nowrap;padding:7px 10px">${s.name}</td>
+        ${mCells}
+        <td style="text-align:center;font-weight:700;color:#ff6584;padding:7px">${totalA}</td>
+        <td style="text-align:center;font-weight:700;color:#f7c948;padding:7px">${totalE}</td>
+        <td style="text-align:center;font-weight:700;color:${pctColor};padding:7px">${pct}%</td>
+      </tr>`;
+    };
+  }
+
+  const tableRows = students.map(buildRow).join('');
 
   container.innerHTML = `
     <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:28px" id="printZone">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
         <div>
-          <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:800">${DB.config.school}</div>
-          <div style="font-size:13px;color:var(--text2)">Reporte de Asistencia — ${grade}</div>
-          <div style="font-size:12px;color:var(--text3)">${DB.config.teacher} · Año ${DB.config.year}</div>
+          <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text)">${DB.config.school}</div>
+          <div style="font-size:14px;color:var(--text2);margin-top:4px">Reporte de Asistencia — <strong style="color:var(--accent2)">${grade}</strong></div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px">${DB.config.teacher} · Año ${DB.config.year} · ${vistaLabel}</div>
         </div>
         <div style="text-align:right;font-size:11px;color:var(--text3)">
           Generado: ${new Date().toLocaleDateString('es-CO')}<br>
           ${students.length} estudiantes
         </div>
       </div>
-      <div class="att-table-wrap">
-        <table class="report-table" style="font-size:12px">
+
+      <!-- Tabs de navegación rápida dentro del reporte -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
+        ${['year','p1','p2','p3','p4','month'].map(v => {
+          const lbl = v==='year'?'Año completo':v==='month'?'Por mes':PERIODO_LABELS[v];
+          const active = v===vista;
+          return `<button onclick="document.getElementById('repView').value='${v}';renderReporte()"
+            style="padding:5px 12px;border-radius:99px;border:1px solid ${active?'#3b82f6':'var(--border)'};
+            background:${active?'rgba(59,130,246,0.2)':'var(--surface2)'};
+            color:${active?'#60a5fa':'var(--text2)'};font-size:12px;cursor:pointer;font-family:inherit">${lbl}</button>`;
+        }).join('')}
+      </div>
+
+      <div style="overflow-x:auto;border-radius:10px;border:1px solid var(--border)">
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
           <thead>
-            <tr>
-              <th>#</th>
-              <th>Estudiante</th>
-              ${monthHeaders}
-              <th style="text-align:center">Tot.F</th>
-              <th style="text-align:center">Tot.E</th>
-              <th style="text-align:center">%Asist</th>
+            <tr style="background:var(--surface2)">
+              <th style="padding:10px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase">#</th>
+              <th style="padding:10px;text-align:left;font-size:10px;color:var(--text2);text-transform:uppercase">Estudiante</th>
+              ${colHeaders}
             </tr>
           </thead>
-          <tbody>${rows}</tbody>
+          <tbody>${tableRows}</tbody>
         </table>
       </div>
-      <div style="font-size:10px;color:var(--text3);margin-top:16px">
-        F = Falla sin excusa &nbsp;|&nbsp; E = Excusa &nbsp;|&nbsp; % = Porcentaje de asistencia
+      <div style="font-size:10px;color:var(--text3);margin-top:12px;display:flex;gap:16px;">
+        <span>F = Falla sin excusa</span>
+        <span>E = Excusa</span>
+        <span>% = Porcentaje de asistencia</span>
+        <span style="color:#ff6584">≥80% = Regular · ≥60% = En riesgo · &lt;60% = Crítico</span>
       </div>
     </div>`;
 }
@@ -2010,9 +2147,125 @@ function findCol(headers, candidates) {
 }
 
 // ════════════════════════════════════════════════════════════
+//  TEMA CLARO / AZUL MARINO
+// ════════════════════════════════════════════════════════════
+function toggleTheme() {
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  document.documentElement.setAttribute('data-theme', isLight ? '' : 'light');
+  document.getElementById('themeIcon').textContent = isLight ? '☀️' : '🌙';
+  document.querySelector('#themeToggleBtn .nav-label').textContent = isLight ? 'Tema claro' : 'Tema oscuro';
+  localStorage.setItem('asistencia_tema', isLight ? 'dark' : 'light');
+}
+
+function loadTheme() {
+  const tema = localStorage.getItem('asistencia_tema') || 'dark';
+  if (tema === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.getElementById('themeIcon').textContent = '🌙';
+    document.querySelector('#themeToggleBtn .nav-label').textContent = 'Tema oscuro';
+  }
+}
+
+// ════════════════════════════════════════════════════════════
+//  VISTA MENSUAL COMPLETA EN REGISTRO
+// ════════════════════════════════════════════════════════════
+function renderMonthCalendar() {
+  const wrap = document.getElementById('monthCalendarWrap');
+  if (!currentGrade || !currentMonth) { wrap.style.display='none'; return; }
+
+  const students = DB.students.filter(s => s.grade === currentGrade);
+  if (!students.length) { wrap.style.display='none'; return; }
+
+  // Obtener todas las fechas registradas en ese mes+grupo
+  const mData = ((DB.attendance[currentGrade] || {})[currentMonth]) || {};
+  const fechas = Object.keys(mData).sort();
+
+  if (!fechas.length) { wrap.style.display='none'; return; }
+
+  wrap.style.display = 'block';
+  const icons = DB.config.icons;
+
+  // Encabezados de fechas
+  const fechaHeaders = fechas.map(f => {
+    const d = new Date(f + 'T12:00:00');
+    const dia = d.toLocaleDateString('es-CO',{weekday:'short',day:'numeric'});
+    const isSelected = f === currentDate;
+    return `<th style="text-align:center;font-size:10px;padding:6px 4px;min-width:48px;cursor:pointer;
+      ${isSelected?'background:rgba(59,130,246,0.25);color:#60a5fa;':''}border-radius:6px"
+      onclick="document.getElementById('selDate').value='${f}';onDateChange()">${dia}</th>`;
+  }).join('');
+
+  // Filas por estudiante
+  const studentRows = students.map(s => {
+    const cells = fechas.map(f => {
+      const session = currentGrade;
+      const val = ((mData[f] || {})[session] || {})[s.code] || '';
+      const isSelected = f === currentDate;
+      if (!val) return `<td style="text-align:center;padding:4px;${isSelected?'background:rgba(59,130,246,0.1)':''}">
+        <span style="color:var(--text3);font-size:11px">—</span></td>`;
+      const bg = val==='P'?'rgba(67,217,173,0.12)':val==='A'?'rgba(255,101,132,0.12)':'rgba(247,201,72,0.12)';
+      return `<td style="text-align:center;padding:4px;background:${isSelected?'rgba(59,130,246,0.15)':bg}">
+        <span style="font-size:15px">${icons[val]||val}</span></td>`;
+    }).join('');
+    return `<tr style="border-bottom:1px solid rgba(26,58,110,0.3)">
+      <td style="padding:6px 10px;font-size:12px;white-space:nowrap;max-width:180px;overflow:hidden;text-overflow:ellipsis">${s.name}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+
+  // Totales por fecha
+  const totalRow = fechas.map(f => {
+    const session = currentGrade;
+    const fData = (mData[f] || {})[session] || {};
+    const p = students.filter(s => (fData[s.code]||'P')==='P').length;
+    const a = students.filter(s => fData[s.code]==='A').length;
+    const e = students.filter(s => fData[s.code]==='E').length;
+    return `<td style="text-align:center;padding:4px;font-size:10px;background:var(--surface2)">
+      <div style="color:#43d9ad">${p}P</div>
+      ${a?`<div style="color:#ff6584">${a}F</div>`:''}
+      ${e?`<div style="color:#f7c948">${e}E</div>`:''}
+    </td>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+      <div style="padding:12px 16px;background:var(--surface2);display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:14px">
+          📅 ${currentMonth} — ${currentGrade}
+        </span>
+        <span style="font-size:12px;color:var(--text2)">${fechas.length} clase(s) registradas</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:var(--surface2)">
+              <th style="text-align:left;padding:8px 10px;font-size:11px;color:var(--text2);min-width:160px">Estudiante</th>
+              ${fechaHeaders}
+            </tr>
+          </thead>
+          <tbody>${studentRows}</tbody>
+          <tfoot>
+            <tr>
+              <td style="padding:6px 10px;font-size:11px;color:var(--text2);background:var(--surface2)">Totales</td>
+              ${totalRow}
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>`;
+}
+
+function addTodayEntry() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('selDate').value = today;
+  onDateChange();
+}
+
+// ════════════════════════════════════════════════════════════
 //  INIT
 // ════════════════════════════════════════════════════════════
 loadDB();
+loadTheme();
 populateSelects();
 
 // Si no hay datos, agregar meses por defecto del año escolar colombiano
@@ -2023,8 +2276,6 @@ if (!DB.months.length) {
 
 // Fecha de hoy por defecto
 document.getElementById('selDate').value = new Date().toISOString().split('T')[0];
-
-// Render inicial config si es necesario
 populateSelects();
 </script>
 </body>
