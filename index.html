@@ -768,39 +768,193 @@
   }
   /* Círculo de asistencia — clic para cambiar */
   .att-circle {
-    width: 34px;
-    height: 34px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     cursor: pointer;
-    border: 3px solid transparent;
+    border: 2px solid transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    transition: all 0.18s ease;
+    font-size: 11px;
+    transition: all 0.15s ease;
     position: relative;
+    margin: auto;
   }
-  .att-circle:hover { transform: scale(1.15); }
-  .att-circle:active { transform: scale(0.95); }
+  .att-circle:hover { transform: scale(1.2); }
+  .att-circle:active { transform: scale(0.9); }
   .att-circle.P {
     background: #22c55e;
     border-color: #16a34a;
-    box-shadow: 0 2px 8px rgba(34,197,94,0.4);
+    box-shadow: 0 2px 6px rgba(34,197,94,0.45);
   }
   .att-circle.A {
     background: #ef4444;
     border-color: #dc2626;
-    box-shadow: 0 2px 8px rgba(239,68,68,0.4);
+    box-shadow: 0 2px 6px rgba(239,68,68,0.45);
   }
   .att-circle.E {
     background: #f97316;
     border-color: #ea580c;
-    box-shadow: 0 2px 8px rgba(249,115,22,0.4);
+    box-shadow: 0 2px 6px rgba(249,115,22,0.45);
   }
-  .att-circle.none {
-    background: var(--surface2);
+  .att-circle.empty {
+    background: transparent;
     border-color: var(--border);
     border-style: dashed;
+  }
+  /* Día inactivo (fin de semana / no clase) */
+  .att-circle.inactive {
+    background: rgba(255,255,255,0.04);
+    border-color: transparent;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ── PLANILLÓN MENSUAL ── */
+  .planillon-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .planillon-table {
+    border-collapse: collapse;
+    font-size: 12px;
+    width: 100%;
+  }
+  /* Cabecera fija de nombres */
+  .planillon-table .col-nombre {
+    min-width: 200px;
+    max-width: 200px;
+    position: sticky;
+    left: 0;
+    background: var(--surface2);
+    z-index: 5;
+    border-right: 2px solid var(--border);
+  }
+  .planillon-table thead .col-nombre {
+    background: var(--surface2);
+  }
+  /* Celda de día en cabecera */
+  .planillon-table th.col-dia {
+    min-width: 36px;
+    width: 36px;
+    text-align: center;
+    padding: 4px 2px;
+    font-size: 10px;
+    font-weight: 600;
+    border-left: 1px solid rgba(26,58,110,0.3);
+    vertical-align: bottom;
+    line-height: 1.2;
+  }
+  .planillon-table th.col-dia .dia-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    display: block;
+  }
+  .planillon-table th.col-dia .dia-name {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2px;
+    color: var(--text3);
+    display: block;
+  }
+  /* Día activo (hay clase) */
+  .planillon-table th.col-dia.dia-activo .dia-num { color: var(--accent2); }
+  .planillon-table th.col-dia.dia-activo .dia-name { color: var(--accent); }
+  /* Fin de semana */
+  .planillon-table th.col-dia.dia-finde { background: rgba(0,0,0,0.15); }
+  .planillon-table th.col-dia.dia-finde .dia-num { color: var(--text3); }
+  /* Botón activar día en cabecera */
+  .btn-toggle-dia {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    margin: 3px auto 0;
+    transition: all 0.15s;
+    font-size: 10px;
+    line-height: 18px;
+    text-align: center;
+    color: var(--text3);
+  }
+  .btn-toggle-dia:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-toggle-dia.activo {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  /* Celda de asistencia */
+  .planillon-table td.col-att {
+    text-align: center;
+    padding: 4px 2px;
+    border-left: 1px solid rgba(26,58,110,0.2);
+    vertical-align: middle;
+  }
+  .planillon-table td.col-att.dia-finde {
+    background: rgba(0,0,0,0.1);
+  }
+  .planillon-table td.col-att.dia-inactivo {
+    background: rgba(0,0,0,0.08);
+  }
+  /* Fila de estudiante */
+  .planillon-table tbody tr {
+    border-bottom: 1px solid rgba(26,58,110,0.25);
+    transition: background 0.12s;
+  }
+  .planillon-table tbody tr:hover { background: rgba(59,130,246,0.04); }
+  .planillon-table tbody tr:last-child { border-bottom: none; }
+  /* Celda de nombre */
+  .planillon-table td.col-nombre {
+    padding: 7px 10px 7px 14px;
+    background: var(--surface);
+    border-right: 2px solid var(--border);
+  }
+  /* Fila de totales */
+  .planillon-table tfoot td {
+    background: var(--surface2);
+    border-top: 2px solid var(--border);
+    font-size: 10px;
+    text-align: center;
+    padding: 5px 2px;
+    border-left: 1px solid rgba(26,58,110,0.3);
+    font-weight: 700;
+  }
+  .planillon-table tfoot td.col-nombre {
+    text-align: left;
+    padding-left: 14px;
+    font-size: 11px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-left: none;
+  }
+  /* Conteo por estudiante al final */
+  .planillon-table td.col-conteo {
+    min-width: 44px;
+    text-align: center;
+    padding: 4px 6px;
+    border-left: 2px solid var(--border);
+    font-size: 11px;
+    font-weight: 700;
+    position: sticky;
+    right: 0;
+    background: var(--surface2);
+  }
+  .planillon-table th.col-conteo {
+    position: sticky;
+    right: 0;
+    background: var(--surface2);
+    border-left: 2px solid var(--border);
+    font-size: 9px;
+    text-align: center;
+    padding: 4px 4px;
+    color: var(--text2);
   }
 
   /* Leyenda */
@@ -879,22 +1033,22 @@
     <div class="header">
       <div class="header-left">
         <h1>📋 Registro de Asistencia</h1>
-        <p id="headerSubtitle">Seleccione materia, grupo y fecha para comenzar</p>
+        <p id="headerSubtitle">Seleccione materia, grupo y mes para ver el planillón</p>
       </div>
       <div class="header-right">
         <div id="syncStatus" class="syncing" style="display:none">
           <span></span><span></span><span></span>
           <span style="width:auto;height:auto;background:none;border-radius:0;animation:none">Guardando…</span>
         </div>
-        <button class="btn btn-secondary btn-sm" onclick="markAll('P')">✅ Todos presentes</button>
-        <button class="btn btn-secondary btn-sm" onclick="markAll('A')">❌ Todos ausentes</button>
+        <button class="btn btn-secondary btn-sm" id="btnDefaultPresente" onclick="setDefaultState('P')" title="Nuevas celdas = Presente por defecto">✅ Defecto: Presente</button>
+        <button class="btn btn-secondary btn-sm" id="btnDefaultVacio" onclick="setDefaultState('')" title="Nuevas celdas vacías">⬜ Defecto: Vacío</button>
         <button class="btn btn-primary" onclick="saveAttendance()">💾 Guardar</button>
       </div>
     </div>
-    <div class="content">
+    <div class="content" style="padding-top:16px">
 
       <!-- Filtros -->
-      <div class="filters">
+      <div class="filters" style="margin-bottom:16px">
         <select class="select-styled" id="selMateria" onchange="onMateriaChange()">
           <option value="">— Materia —</option>
         </select>
@@ -904,24 +1058,23 @@
         <select class="select-styled" id="selMonth" onchange="onMonthChange()">
           <option value="">— Mes —</option>
         </select>
-        <input type="date" class="select-styled" id="selDate" onchange="onDateChange()" title="Registrar fecha específica">
-        <button class="btn btn-secondary btn-sm" onclick="addTodayEntry()" title="Agregar entrada para hoy">📅 Hoy</button>
+        <input type="date" class="select-styled" id="selDate" style="display:none">
       </div>
 
-      <!-- Stats rápidas -->
-      <div class="stats-row" id="quickStats">
+      <!-- Stats rápidas del mes -->
+      <div class="stats-row" id="quickStats" style="margin-bottom:16px">
         <div class="stat-card stat-total">
-          <div class="stat-label">Total</div>
+          <div class="stat-label">Total clases</div>
           <div class="stat-value" id="statTotal">—</div>
-          <div class="stat-sub">estudiantes</div>
+          <div class="stat-sub">días activos</div>
         </div>
         <div class="stat-card stat-present">
-          <div class="stat-label">Presentes</div>
+          <div class="stat-label">Presencias</div>
           <div class="stat-value" id="statPresent">—</div>
           <div class="stat-sub" id="statPresentPct"></div>
         </div>
         <div class="stat-card stat-absent">
-          <div class="stat-label">Ausentes</div>
+          <div class="stat-label">Fallas</div>
           <div class="stat-value" id="statAbsent">—</div>
           <div class="stat-sub" id="statAbsentPct"></div>
         </div>
@@ -932,12 +1085,12 @@
         </div>
       </div>
 
-      <!-- Tabla de asistencia -->
-      <div class="att-table-wrap" id="attTableWrap">
+      <!-- Planillón mensual -->
+      <div id="attTableWrap">
         <div class="empty-state">
-          <div class="empty-icon">🎒</div>
-          <h3>Ninguna sesión seleccionada</h3>
-          <p>Elija un grupo, mes, fecha y sesión para registrar asistencia.</p>
+          <div class="empty-icon">📅</div>
+          <h3>Seleccione grupo y mes</h3>
+          <p>Aparecerá el planillón completo del mes con todos los días.</p>
         </div>
       </div>
 
@@ -1463,7 +1616,7 @@ function updateHeaderSubtitle() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  TABLA DE ASISTENCIA — vista estilo imagen (círculos por fecha)
+//  PLANILLÓN MENSUAL — mes completo con días activables
 // ════════════════════════════════════════════════════════════
 function getAttKey(grade, month, date, session) {
   if (!DB.attendance[grade]) DB.attendance[grade] = {};
@@ -1473,209 +1626,253 @@ function getAttKey(grade, month, date, session) {
   return DB.attendance[grade][month][date][session];
 }
 
-// Obtener iniciales para avatar
+// Iniciales para avatar
 function getInitials(name) {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
-  return name.substring(0,2).toUpperCase();
+  const w = name.trim().split(/\s+/);
+  return w.length >= 2 ? (w[0][0]+w[1][0]).toUpperCase() : name.substring(0,2).toUpperCase();
 }
 
-// Nombre corto del día en español
 const DIAS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MESES_NUM = {
+  'Enero':1,'Febrero':2,'Marzo':3,'Abril':4,'Mayo':5,'Junio':6,
+  'Julio':7,'Agosto':8,'Septiembre':9,'Octubre':10,'Noviembre':11,'Diciembre':12
+};
+
+// Estado por defecto al activar un día: 'P' o ''
+let defaultCellState = 'P';
+function setDefaultState(s) {
+  defaultCellState = s;
+  document.getElementById('btnDefaultPresente').style.background = s==='P' ? 'var(--accent)' : '';
+  document.getElementById('btnDefaultPresente').style.color = s==='P' ? '#fff' : '';
+  document.getElementById('btnDefaultVacio').style.background = s==='' ? 'var(--accent)' : '';
+  document.getElementById('btnDefaultVacio').style.color = s==='' ? '#fff' : '';
+}
+
+// Días activos del mes: DB.classDays[month] = ['2025-03-03','2025-03-05',...]
+function getClassDays(month) {
+  if (!DB.classDays) DB.classDays = {};
+  if (!DB.classDays[month]) DB.classDays[month] = [];
+  return DB.classDays[month];
+}
+
+function toggleClassDay(month, dateStr) {
+  const days = getClassDays(month);
+  const idx = days.indexOf(dateStr);
+  if (idx === -1) {
+    // Activar: agregar día y rellenar con defaultCellState
+    days.push(dateStr);
+    days.sort();
+    if (defaultCellState) {
+      const students = DB.students.filter(s => s.grade === currentGrade);
+      const rec = getAttKey(currentGrade, month, dateStr, currentGrade);
+      students.forEach(s => { if (!rec[s.code]) rec[s.code] = defaultCellState; });
+    }
+  } else {
+    // Desactivar: quitar el día
+    days.splice(idx, 1);
+  }
+  DB.classDays = DB.classDays || {};
+  DB.classDays[month] = days;
+  saveDB();
+  renderAttTable();
+}
 
 function renderAttTable() {
   const wrap = document.getElementById('attTableWrap');
-
   if (!currentGrade) {
-    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎒</div><h3>Seleccione materia y grupo</h3><p>Luego elija el mes para ver el registro completo.</p></div>`;
-    updateStats([]);
-    return;
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia y grupo</h3><p>Luego elija el mes para ver el planillón completo.</p></div>`;
+    updateStats([]); return;
   }
-
   const students = DB.students.filter(s => s.grade === currentGrade);
   if (!students.length) {
     wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agréguelos en ⚙️ Configuración.</p></div>`;
-    updateStats([]);
-    return;
+    updateStats([]); return;
+  }
+  if (!currentMonth) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">📆</div><h3>Seleccione el mes</h3><p>Se mostrará el planillón completo del mes.</p></div>`;
+    updateStats([]); return;
   }
 
-  const month = currentMonth || '';
+  const month = currentMonth;
   const session = currentGrade;
+  const year = DB.config.year || new Date().getFullYear();
+  const mesNum = MESES_NUM[month] || 1;
+  const diasEnMes = new Date(year, mesNum, 0).getDate(); // días totales del mes
+  const classDays = getClassDays(month);
+  const avatarColors = ['#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
 
-  // Recopilar TODAS las fechas registradas del mes (o la fecha seleccionada si no hay mes)
-  let fechas = [];
-  if (month) {
-    const mData = ((DB.attendance[currentGrade] || {})[month]) || {};
-    fechas = Object.keys(mData).sort();
-  }
-  // Siempre incluir la fecha actualmente seleccionada
-  if (currentDate && !fechas.includes(currentDate)) {
-    fechas.push(currentDate);
-    fechas.sort();
-  }
-  // Si no hay ninguna fecha, mostrar solo la de hoy como columna vacía
-  if (!fechas.length) {
-    const today = new Date().toISOString().split('T')[0];
-    fechas = [currentDate || today];
-  }
+  // Generar array de todos los días del mes
+  const allDays = Array.from({length: diasEnMes}, (_, i) => {
+    const d = i + 1;
+    const dateStr = `${year}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dt = new Date(dateStr + 'T12:00:00');
+    const dow = dt.getDay(); // 0=Dom, 6=Sáb
+    const isFinde = dow === 0 || dow === 6;
+    const isClaseDay = classDays.includes(dateStr);
+    return { d, dateStr, dow, isFinde, isClaseDay, diaNombre: DIAS_ES[dow] };
+  });
 
-  // ── CABECERA DE FECHAS ──
-  const dateHeaders = fechas.map(f => {
-    const d = new Date(f + 'T12:00:00');
-    const diaNombre = DIAS_ES[d.getDay()];
-    const diaNum = d.getDate();
-    const isActive = f === currentDate;
-    return `<div class="col-date ${isActive ? 'active-date' : ''}" onclick="selectDate('${f}')">
-      <div class="day-name">${diaNombre}</div>
-      <div class="day-num">${diaNum}</div>
-    </div>`;
+  // ── CABECERA ──
+  const thDias = allDays.map(day => {
+    const cls = day.isFinde ? 'col-dia dia-finde' : day.isClaseDay ? 'col-dia dia-activo' : 'col-dia';
+    const btnCls = day.isClaseDay ? 'btn-toggle-dia activo' : 'btn-toggle-dia';
+    const btnTitle = day.isClaseDay ? 'Quitar clase' : 'Marcar como día de clase';
+    const toggleFn = day.isFinde ? '' : `onclick="toggleClassDay('${month}','${day.dateStr}')" title="${btnTitle}"`;
+    return `<th class="${cls}">
+      <span class="dia-name">${day.diaNombre}</span>
+      <span class="dia-num">${day.d}</span>
+      ${!day.isFinde ? `<button class="${btnCls}" ${toggleFn}>${day.isClaseDay ? '✓' : '+'}</button>` : '<span style="display:block;height:22px"></span>'}
+    </th>`;
   }).join('');
 
   // ── FILAS DE ESTUDIANTES ──
-  const studentRows = students.map((s, i) => {
+  const tbodyRows = students.map((s, i) => {
     const initials = getInitials(s.name);
-    // Color de avatar basado en índice
-    const avatarColors = ['#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
     const avatarBg = avatarColors[i % avatarColors.length];
+    let stuP = 0, stuA = 0, stuE = 0;
 
-    const attCells = fechas.map(f => {
-      const rec = getAttKey(currentGrade, month || f.substring(0,7), f, session);
-      const state = rec[s.code] !== undefined ? rec[s.code] : (f === currentDate ? 'P' : 'none');
-      const isActive = f === currentDate;
-      return `<div class="col-att-cell" style="${isActive ? 'background:rgba(59,130,246,0.06)' : ''}">
-        <div class="att-circle ${state}" 
-          onclick="setStateGrid('${s.code}','${f}','${month || f.substring(0,7)}')"
-          title="${s.name} — ${f}: ${state === 'P' ? 'Presente' : state === 'A' ? 'Ausente' : state === 'E' ? 'Excusa' : 'Sin registro'}">
+    const tdDias = allDays.map(day => {
+      if (day.isFinde) {
+        return `<td class="col-att dia-finde"><div class="att-circle inactive"></div></td>`;
+      }
+      if (!day.isClaseDay) {
+        return `<td class="col-att dia-inactivo" title="Sin clase este día"><div class="att-circle inactive"></div></td>`;
+      }
+      const rec = getAttKey(currentGrade, month, day.dateStr, session);
+      const state = rec[s.code] || '';
+      if (state === 'P') stuP++;
+      else if (state === 'A') stuA++;
+      else if (state === 'E') stuE++;
+      const circleCls = state === 'P' ? 'P' : state === 'A' ? 'A' : state === 'E' ? 'E' : 'empty';
+      return `<td class="col-att">
+        <div class="att-circle ${circleCls}"
+          onclick="cycleState('${s.code}','${day.dateStr}','${month}')"
+          title="${s.name} · ${day.dateStr}">
         </div>
-      </div>`;
+      </td>`;
     }).join('');
 
-    return `<div class="att-grid-row">
-      <div class="col-student-cell">
-        <div class="stu-avatar" style="border-color:${avatarBg}">
-          <span style="color:${avatarBg}">${initials}</span>
-          <div class="stu-num">${i+1}</div>
+    const pct = (stuP+stuA+stuE) > 0 ? Math.round(stuP/(stuP+stuA+stuE)*100) : null;
+    const pctColor = pct === null ? 'var(--text3)' : pct>=80?'#22c55e':pct>=60?'#f97316':'#ef4444';
+
+    return `<tr>
+      <td class="col-nombre">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div class="stu-avatar" style="width:32px;height:32px;font-size:11px;border-color:${avatarBg};flex-shrink:0">
+            <span style="color:${avatarBg}">${initials}</span>
+            <div class="stu-num">${i+1}</div>
+          </div>
+          <div>
+            <div class="stu-name" style="font-size:11px;max-width:140px">${s.name}</div>
+            <div class="stu-code">${s.code}</div>
+          </div>
         </div>
-        <div class="stu-info">
-          <div class="stu-name">${s.name}</div>
-          <div class="stu-code">${s.code}</div>
-        </div>
-      </div>
-      ${attCells}
-    </div>`;
+      </td>
+      ${tdDias}
+      <td class="col-conteo" style="color:${pctColor}">
+        <div style="color:#22c55e;font-size:10px">${stuP}P</div>
+        ${stuA?`<div style="color:#ef4444;font-size:10px">${stuA}F</div>`:''}
+        ${stuE?`<div style="color:#f97316;font-size:10px">${stuE}E</div>`:''}
+        ${pct!==null?`<div style="font-size:9px;margin-top:1px">${pct}%</div>`:''}
+      </td>
+    </tr>`;
   }).join('');
 
-  // Totales por fecha (fila inferior)
-  const totalCols = fechas.map(f => {
-    const m = month || f.substring(0,7);
-    const present = students.filter(s => {
-      const rec = ((DB.attendance[currentGrade]||{})[m]||{})[f]||{};
-      const val = (rec[session]||{})[s.code];
-      return !val || val === 'P';
-    }).length;
-    const absent = students.filter(s => {
-      const rec = ((DB.attendance[currentGrade]||{})[m]||{})[f]||{};
-      return (rec[session]||{})[s.code] === 'A';
-    }).length;
-    const excuse = students.filter(s => {
-      const rec = ((DB.attendance[currentGrade]||{})[m]||{})[f]||{};
-      return (rec[session]||{})[s.code] === 'E';
-    }).length;
-    const isActive = f === currentDate;
-    return `<div class="col-att-cell" style="flex-direction:column;gap:1px;font-size:10px;${isActive?'background:rgba(59,130,246,0.06)':''}">
-      <span style="color:#22c55e;font-weight:700">${present}</span>
-      ${absent ? `<span style="color:#ef4444;font-weight:700">${absent}F</span>` : ''}
-      ${excuse ? `<span style="color:#f97316;font-weight:700">${excuse}E</span>` : ''}
-    </div>`;
+  // ── FILA DE TOTALES ──
+  const tfootDias = allDays.map(day => {
+    if (day.isFinde || !day.isClaseDay) return `<td class="col-att ${day.isFinde?'dia-finde':'dia-inactivo'}"></td>`;
+    const rec2 = ((DB.attendance[currentGrade]||{})[month]||{})[day.dateStr]||{};
+    const dayRec = (rec2[session]||{});
+    const p = students.filter(s => dayRec[s.code]==='P').length;
+    const a = students.filter(s => dayRec[s.code]==='A').length;
+    const e = students.filter(s => dayRec[s.code]==='E').length;
+    return `<td class="col-att" style="font-size:9px;line-height:1.3">
+      ${p?`<div style="color:#22c55e">${p}</div>`:''}
+      ${a?`<div style="color:#ef4444">${a}F</div>`:''}
+      ${e?`<div style="color:#f97316">${e}E</div>`:''}
+    </td>`;
   }).join('');
 
   wrap.innerHTML = `
-    <div style="overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);">
-      <div style="min-width:${220 + fechas.length * 72}px;">
-        <!-- Cabecera -->
-        <div class="att-grid-header">
-          <div class="col-student" style="min-width:220px;width:220px">
-            Asistencia — ${month || 'Fecha actual'}
-          </div>
-          ${dateHeaders}
-        </div>
-        <!-- Estudiantes -->
-        <div class="att-grid">
-          ${studentRows}
-        </div>
-        <!-- Totales -->
-        <div class="att-grid-row" style="background:var(--surface2);border-top:2px solid var(--border);">
-          <div class="col-student-cell" style="min-width:220px;width:220px">
-            <span style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.4px">Totales del día</span>
-          </div>
-          ${totalCols}
-        </div>
-      </div>
+    <div style="margin-bottom:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+      <span style="font-size:13px;font-weight:600;color:var(--text2)">
+        📅 ${month} ${year} — <span style="color:var(--accent2)">${currentGrade}</span>
+      </span>
+      <span style="font-size:11px;color:var(--text3)">${classDays.length} día(s) de clase marcados</span>
+      <span style="font-size:11px;color:var(--text3);margin-left:auto">Clic en <strong style="color:var(--accent)">+</strong> para activar un día · Clic en círculo para cambiar estado</span>
     </div>
-    <!-- Leyenda -->
-    <div class="att-legend">
-      <span><span class="legend-dot" style="background:#22c55e"></span>Presente — clic para cambiar</span>
-      <span><span class="legend-dot" style="background:#ef4444"></span>Ausente / Falla</span>
+    <div class="planillon-wrap">
+      <table class="planillon-table">
+        <thead>
+          <tr>
+            <th class="col-nombre" style="padding:10px 14px;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text2)">Estudiante</th>
+            ${thDias}
+            <th class="col-conteo">Resumen</th>
+          </tr>
+        </thead>
+        <tbody>${tbodyRows}</tbody>
+        <tfoot>
+          <tr>
+            <td class="col-nombre">Totales</td>
+            ${tfootDias}
+            <td class="col-conteo"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="att-legend" style="margin-top:8px;border-radius:10px;border:1px solid var(--border);">
+      <span><span class="legend-dot" style="background:#22c55e"></span>Presente</span>
+      <span><span class="legend-dot" style="background:#ef4444"></span>Falla / Ausente</span>
       <span><span class="legend-dot" style="background:#f97316"></span>Excusa</span>
-      <span style="margin-left:auto;color:var(--text3)">P → F → E → P (ciclo al hacer clic)</span>
+      <span style="color:var(--text3);font-size:11px">Ciclo: vacío → Presente → Falla → Excusa → vacío</span>
+      <span style="margin-left:auto;color:var(--text3);font-size:11px">⬜ = sin clase &nbsp;|&nbsp; gris = fin de semana</span>
     </div>`;
 
-  // Actualizar stats con la fecha activa
-  if (currentDate) {
-    const rec = getAttKey(currentGrade, month || currentDate.substring(0,7), currentDate, session);
-    updateStats(students.map(s => rec[s.code] || 'P'));
-  } else {
-    updateStats([]);
-  }
+  // Stats del mes completo
+  const totalClases = classDays.length;
+  let totalP=0, totalA=0, totalE=0;
+  students.forEach(s => {
+    classDays.forEach(f => {
+      const rec3 = getAttKey(currentGrade, month, f, session);
+      const v = rec3[s.code];
+      if (v==='P') totalP++; else if (v==='A') totalA++; else if (v==='E') totalE++;
+    });
+  });
+  document.getElementById('statTotal').textContent = totalClases;
+  document.getElementById('statPresent').textContent = totalP;
+  document.getElementById('statAbsent').textContent = totalA;
+  document.getElementById('statExcuse').textContent = totalE;
+  const totalReg = totalP+totalA+totalE;
+  document.getElementById('statPresentPct').textContent = totalReg ? Math.round(totalP/totalReg*100)+'%' : '';
+  document.getElementById('statAbsentPct').textContent = totalReg ? Math.round(totalA/totalReg*100)+'%' : '';
+  document.getElementById('statExcusePct').textContent = totalReg ? Math.round(totalE/totalReg*100)+'%' : '';
 }
 
-// Seleccionar fecha desde la cabecera del grid
-function selectDate(f) {
-  currentDate = f;
-  document.getElementById('selDate').value = f;
-  renderAttTable();
-  updateHeaderSubtitle();
-}
-
-// Cambiar estado desde el grid — ciclo P→A→E→P
-function setStateGrid(code, date, month) {
+// Ciclar estado en el planillón
+function cycleState(code, dateStr, month) {
   const session = currentGrade;
-  const rec = getAttKey(currentGrade, month, date, session);
-  const states = ['P','A','E'];
-  const cur = rec[code] !== undefined ? rec[code] : 'P';
-  // Si era 'none' (sin registro), empieza en A (ya fue P implícito)
-  const next = cur === 'none' ? 'A' : states[(states.indexOf(cur)+1) % states.length];
-  rec[code] = next;
-  // Si cambiamos de fecha diferente a la activa, actualizar currentDate
-  if (date !== currentDate) {
-    currentDate = date;
-    document.getElementById('selDate').value = date;
-  }
-  renderAttTable();
-  updateHeaderSubtitle();
-}
-
-function toggleAttendance(code) {
-  setStateGrid(code, currentDate, currentMonth || currentDate.substring(0,7));
-}
-
-function setState(code, state) {
-  const month = currentMonth || (currentDate ? currentDate.substring(0,7) : 'Sin mes');
-  const session = currentGrade;
-  const rec = getAttKey(currentGrade, month, currentDate, session);
-  rec[code] = state;
+  const rec = getAttKey(currentGrade, month, dateStr, session);
+  const cur = rec[code] || '';
+  const cycle = ['','P','A','E'];
+  rec[code] = cycle[(cycle.indexOf(cur)+1) % cycle.length];
+  saveDB();
   renderAttTable();
 }
 
 function markAll(state) {
-  if (!currentGrade) { toast('Seleccione grupo primero', 'error'); return; }
-  if (!currentDate) { toast('Seleccione una fecha', 'error'); return; }
-  const month = currentMonth || currentDate.substring(0,7);
+  if (!currentGrade || !currentMonth) { toast('Seleccione grupo y mes primero', 'error'); return; }
+  const classDays = getClassDays(currentMonth);
+  if (!classDays.length) { toast('No hay días de clase marcados en este mes', 'error'); return; }
   const session = currentGrade;
-  const rec = getAttKey(currentGrade, month, currentDate, session);
-  DB.students.filter(s => s.grade === currentGrade).forEach(s => rec[s.code] = state);
+  DB.students.filter(s => s.grade === currentGrade).forEach(s => {
+    classDays.forEach(f => {
+      const rec = getAttKey(currentGrade, currentMonth, f, session);
+      rec[s.code] = state;
+    });
+  });
+  saveDB();
   renderAttTable();
-  toast(`Todos marcados como ${state === 'P' ? 'Presentes' : state === 'A' ? 'Ausentes' : 'Excusas'}`, 'success');
+  toast(`Todos marcados como ${state === 'P' ? 'Presentes' : 'Ausentes'} en ${classDays.length} días`, 'success');
 }
 
 function updateStats(states) {
