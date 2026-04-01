@@ -638,6 +638,203 @@
   .text-dim { color: var(--text3); }
   .bold { font-weight: 600; }
   .font-syne { font-family: 'Syne', sans-serif; font-weight: 700; }
+
+  /* ── VISTA ESTILO IMAGEN — círculos de asistencia ── */
+  .att-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .att-grid-header {
+    display: flex;
+    align-items: center;
+    background: var(--surface2);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .att-grid-header .col-student {
+    min-width: 220px;
+    width: 220px;
+    padding: 10px 16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text2);
+    font-weight: 600;
+  }
+  .att-grid-header .col-date {
+    flex: 1;
+    min-width: 72px;
+    text-align: center;
+    padding: 8px 4px;
+    border-left: 1px solid var(--border);
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  .att-grid-header .col-date:hover { background: rgba(59,130,246,0.1); }
+  .att-grid-header .col-date.active-date {
+    background: rgba(59,130,246,0.18);
+  }
+  .col-date .day-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+  .col-date .day-num {
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 1px;
+  }
+  .att-grid-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid rgba(26,58,110,0.35);
+    transition: background var(--transition);
+  }
+  .att-grid-row:hover { background: rgba(59,130,246,0.04); }
+  .att-grid-row:last-child { border-bottom: none; }
+  .col-student-cell {
+    min-width: 220px;
+    width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+  }
+  .stu-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--accent2);
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .stu-avatar img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .stu-num {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 8px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .stu-info { overflow: hidden; }
+  .stu-info .stu-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+  .stu-info .stu-code {
+    font-size: 10px;
+    color: var(--text3);
+    margin-top: 1px;
+  }
+  .col-att-cell {
+    flex: 1;
+    min-width: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 4px;
+    border-left: 1px solid rgba(26,58,110,0.2);
+  }
+  /* Círculo de asistencia — clic para cambiar */
+  .att-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 3px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: all 0.18s ease;
+    position: relative;
+  }
+  .att-circle:hover { transform: scale(1.15); }
+  .att-circle:active { transform: scale(0.95); }
+  .att-circle.P {
+    background: #22c55e;
+    border-color: #16a34a;
+    box-shadow: 0 2px 8px rgba(34,197,94,0.4);
+  }
+  .att-circle.A {
+    background: #ef4444;
+    border-color: #dc2626;
+    box-shadow: 0 2px 8px rgba(239,68,68,0.4);
+  }
+  .att-circle.E {
+    background: #f97316;
+    border-color: #ea580c;
+    box-shadow: 0 2px 8px rgba(249,115,22,0.4);
+  }
+  .att-circle.none {
+    background: var(--surface2);
+    border-color: var(--border);
+    border-style: dashed;
+  }
+
+  /* Leyenda */
+  .att-legend {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 10px 16px;
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  /* Añadir fecha button */
+  .add-date-col {
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 4px;
+    border-left: 1px dashed var(--border);
+    cursor: pointer;
+    color: var(--text3);
+    font-size: 20px;
+    transition: all var(--transition);
+  }
+  .add-date-col:hover { color: var(--accent); background: rgba(59,130,246,0.08); }
 </style>
 </head>
 <body>
@@ -710,8 +907,6 @@
         <input type="date" class="select-styled" id="selDate" onchange="onDateChange()" title="Registrar fecha específica">
         <button class="btn btn-secondary btn-sm" onclick="addTodayEntry()" title="Agregar entrada para hoy">📅 Hoy</button>
       </div>
-      <!-- Vista mes completo -->
-      <div id="monthCalendarWrap" style="display:none;margin-bottom:20px;"></div>
 
       <!-- Stats rápidas -->
       <div class="stats-row" id="quickStats">
@@ -1243,20 +1438,17 @@ function onGradeChange() {
   // La "sesión" ahora ES el nombre completo del grupo (materia + grupo)
   currentSession = currentGrade;
   renderAttTable();
-  renderMonthCalendar();
   updateHeaderSubtitle();
 }
 
 function onMonthChange() {
   currentMonth = document.getElementById('selMonth').value;
   renderAttTable();
-  renderMonthCalendar();
 }
 
 function onDateChange() {
   currentDate = document.getElementById('selDate').value;
   renderAttTable();
-  renderMonthCalendar();
   updateHeaderSubtitle();
 }
 
@@ -1271,7 +1463,7 @@ function updateHeaderSubtitle() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  TABLA DE ASISTENCIA
+//  TABLA DE ASISTENCIA — vista estilo imagen (círculos por fecha)
 // ════════════════════════════════════════════════════════════
 function getAttKey(grade, month, date, session) {
   if (!DB.attendance[grade]) DB.attendance[grade] = {};
@@ -1281,87 +1473,194 @@ function getAttKey(grade, month, date, session) {
   return DB.attendance[grade][month][date][session];
 }
 
+// Obtener iniciales para avatar
+function getInitials(name) {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+  return name.substring(0,2).toUpperCase();
+}
+
+// Nombre corto del día en español
+const DIAS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+
 function renderAttTable() {
   const wrap = document.getElementById('attTableWrap');
-  if (!currentGrade || !currentDate) {
-    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎒</div><h3>Ninguna clase seleccionada</h3><p>Elija materia, grupo y fecha.</p></div>`;
+
+  if (!currentGrade) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎒</div><h3>Seleccione materia y grupo</h3><p>Luego elija el mes para ver el registro completo.</p></div>`;
     updateStats([]);
     return;
   }
 
   const students = DB.students.filter(s => s.grade === currentGrade);
-  if (students.length === 0) {
-    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agregue estudiantes en ⚙️ Configuración.</p></div>`;
+  if (!students.length) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agréguelos en ⚙️ Configuración.</p></div>`;
     updateStats([]);
     return;
   }
 
-  const month = currentMonth || 'Sin mes';
-  // La sesión ahora es el nombre del grupo (Sociales 6A, Ciudadanía 8B, etc.)
+  const month = currentMonth || '';
   const session = currentGrade;
-  const rec = getAttKey(currentGrade, month, currentDate, session);
-  const icons = DB.config.icons;
 
-  let rows = students.map((s, i) => {
-    const state = rec[s.code] || 'P';
-    return `
-      <tr>
-        <td><span class="text-dim text-xs">${i+1}</span></td>
-        <td>
-          <div class="student-name">${s.name}</div>
-          <div class="student-code">${s.code}</div>
-        </td>
-        <td>
-          <div style="display:flex;gap:8px;">
-            <button class="att-btn state-${state === 'P' ? 'P' : ''}" 
-              id="btn-${s.code}" 
-              onclick="toggleAttendance('${s.code}')"
-              title="Toca para cambiar estado">
-              ${state === 'P' ? icons.P : state === 'A' ? icons.A : icons.E}
-            </button>
-            <span class="badge badge-${state}" id="badge-${s.code}">
-              ${state === 'P' ? 'Presente' : state === 'A' ? 'Ausente' : 'Excusa'}
-            </span>
-          </div>
-        </td>
-        <td>
-          <div style="display:flex;gap:4px;">
-            <button class="btn btn-sm ${state==='P'?'btn-primary':'btn-secondary'}" style="padding:4px 10px;font-size:11px" onclick="setState('${s.code}','P')">P</button>
-            <button class="btn btn-sm ${state==='A'?'btn-danger':'btn-secondary'}" style="padding:4px 10px;font-size:11px" onclick="setState('${s.code}','A')">F</button>
-            <button class="btn btn-sm" style="padding:4px 10px;font-size:11px;${state==='E'?'background:rgba(247,201,72,0.2);color:var(--excuse);border:1px solid rgba(247,201,72,0.4)':''}" onclick="setState('${s.code}','E')">E</button>
-          </div>
-        </td>
-      </tr>`;
+  // Recopilar TODAS las fechas registradas del mes (o la fecha seleccionada si no hay mes)
+  let fechas = [];
+  if (month) {
+    const mData = ((DB.attendance[currentGrade] || {})[month]) || {};
+    fechas = Object.keys(mData).sort();
+  }
+  // Siempre incluir la fecha actualmente seleccionada
+  if (currentDate && !fechas.includes(currentDate)) {
+    fechas.push(currentDate);
+    fechas.sort();
+  }
+  // Si no hay ninguna fecha, mostrar solo la de hoy como columna vacía
+  if (!fechas.length) {
+    const today = new Date().toISOString().split('T')[0];
+    fechas = [currentDate || today];
+  }
+
+  // ── CABECERA DE FECHAS ──
+  const dateHeaders = fechas.map(f => {
+    const d = new Date(f + 'T12:00:00');
+    const diaNombre = DIAS_ES[d.getDay()];
+    const diaNum = d.getDate();
+    const isActive = f === currentDate;
+    return `<div class="col-date ${isActive ? 'active-date' : ''}" onclick="selectDate('${f}')">
+      <div class="day-name">${diaNombre}</div>
+      <div class="day-num">${diaNum}</div>
+    </div>`;
+  }).join('');
+
+  // ── FILAS DE ESTUDIANTES ──
+  const studentRows = students.map((s, i) => {
+    const initials = getInitials(s.name);
+    // Color de avatar basado en índice
+    const avatarColors = ['#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f59e0b','#ef4444','#22c55e','#06b6d4'];
+    const avatarBg = avatarColors[i % avatarColors.length];
+
+    const attCells = fechas.map(f => {
+      const rec = getAttKey(currentGrade, month || f.substring(0,7), f, session);
+      const state = rec[s.code] !== undefined ? rec[s.code] : (f === currentDate ? 'P' : 'none');
+      const isActive = f === currentDate;
+      return `<div class="col-att-cell" style="${isActive ? 'background:rgba(59,130,246,0.06)' : ''}">
+        <div class="att-circle ${state}" 
+          onclick="setStateGrid('${s.code}','${f}','${month || f.substring(0,7)}')"
+          title="${s.name} — ${f}: ${state === 'P' ? 'Presente' : state === 'A' ? 'Ausente' : state === 'E' ? 'Excusa' : 'Sin registro'}">
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="att-grid-row">
+      <div class="col-student-cell">
+        <div class="stu-avatar" style="border-color:${avatarBg}">
+          <span style="color:${avatarBg}">${initials}</span>
+          <div class="stu-num">${i+1}</div>
+        </div>
+        <div class="stu-info">
+          <div class="stu-name">${s.name}</div>
+          <div class="stu-code">${s.code}</div>
+        </div>
+      </div>
+      ${attCells}
+    </div>`;
+  }).join('');
+
+  // Totales por fecha (fila inferior)
+  const totalCols = fechas.map(f => {
+    const m = month || f.substring(0,7);
+    const present = students.filter(s => {
+      const rec = ((DB.attendance[currentGrade]||{})[m]||{})[f]||{};
+      const val = (rec[session]||{})[s.code];
+      return !val || val === 'P';
+    }).length;
+    const absent = students.filter(s => {
+      const rec = ((DB.attendance[currentGrade]||{})[m]||{})[f]||{};
+      return (rec[session]||{})[s.code] === 'A';
+    }).length;
+    const excuse = students.filter(s => {
+      const rec = ((DB.attendance[currentGrade]||{})[m]||{})[f]||{};
+      return (rec[session]||{})[s.code] === 'E';
+    }).length;
+    const isActive = f === currentDate;
+    return `<div class="col-att-cell" style="flex-direction:column;gap:1px;font-size:10px;${isActive?'background:rgba(59,130,246,0.06)':''}">
+      <span style="color:#22c55e;font-weight:700">${present}</span>
+      ${absent ? `<span style="color:#ef4444;font-weight:700">${absent}F</span>` : ''}
+      ${excuse ? `<span style="color:#f97316;font-weight:700">${excuse}E</span>` : ''}
+    </div>`;
   }).join('');
 
   wrap.innerHTML = `
-    <table class="att-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Estudiante</th>
-          <th>Estado</th>
-          <th>Cambiar</th>
-        </tr>
-      </thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+    <div style="overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);">
+      <div style="min-width:${220 + fechas.length * 72}px;">
+        <!-- Cabecera -->
+        <div class="att-grid-header">
+          <div class="col-student" style="min-width:220px;width:220px">
+            Asistencia — ${month || 'Fecha actual'}
+          </div>
+          ${dateHeaders}
+        </div>
+        <!-- Estudiantes -->
+        <div class="att-grid">
+          ${studentRows}
+        </div>
+        <!-- Totales -->
+        <div class="att-grid-row" style="background:var(--surface2);border-top:2px solid var(--border);">
+          <div class="col-student-cell" style="min-width:220px;width:220px">
+            <span style="font-size:11px;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:0.4px">Totales del día</span>
+          </div>
+          ${totalCols}
+        </div>
+      </div>
+    </div>
+    <!-- Leyenda -->
+    <div class="att-legend">
+      <span><span class="legend-dot" style="background:#22c55e"></span>Presente — clic para cambiar</span>
+      <span><span class="legend-dot" style="background:#ef4444"></span>Ausente / Falla</span>
+      <span><span class="legend-dot" style="background:#f97316"></span>Excusa</span>
+      <span style="margin-left:auto;color:var(--text3)">P → F → E → P (ciclo al hacer clic)</span>
+    </div>`;
 
-  updateStats(students.map(s => rec[s.code] || 'P'));
+  // Actualizar stats con la fecha activa
+  if (currentDate) {
+    const rec = getAttKey(currentGrade, month || currentDate.substring(0,7), currentDate, session);
+    updateStats(students.map(s => rec[s.code] || 'P'));
+  } else {
+    updateStats([]);
+  }
+}
+
+// Seleccionar fecha desde la cabecera del grid
+function selectDate(f) {
+  currentDate = f;
+  document.getElementById('selDate').value = f;
+  renderAttTable();
+  updateHeaderSubtitle();
+}
+
+// Cambiar estado desde el grid — ciclo P→A→E→P
+function setStateGrid(code, date, month) {
+  const session = currentGrade;
+  const rec = getAttKey(currentGrade, month, date, session);
+  const states = ['P','A','E'];
+  const cur = rec[code] !== undefined ? rec[code] : 'P';
+  // Si era 'none' (sin registro), empieza en A (ya fue P implícito)
+  const next = cur === 'none' ? 'A' : states[(states.indexOf(cur)+1) % states.length];
+  rec[code] = next;
+  // Si cambiamos de fecha diferente a la activa, actualizar currentDate
+  if (date !== currentDate) {
+    currentDate = date;
+    document.getElementById('selDate').value = date;
+  }
+  renderAttTable();
+  updateHeaderSubtitle();
 }
 
 function toggleAttendance(code) {
-  const month = currentMonth || 'Sin mes';
-  const session = currentGrade;
-  const rec = getAttKey(currentGrade, month, currentDate, session);
-  const states = ['P','A','E'];
-  const cur = rec[code] || 'P';
-  rec[code] = states[(states.indexOf(cur)+1) % states.length];
-  renderAttTable();
+  setStateGrid(code, currentDate, currentMonth || currentDate.substring(0,7));
 }
 
 function setState(code, state) {
-  const month = currentMonth || 'Sin mes';
+  const month = currentMonth || (currentDate ? currentDate.substring(0,7) : 'Sin mes');
   const session = currentGrade;
   const rec = getAttKey(currentGrade, month, currentDate, session);
   rec[code] = state;
@@ -1369,8 +1668,9 @@ function setState(code, state) {
 }
 
 function markAll(state) {
-  if (!currentGrade || !currentDate) { toast('Seleccione grupo y fecha', 'error'); return; }
-  const month = currentMonth || 'Sin mes';
+  if (!currentGrade) { toast('Seleccione grupo primero', 'error'); return; }
+  if (!currentDate) { toast('Seleccione una fecha', 'error'); return; }
+  const month = currentMonth || currentDate.substring(0,7);
   const session = currentGrade;
   const rec = getAttKey(currentGrade, month, currentDate, session);
   DB.students.filter(s => s.grade === currentGrade).forEach(s => rec[s.code] = state);
