@@ -1655,7 +1655,9 @@ async function saveAttendance() {
 
 async function syncToSheets(showToast=true) {
   if (!DB.config.scriptUrl || !curGrade || !curMonth) { setSyncState('local'); return false; }
-  const month = curMonth, session = curGrade;
+
+  const month     = curMonth;
+  const session   = curGrade;
   const classDays = getClassDays(month);
 
   if (!classDays.length) {
@@ -1664,51 +1666,88 @@ async function syncToSheets(showToast=true) {
     return false;
   }
 
-  // Construir registros — solo incluir celdas que tienen estado registrado
-  const allRecords = {};
-  classDays.forEach(f => {
-    const rec = getAttKey(curGrade, month, f, session);
-    const filtered = {};
-    Object.keys(rec).forEach(code => { if (rec[code]) filtered[code] = rec[code]; });
-    if (Object.keys(filtered).length) allRecords[f] = filtered;
-  });
-
-  // Payload mínimo: sin lista de estudiantes para reducir tamaño
-  const payload = {
-    action: 'saveAttendance',
-    grade: curGrade,
-    month: month,
-    session: session,
-    classDays: classDays,
-    records: allRecords
-  };
-
   setSyncState('loading');
-  try {
-    const r = await callScript(payload);
-    if (r?.ok) {
-      setSyncState('ok');
-      if (showToast) toast('Guardado en Google Sheets ✅', 'success');
-      return true;
+  let savedDays = 0;
+  let errors    = 0;
+
+  // Enviar cada día por separado — payload mínimo por petición
+  for (const dateStr of classDays) {
+    const rec      = getAttKey(curGrade, month, dateStr, session);
+    const records  = {};
+    // Solo incluir estados registrados (no vacíos)
+    Object.keys(rec).forEach(code => { if (rec[code]) records[code] = rec[code]; });
+    if (!Object.keys(records).length) continue;
+
+    // Nombres de estudiantes para este grupo
+    const studentNames = {};
+    DB.students.filter(s => s.grade === curGrade)
+      .forEach(s => { studentNames[s.code] = s.name; });
+
+    const payload = {
+      action:       'saveAttendance',
+      grade:        curGrade,
+      date:         dateStr,
+      records:      records,
+      studentNames: studentNames
+    };
+
+    try {
+      await callPOST(payload);
+      savedDays++;
+    } catch(e) {
+      errors++;
     }
-    throw new Error(r?.msg || 'Respuesta inválida');
-  } catch(e) {
+  }
+
+  if (errors === 0) {
+    setSyncState('ok');
+    if (showToast) toast(`✅ ${savedDays} día(s) guardados en Google Sheets`, 'success');
+    return true;
+  } else {
     setSyncState('pending');
-    if (showToast) toast('Error al guardar: ' + e.message, 'info');
+    if (showToast) toast(`${savedDays} guardados, ${errors} errores`, 'info');
     return false;
   }
 }
 
-async function callScript(params) {
-  if (!DB.config.scriptUrl) throw new Error('Sin URL configurada');
-  // fetch POST con Content-Type text/plain para evitar preflight CORS en Google
-  const response = await fetch(DB.config.scriptUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(params)
+// ════════════════════════════════════════════════════════════
+//  COMUNICACIÓN CON APPS SCRIPT
+//  GET  + JSONP  → ping y lecturas (respuesta pequeña)
+//  POST + no-cors → guardar datos  (sin límite de URL, sin leer respuesta)
+// ════════════════════════════════════════════════════════════
+
+function callGET(params) {
+  return new Promise((resolve, reject) => {
+    if (!DB.config.scriptUrl) { reject(new Error('Sin URL')); return; }
+    const cb = '_cb_' + Date.now();
+    const qs = 'data=' + encodeURIComponent(JSON.stringify(params)) + '&callback=' + cb;
+    const s  = document.createElement('script');
+    window[cb] = r => { resolve(r); delete window[cb]; if (s.parentNode) s.remove(); };
+    s.src      = DB.config.scriptUrl + '?' + qs;
+    s.onerror  = () => { reject(new Error('Error de red')); if (s.parentNode) s.remove(); delete window[cb]; };
+    document.head.appendChild(s);
+    setTimeout(() => { reject(new Error('Timeout')); if (s.parentNode) s.remove(); delete window[cb]; }, 10000);
   });
-  if (!response.ok) throw new Error('Error HTTP ' + response.status);
-  return await response.json();
+}
+
+async function callPOST(params) {
+  if (!DB.config.scriptUrl) throw new Error('Sin URL');
+  // no-cors: Google Apps Script recibe el POST pero no devuelve respuesta legible
+  // El dato SÍ se guarda — solo no podemos leer la confirmación
+  await fetch(DB.config.scriptUrl, {
+    method:  'POST',
+    mode:    'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body:    JSON.stringify(params)
+  });
+  return { ok: true };
+}
+
+async function callScript(params) {
+  if (params.action === 'ping' || params.action === 'getSheet') {
+    return await callGET(params);
+  }
+  return await callPOST(params);
 }
 
 function setSyncState(state) {
