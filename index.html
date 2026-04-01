@@ -660,7 +660,7 @@
     <div class="header">
       <div class="header-left">
         <h1>📋 Registro de Asistencia</h1>
-        <p id="headerSubtitle">Seleccione grupo y sesión para comenzar</p>
+        <p id="headerSubtitle">Seleccione materia, grupo y fecha para comenzar</p>
       </div>
       <div class="header-right">
         <div id="syncStatus" class="syncing" style="display:none">
@@ -676,17 +676,16 @@
 
       <!-- Filtros -->
       <div class="filters">
+        <select class="select-styled" id="selMateria" onchange="onMateriaChange()">
+          <option value="">— Materia —</option>
+        </select>
         <select class="select-styled" id="selGrade" onchange="onGradeChange()">
-          <option value="">— Grado / Grupo —</option>
+          <option value="">— Grupo —</option>
         </select>
         <select class="select-styled" id="selMonth" onchange="onMonthChange()">
           <option value="">— Mes —</option>
         </select>
         <input type="date" class="select-styled" id="selDate" onchange="onDateChange()">
-        <select class="select-styled" id="selSession" onchange="onSessionChange()">
-          <option value="">— Sesión —</option>
-        </select>
-        <button class="btn btn-secondary btn-sm" onclick="openAddSessionModal()">＋ Sesión</button>
       </div>
 
       <!-- Stats rápidas -->
@@ -1107,14 +1106,70 @@ function toast(msg, type = 'info') {
 // ════════════════════════════════════════════════════════════
 //  POBLAR SELECTS
 // ════════════════════════════════════════════════════════════
+
+// Extrae la materia del nombre del grupo.
+// Formato esperado: "Ciencias Sociales 6A" → materia = "Ciencias Sociales", grupo = "6A"
+// Formato alternativo: "Sociales 6A" → materia = "Sociales", grupo = "6A"
+// La heurística: la última "palabra" que sea grado (número+letra o solo número) es el grupo.
+function parseMateriaGrupo(gradeName) {
+  const parts = gradeName.trim().split(/\s+/);
+  // Buscar desde el final el primer token que parezca grupo: 6A, 8B, 10C, 6, 8...
+  let splitIdx = parts.length - 1;
+  for (let i = parts.length - 1; i >= 0; i--) {
+    if (/^\d+[A-Za-z]?$/.test(parts[i])) { splitIdx = i; break; }
+  }
+  const materia = parts.slice(0, splitIdx).join(' ') || gradeName;
+  const grupo = parts.slice(splitIdx).join(' ') || gradeName;
+  return { materia, grupo };
+}
+
+function getMaterias() {
+  const set = new Set();
+  DB.grades.forEach(g => set.add(parseMateriaGrupo(g).materia));
+  return [...set];
+}
+
+function getGruposByMateria(materia) {
+  return DB.grades.filter(g => parseMateriaGrupo(g).materia === materia);
+}
+
 function populateSelects() {
-  const gradeSelects = ['selGrade','resGrade','accGrade','repGrade','stuGrade','stuFilterGrade'];
-  gradeSelects.forEach(id => {
+  // Select de materia (solo en registro)
+  const selMat = document.getElementById('selMateria');
+  if (selMat) {
+    const prev = selMat.value;
+    selMat.innerHTML = '<option value="">— Materia —</option>';
+    getMaterias().forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m; opt.textContent = m;
+      selMat.appendChild(opt);
+    });
+    selMat.value = prev;
+  }
+
+  // Select de grupo en registro (se filtra por materia seleccionada)
+  const selGradeReg = document.getElementById('selGrade');
+  if (selGradeReg) {
+    const prev = selGradeReg.value;
+    const materia = selMat ? selMat.value : '';
+    const lista = materia ? getGruposByMateria(materia) : DB.grades;
+    selGradeReg.innerHTML = '<option value="">— Grupo —</option>';
+    lista.forEach(g => {
+      const opt = document.createElement('option');
+      const { grupo } = parseMateriaGrupo(g);
+      opt.value = g; opt.textContent = grupo;
+      selGradeReg.appendChild(opt);
+    });
+    selGradeReg.value = prev;
+  }
+
+  // Selects de grupo en otras páginas (resumen, acumulado, reporte, config)
+  ['resGrade','accGrade','repGrade','stuGrade','stuFilterGrade'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     const val = el.value;
     const isFilter = ['resGrade','accGrade','repGrade','stuFilterGrade'].includes(id);
-    el.innerHTML = isFilter ? '<option value="">— Todos los grupos —</option>' : '<option value="">— Grado / Grupo —</option>';
+    el.innerHTML = isFilter ? '<option value="">— Todos los grupos —</option>' : '<option value="">— Grupo —</option>';
     DB.grades.forEach(g => {
       const opt = document.createElement('option');
       opt.value = g; opt.textContent = g;
@@ -1123,8 +1178,8 @@ function populateSelects() {
     el.value = val;
   });
 
-  const monthSelects = ['selMonth','resMonth'];
-  monthSelects.forEach(id => {
+  // Selects de mes
+  ['selMonth','resMonth'].forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     const val = el.value;
@@ -1143,67 +1198,43 @@ function populateSelects() {
 // ════════════════════════════════════════════════════════════
 let currentGrade = '', currentMonth = '', currentDate = '', currentSession = '';
 
+function onMateriaChange() {
+  // Al cambiar materia, actualizar grupos disponibles y limpiar selección
+  currentGrade = '';
+  currentSession = '';
+  document.getElementById('selGrade').value = '';
+  populateSelects(); // re-filtra el select de grupo
+  renderAttTable();
+  updateHeaderSubtitle();
+}
+
 function onGradeChange() {
   currentGrade = document.getElementById('selGrade').value;
-  updateSessionSel();
+  // La "sesión" ahora ES el nombre completo del grupo (materia + grupo)
+  currentSession = currentGrade;
   renderAttTable();
+  updateHeaderSubtitle();
 }
+
 function onMonthChange() {
   currentMonth = document.getElementById('selMonth').value;
   renderAttTable();
 }
+
 function onDateChange() {
   currentDate = document.getElementById('selDate').value;
-  renderAttTable();
-}
-function onSessionChange() {
-  currentSession = document.getElementById('selSession').value;
   renderAttTable();
   updateHeaderSubtitle();
 }
 
 function updateHeaderSubtitle() {
-  if (currentGrade && currentSession && currentDate) {
+  if (currentGrade && currentDate) {
     const d = new Date(currentDate + 'T12:00:00');
     const dateStr = d.toLocaleDateString('es-CO', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
-    document.getElementById('headerSubtitle').textContent = `${currentSession} · ${dateStr}`;
+    document.getElementById('headerSubtitle').textContent = `${currentGrade} · ${dateStr}`;
   } else {
-    document.getElementById('headerSubtitle').textContent = 'Seleccione grupo y sesión para comenzar';
+    document.getElementById('headerSubtitle').textContent = 'Seleccione materia, grupo y fecha para comenzar';
   }
-}
-
-function updateSessionSel() {
-  const sel = document.getElementById('selSession');
-  sel.innerHTML = '<option value="">— Sesión —</option>';
-  const sessions = (DB.sessions[currentGrade] || []);
-  sessions.forEach(s => {
-    const opt = document.createElement('option');
-    opt.value = s; opt.textContent = s;
-    sel.appendChild(opt);
-  });
-}
-
-function openAddSessionModal() {
-  document.getElementById('sesName').value = currentGrade || '';
-  openModal('modalSession');
-}
-
-function addSession() {
-  const name = document.getElementById('sesName').value.trim();
-  const time = document.getElementById('sesTime').value;
-  if (!name) { toast('Ingrese el nombre de la sesión', 'error'); return; }
-  const label = time ? `${time} · ${name}` : name;
-  if (!DB.sessions[name]) DB.sessions[name] = [];
-  DB.sessions[name].push(label);
-  // también guardar en el grado actual
-  if (currentGrade) {
-    if (!DB.sessions[currentGrade]) DB.sessions[currentGrade] = [];
-    if (!DB.sessions[currentGrade].includes(label)) DB.sessions[currentGrade].push(label);
-  }
-  saveDB();
-  updateSessionSel();
-  closeModal('modalSession');
-  toast('Sesión agregada', 'success');
 }
 
 // ════════════════════════════════════════════════════════════
@@ -1219,21 +1250,23 @@ function getAttKey(grade, month, date, session) {
 
 function renderAttTable() {
   const wrap = document.getElementById('attTableWrap');
-  if (!currentGrade || !currentDate || !currentSession) {
-    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎒</div><h3>Ninguna sesión seleccionada</h3><p>Elija un grupo, fecha y sesión.</p></div>`;
+  if (!currentGrade || !currentDate) {
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">🎒</div><h3>Ninguna clase seleccionada</h3><p>Elija materia, grupo y fecha.</p></div>`;
     updateStats([]);
     return;
   }
 
   const students = DB.students.filter(s => s.grade === currentGrade);
   if (students.length === 0) {
-    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes</h3><p>Agregue estudiantes en Configuración.</p></div>`;
+    wrap.innerHTML = `<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agregue estudiantes en ⚙️ Configuración.</p></div>`;
     updateStats([]);
     return;
   }
 
   const month = currentMonth || 'Sin mes';
-  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  // La sesión ahora es el nombre del grupo (Sociales 6A, Ciudadanía 8B, etc.)
+  const session = currentGrade;
+  const rec = getAttKey(currentGrade, month, currentDate, session);
   const icons = DB.config.icons;
 
   let rows = students.map((s, i) => {
@@ -1286,7 +1319,8 @@ function renderAttTable() {
 
 function toggleAttendance(code) {
   const month = currentMonth || 'Sin mes';
-  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const session = currentGrade;
+  const rec = getAttKey(currentGrade, month, currentDate, session);
   const states = ['P','A','E'];
   const cur = rec[code] || 'P';
   rec[code] = states[(states.indexOf(cur)+1) % states.length];
@@ -1295,15 +1329,17 @@ function toggleAttendance(code) {
 
 function setState(code, state) {
   const month = currentMonth || 'Sin mes';
-  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const session = currentGrade;
+  const rec = getAttKey(currentGrade, month, currentDate, session);
   rec[code] = state;
   renderAttTable();
 }
 
 function markAll(state) {
-  if (!currentGrade || !currentDate || !currentSession) { toast('Seleccione grupo, fecha y sesión', 'error'); return; }
+  if (!currentGrade || !currentDate) { toast('Seleccione grupo y fecha', 'error'); return; }
   const month = currentMonth || 'Sin mes';
-  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const session = currentGrade;
+  const rec = getAttKey(currentGrade, month, currentDate, session);
   DB.students.filter(s => s.grade === currentGrade).forEach(s => rec[s.code] = state);
   renderAttTable();
   toast(`Todos marcados como ${state === 'P' ? 'Presentes' : state === 'A' ? 'Ausentes' : 'Excusas'}`, 'success');
@@ -1335,19 +1371,20 @@ async function saveAttendance() {
     toast('Configure la URL del Apps Script primero', 'error');
     return;
   }
-  if (!currentGrade || !currentDate || !currentSession) {
-    toast('Seleccione grupo, fecha y sesión', 'error');
+  if (!currentGrade || !currentDate) {
+    toast('Seleccione grupo y fecha', 'error');
     return;
   }
 
   const month = currentMonth || 'Sin mes';
-  const rec = getAttKey(currentGrade, month, currentDate, currentSession);
+  const session = currentGrade;
+  const rec = getAttKey(currentGrade, month, currentDate, session);
   const payload = {
     action: 'saveAttendance',
     grade: currentGrade,
     month: month,
     date: currentDate,
-    session: currentSession,
+    session: session,
     records: rec
   };
 
