@@ -119,8 +119,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .main{grid-area:main;overflow-y:auto;overflow-x:hidden}
 
 /* ── TABS ── */
-.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}
-.tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);margin-bottom:-1px;display:flex;align-items:center;gap:6px}
+.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:none;gap:0} /* Oculto por defecto en computadoras */
+.tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);margin-bottom:-1px;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .tab:hover{color:var(--text2)}
 .tab.active{color:var(--mat);border-bottom-color:var(--mat)}
 .tab-content{display:none}
@@ -342,9 +342,12 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 .mt-8{margin-top:8px}
 .mt-12{margin-top:12px}
 .mb-12{margin-bottom:12px}
+
+/* MEDIA QUERIES (Responsividad para celulares) */
 @media(max-width:768px){
   .app{grid-template-columns:1fr;grid-template-areas:"logo""topbar""main"}
-  .sidebar{display:none}
+  .sidebar{display:none} /* Se oculta el menú lateral izquierdo */
+  .tabs-bar{display:flex;overflow-x:auto;padding:0 12px} /* Aparecen los botones superiores */
   .stats-row{grid-template-columns:1fr 1fr}
   .config-grid{grid-template-columns:1fr}
   .new-grade-form{grid-template-columns:1fr 1fr}
