@@ -11,9 +11,9 @@
 
 <style>
 /* ═══════════════════════════════════════════
-   VARIABLES
+   VARIABLES Y TEMAS
 ═══════════════════════════════════════════ */
-:root {
+:root, [data-theme="light"] {
   --bg: #F5F6FA; --white: #FFFFFF; --border: #E8EAF0; --border2: #D8DBE8;
   --text: #1A1D2E; --text2: #6B7094; --text3: #B0B4CC;
   --shadow-sm: 0 1px 4px rgba(60,70,110,.06);
@@ -35,21 +35,33 @@
   --row-h: #FFFAEC; --row-ht: #C08010;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #12141C; --white: #1E212E; --border: #2A2E40; --border2: #3A3F55;
-    --text: #E8EAF0; --text2: #9CA3B8; --text3: #6B7094;
-    --shadow-sm: 0 1px 4px rgba(0,0,0,.3);
-    --shadow: 0 4px 16px rgba(0,0,0,.4);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
-    --present-bg: rgba(52, 199, 123, 0.15);
-    --absent-bg: rgba(240, 92, 110, 0.15);
-    --excuse-bg: rgba(240, 150, 42, 0.15);
-    --row-a: #232534; --row-b: #1E212E; --row-c: #232534; --row-d: #1E212E;
-    --row-e: #232534; --row-f: #1E212E; --row-g: #232534; --row-h: #1E212E;
-  }
-  .sel, .input { background-color: var(--bg); color: var(--text); }
+[data-theme="dark"] {
+  --bg: #12141C; --white: #1E212E; --border: #2A2E40; --border2: #3A3F55;
+  --text: #E8EAF0; --text2: #9CA3B8; --text3: #6B7094;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.3);
+  --shadow: 0 4px 16px rgba(0,0,0,.4);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+  --present-bg: rgba(52, 199, 123, 0.15);
+  --absent-bg: rgba(240, 92, 110, 0.15);
+  --excuse-bg: rgba(240, 150, 42, 0.15);
+  --row-a: #232534; --row-b: #1E212E; --row-c: #232534; --row-d: #1E212E;
+  --row-e: #232534; --row-f: #1E212E; --row-g: #232534; --row-h: #1E212E;
 }
+
+[data-theme="pastel"] {
+  --bg: #E8F0FE; --white: #FFFFFF; --border: #D2E3FC; --border2: #AECBFA;
+  --text: #174EA6; --text2: #1967D2; --text3: #669DF6;
+  --shadow-sm: 0 2px 6px rgba(25,103,210,.08);
+  --shadow: 0 4px 16px rgba(25,103,210,.12);
+  --shadow-lg: 0 8px 32px rgba(25,103,210,.15);
+  --present-bg: #CEEAD6; --present: #0D652D;
+  --absent-bg: #FAD2CF; --absent: #A50E0E;
+  --excuse-bg: #FEEFC3; --excuse: #E37400;
+  --row-a: #F8FBFF; --row-b: #F4F8FE; --row-c: #F8FBFF; --row-d: #F4F8FE;
+  --row-e: #F8FBFF; --row-f: #F4F8FE; --row-g: #F8FBFF; --row-h: #F4F8FE;
+}
+
+.sel, .input { background-color: var(--bg); color: var(--text); }
 
 [data-materia="sociales"]    {--mat:#7B7FD4;--mat-light:#EEEFFE;--mat-mid:#C5C7F0}
 [data-materia="ciudadania"]  {--mat:#3DAA82;--mat-light:#E6F8F3;--mat-mid:#A8DFD0}
@@ -106,7 +118,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .group-item:hover{background:var(--bg)}
 .group-item.active{background:var(--mat-light);color:var(--mat);font-weight:700}
 .group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.sidebar-spacer{flex:1}
 
 /* ── MAIN & TABS ── */
 .main{grid-area:main;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column}
@@ -183,10 +194,8 @@ table.planilla td.col-name::after, table.planilla th.col-name::after {
   pointer-events: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  table.planilla td.col-name::after, table.planilla th.col-name::after {
-    background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
-  }
+[data-theme="dark"] table.planilla td.col-name::after, [data-theme="dark"] table.planilla th.col-name::after {
+  background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
 }
 
 .student-cell{display:flex;align-items:center;gap:10px}
@@ -269,7 +278,7 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .upload-zone .uz-icon{font-size:32px;margin-bottom:8px}
 .upload-zone p{font-size:12px;color:var(--text2)}
 .upload-zone strong{color:var(--mat)}
-.icon-picker{display:flex;flex-wrap:wrap;gap:8px} /* CORRECCIÓN CUADRÍCULA ICONOS */
+.icon-picker{display:flex;flex-wrap:wrap;gap:8px}
 
 /* ── FESTIVOS ── */
 .festivos-wrap{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
@@ -422,9 +431,19 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
             <div class="form-group"><label class="form-label">Año académico</label><input class="input" id="cfgYear" type="number" placeholder="2026"></div>
             <button class="btn btn-primary btn-sm mt-8" onclick="saveConfig()">💾 Guardar</button>
           </div>
-
+          
           <div class="config-card">
-            <div class="config-card-title">🎨 Iconos de Estado</div>
+            <div class="config-card-title">🎨 Apariencia</div>
+            <div class="form-group">
+              <label class="form-label">Tema del Sistema</label>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <button class="btn btn-ghost" id="btnThemeLight" onclick="setTheme('light')">☀️ Claro</button>
+                <button class="btn btn-ghost" id="btnThemeDark" onclick="setTheme('dark')">🌙 Oscuro</button>
+                <button class="btn btn-ghost" id="btnThemePastel" onclick="setTheme('pastel')">☁️ Tonos Pastel</button>
+              </div>
+            </div>
+            <hr>
+            <div class="config-card-title" style="font-size:13px;margin-bottom:12px">Iconos de Estado</div>
             <div class="form-group"><label class="form-label">✅ Presente</label><div class="icon-picker" id="iconPickerP"></div></div>
             <div class="form-group"><label class="form-label">❌ Falla</label><div class="icon-picker" id="iconPickerA"></div></div>
             <div class="form-group"><label class="form-label">📋 Excusa</label><div class="icon-picker" id="iconPickerE"></div></div>
@@ -551,10 +570,10 @@ db.enablePersistence({ synchronizeTabs: true })
   });
 
 // ════════════════════════════════════════════════════════════
-//  BASE DE DATOS LOCAL (caché rápido mientras carga Firebase)
+//  BASE DE DATOS LOCAL (caché rápido)
 // ════════════════════════════════════════════════════════════
 const DB = {
-  config:     { teacher:'Jhon Jairo Lara Martínez', school:'I.E.D. Pestalozzi', year:2026, icons:{P:'✅',A:'❌',E:'📋'}, includeSat:false, includeSun:false },
+  config:     { teacher:'Jhon Jairo Lara Martínez', school:'I.E.D. Pestalozzi', year:2026, icons:{P:'✅',A:'❌',E:'📋'}, includeSat:false, includeSun:false, theme:'light' },
   grades:     [],
   months:     [],
   students:   [],
@@ -567,6 +586,7 @@ function loadLocalCache() {
   try {
     const s = localStorage.getItem('asist_pestalozzi_fb');
     if (s) Object.assign(DB, JSON.parse(s));
+    document.documentElement.setAttribute('data-theme', DB.config.theme || 'light');
   } catch(e) {}
 }
 function saveLocalCache() {
@@ -578,7 +598,7 @@ function saveLocalCache() {
 // ════════════════════════════════════════════════════════════
 let curGrade = '', curMonth = '', curSession = '';
 let _saveTimer = null;
-let _listeners = [];  // listeners de Firestore activos
+let _listeners = [];
 
 const DIAS_ES   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const MESES_NUM = {Enero:1,Febrero:2,Marzo:3,Abril:4,Mayo:5,Junio:6,Julio:7,Agosto:8,Septiembre:9,Octubre:10,Noviembre:11,Diciembre:12};
@@ -595,56 +615,30 @@ const PASTEL_CHIPS = ROW_COLORS;
 //  FIRESTORE — GUARDAR
 // ════════════════════════════════════════════════════════════
 async function fbSaveConfig() {
-  try {
-    await db.collection('config').doc('settings').set(DB.config);
-  } catch(e) { console.warn('fbSaveConfig:', e.message); }
+  try { await db.collection('config').doc('settings').set(DB.config); } catch(e) { console.warn('fbSaveConfig:', e.message); }
 }
-
 async function fbSaveGrades() {
-  try {
-    await db.collection('config').doc('grades').set({ list: DB.grades });
-  } catch(e) { console.warn('fbSaveGrades:', e.message); }
+  try { await db.collection('config').doc('grades').set({ list: DB.grades }); } catch(e) { console.warn('fbSaveGrades:', e.message); }
 }
-
 async function fbSaveMonths() {
-  try {
-    await db.collection('config').doc('months').set({ list: DB.months });
-  } catch(e) { console.warn('fbSaveMonths:', e.message); }
+  try { await db.collection('config').doc('months').set({ list: DB.months }); } catch(e) { console.warn('fbSaveMonths:', e.message); }
 }
-
 async function fbSaveFestivos() {
-  try {
-    await db.collection('config').doc('festivos').set({ dates: DB.festivos });
-  } catch(e) { console.warn('fbSaveFestivos:', e.message); }
+  try { await db.collection('config').doc('festivos').set({ dates: DB.festivos }); } catch(e) { console.warn('fbSaveFestivos:', e.message); }
 }
-
 async function fbSaveClassDays() {
-  try {
-    await db.collection('config').doc('classDays').set(DB.classDays);
-  } catch(e) { console.warn('fbSaveClassDays:', e.message); }
+  try { await db.collection('config').doc('classDays').set(DB.classDays); } catch(e) { console.warn('fbSaveClassDays:', e.message); }
 }
-
 async function fbSaveStudent(student) {
-  try {
-    await db.collection('estudiantes').doc(student.code).set(student);
-  } catch(e) { console.warn('fbSaveStudent:', e.message); }
+  try { await db.collection('estudiantes').doc(student.code).set(student); } catch(e) { console.warn('fbSaveStudent:', e.message); }
 }
-
 async function fbDeleteStudent(code) {
-  try {
-    await db.collection('estudiantes').doc(code).delete();
-  } catch(e) { console.warn('fbDeleteStudent:', e.message); }
+  try { await db.collection('estudiantes').doc(code).delete(); } catch(e) { console.warn('fbDeleteStudent:', e.message); }
 }
-
-// Guardar asistencia de un día completo
 async function fbSaveDay(grade, month, date, records) {
   try {
     const gradeKey = grade.replace(/[^a-zA-Z0-9]/g,'_');
-    await db.collection('asistencia')
-      .doc(gradeKey)
-      .collection(month)
-      .doc(date)
-      .set(records, { merge: false });
+    await db.collection('asistencia').doc(gradeKey).collection(month).doc(date).set(records, { merge: false });
     setSyncState('ok');
   } catch(e) {
     console.warn('fbSaveDay:', e.message);
@@ -660,6 +654,8 @@ async function fbLoadAll() {
   try {
     const cfgDoc = await db.collection('config').doc('settings').get();
     if (cfgDoc.exists) Object.assign(DB.config, cfgDoc.data());
+    
+    document.documentElement.setAttribute('data-theme', DB.config.theme || 'light');
 
     const gradesDoc = await db.collection('config').doc('grades').get();
     if (gradesDoc.exists) DB.grades = gradesDoc.data().list || [];
@@ -703,9 +699,7 @@ async function fbLoadMonth(grade, month) {
       DB.attendance[grade][month][d.id] = d.data();
     });
     saveLocalCache();
-  } catch(e) {
-    console.warn('fbLoadMonth:', e.message);
-  }
+  } catch(e) { console.warn('fbLoadMonth:', e.message); }
 }
 
 function fbListenMonth(grade, month) {
@@ -719,9 +713,7 @@ function fbListenMonth(grade, month) {
     .onSnapshot(snap => {
       if (!DB.attendance[grade]) DB.attendance[grade] = {};
       if (!DB.attendance[grade][month]) DB.attendance[grade][month] = {};
-      snap.docs.forEach(d => {
-        DB.attendance[grade][month][d.id] = d.data();
-      });
+      snap.docs.forEach(d => { DB.attendance[grade][month][d.id] = d.data(); });
       saveLocalCache();
       renderPlanilla();
     }, err => console.warn('fbListenMonth:', err.message));
@@ -796,10 +788,8 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 function showTab(name, navEl) {
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('tab-'+name)?.classList.add('active');
   document.querySelector(`.tab[data-tab="${name}"]`)?.classList.add('active');
-  if (navEl) navEl.classList.add('active');
   if (name==='resumen') renderResumen();
   if (name==='reporte') renderReporte();
   if (name==='config')  renderConfig();
@@ -862,7 +852,32 @@ function renderSidebarGroups() {
       <div class="group-dot" style="background:${c.fg}"></div>${g}</div>`;
   }).join('');
 }
-function selectGroup(g) { document.getElementById('selGrade').value=g; onGradeChange(); }
+
+function selectGroup(g) {
+  // Extraemos la materia correspondiente a este grupo
+  const parts = parseMateriaGrupo(g);
+  const selMat = document.getElementById('selMateria');
+  const selGr = document.getElementById('selGrade');
+  
+  // 1. Sincronizamos el select de materia
+  if (selMat.querySelector(`option[value="${parts.materia}"]`)) {
+    selMat.value = parts.materia;
+  }
+  
+  // 2. Reconstruimos el select de grupos basado en la materia
+  populateSelects();
+  
+  // 3. Seleccionamos el grupo exacto
+  if (selGr.querySelector(`option[value="${g}"]`)) {
+    selGr.value = g;
+  }
+  
+  // 4. Forzamos el cambio a la pestaña de Planilla para visualizar el grupo
+  showTab('planilla', null);
+  
+  // 5. Disparamos el evento de cambio para que cargue la info de la base de datos
+  onGradeChange();
+}
 
 // ════════════════════════════════════════════════════════════
 //  EVENTOS FILTROS
@@ -898,13 +913,13 @@ function updateTopbarSub() {
 function renderPlanilla() {
   const card=document.getElementById('planillaCard');
   if (!curGrade||!curMonth) {
-    card.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia, grupo y mes</h3><p>Aparecerá el planillón completo.</p></div>`;
-    updateStats(null); return;
+    card.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia, grupo y mes</h3><p>Aparecerá el planillón completo del mes.</p></div>`;
+    return;
   }
   const students=DB.students.filter(s=>s.grade===curGrade);
   if (!students.length) {
     card.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agréguelos en ⚙️ Configuración.</p></div>`;
-    updateStats(null); return;
+    return;
   }
   const year=DB.config.year||new Date().getFullYear();
   const mesNum=MESES_NUM[curMonth]||1;
@@ -1001,8 +1016,6 @@ function renderPlanilla() {
       <div class="legend-item"><div class="legend-dot" style="background:var(--border2);border:1px dashed var(--border2)"></div>Sin registro</div>
       <span style="margin-left:auto">Vacío → P → F → E → Vacío</span>
     </div>`;
-
-  updateStats({students,classDays,grade:curGrade,month:curMonth});
 }
 
 function toggleDay(dateStr) {
@@ -1066,9 +1079,6 @@ async function manualSave() {
   toast(ok?'✅ Guardado en Firebase':'⚠️ Guardado parcialmente',ok?'success':'info');
 }
 
-function updateStats(data) {
-  // Función vaciada intencionalmente para limpiar la cabecera
-}
 
 // ════════════════════════════════════════════════════════════
 //  RESUMEN
@@ -1175,16 +1185,33 @@ function printReport() {
 }
 
 // ════════════════════════════════════════════════════════════
-//  CONFIGURACIÓN
+//  CONFIGURACIÓN Y TEMAS
 // ════════════════════════════════════════════════════════════
 const ICON_OPTIONS={P:['✅','☑️','👍','🟢','⭐','🎯','✔️','🙋'],A:['❌','🔴','😴','⛔','✖️','🚫','💤','😶'],E:['📋','📝','🟡','⚠️','🔖','📌','🗒️','💬']};
 
+function setTheme(theme) {
+  DB.config.theme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+  saveLocalCache();
+  fbSaveConfig();
+  renderConfig(); // Actualiza el estado visual de los botones
+}
+
 function renderConfig() {
+  // Renderizar selectores de iconos
   ['P','A','E'].forEach(state=>{
     const picker=document.getElementById('iconPicker'+state);
     if (!picker) return;
     picker.innerHTML=ICON_OPTIONS[state].map(icon=>`<div class="icon-opt ${DB.config.icons[state]===icon?'sel':''}" onclick="selectIcon('${state}','${icon}',this)" style="width:40px;height:40px;border-radius:10px;background:var(--bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .15s">${icon}</div>`).join('');
   });
+  
+  // Actualizar estado de los botones de tema
+  document.querySelectorAll('[id^="btnTheme"]').forEach(b => { b.classList.remove('btn-primary'); b.classList.add('btn-ghost'); });
+  const activeBtnId = 'btnTheme' + (DB.config.theme === 'dark' ? 'Dark' : DB.config.theme === 'pastel' ? 'Pastel' : 'Light');
+  const activeBtn = document.getElementById(activeBtnId);
+  if (activeBtn) { activeBtn.classList.remove('btn-ghost'); activeBtn.classList.add('btn-primary'); }
+
+  // Resto de datos de config
   document.getElementById('cfgTeacher').value=DB.config.teacher||'';
   document.getElementById('cfgSchool').value=DB.config.school||'';
   document.getElementById('cfgYear').value=DB.config.year||2026;
