@@ -15,25 +15,44 @@
    VARIABLES
 ═══════════════════════════════════════════ */
 :root {
-  --bg:#F5F6FA; --white:#FFF; --border:#E8EAF0; --border2:#D8DBE8;
-  --text:#1A1D2E; --text2:#6B7094; --text3:#B0B4CC;
-  --shadow-sm:0 1px 4px rgba(60,70,110,.06);
-  --shadow:0 4px 16px rgba(60,70,110,.10);
-  --shadow-lg:0 8px 32px rgba(60,70,110,.13);
-  --radius-sm:8px; --radius:14px; --radius-lg:20px;
-  --transition:.18s cubic-bezier(.4,0,.2,1);
-  --mat:#7B7FD4; --mat-light:#EEEFFE; --mat-mid:#C5C7F0;
-  --present:#34C77B; --present-bg:#E8FAF1;
-  --absent:#F05C6E;  --absent-bg:#FEE9EC;
-  --excuse:#F0962A;  --excuse-bg:#FEF3E4;
-  --row-a:#FFF0F2; --row-at:#D44A5A;
-  --row-b:#F0EEFF; --row-bt:#5A52C0;
-  --row-c:#EDFAF4; --row-ct:#1E8A52;
-  --row-d:#FFF7EC; --row-dt:#C06A10;
-  --row-e:#EDF4FF; --row-et:#2A60C0;
-  --row-f:#FFF0FA; --row-ft:#B03090;
-  --row-g:#F0FAF0; --row-gt:#2A8A20;
-  --row-h:#FFFAEC; --row-ht:#C08010;
+  /* Paleta principal actualizada */
+  --bg: #F5F6FA; --white: #FFFFFF; --border: #E8EAF0; --border2: #D8DBE8;
+  --text: #1A1D2E; --text2: #6B7094; --text3: #B0B4CC;
+  --shadow-sm: 0 1px 4px rgba(60,70,110,.06);
+  --shadow: 0 4px 16px rgba(60,70,110,.10);
+  --shadow-lg: 0 8px 32px rgba(60,70,110,.13);
+  --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
+  --transition: .18s cubic-bezier(.4,0,.2,1);
+  --mat: #2A60C0; --mat-light: #EDF4FF; --mat-mid: #94B4E0;
+  --present: #34C77B; --present-bg: #E8FAF1;
+  --absent: #F05C6E;  --absent-bg: #FEE9EC;
+  --excuse: #F0962A;  --excuse-bg: #FEF3E4;
+  --row-a: #FFF0F2; --row-at: #D44A5A;
+  --row-b: #F0EEFF; --row-bt: #5A52C0;
+  --row-c: #EDFAF4; --row-ct: #1E8A52;
+  --row-d: #FFF7EC; --row-dt: #C06A10;
+  --row-e: #EDF4FF; --row-et: #2A60C0;
+  --row-f: #FFF0FA; --row-ft: #B03090;
+  --row-g: #F0FAF0; --row-gt: #2A8A20;
+  --row-h: #FFFAEC; --row-ht: #C08010;
+}
+
+/* Activación automática del modo oscuro según el sistema operativo */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12141C; --white: #1E212E; --border: #2A2E40; --border2: #3A3F55;
+    --text: #E8EAF0; --text2: #9CA3B8; --text3: #6B7094;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,.3);
+    --shadow: 0 4px 16px rgba(0,0,0,.4);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+    --present-bg: rgba(52, 199, 123, 0.15);
+    --absent-bg: rgba(240, 92, 110, 0.15);
+    --excuse-bg: rgba(240, 150, 42, 0.15);
+    /* Simplificación de las filas para no saturar la vista oscura */
+    --row-a: #232534; --row-b: #1E212E; --row-c: #232534; --row-d: #1E212E;
+    --row-e: #232534; --row-f: #1E212E; --row-g: #232534; --row-h: #1E212E;
+  }
+  .sel, .input { background-color: var(--bg); color: var(--text); }
 }
 [data-materia="sociales"]    {--mat:#7B7FD4;--mat-light:#EEEFFE;--mat-mid:#C5C7F0}
 [data-materia="ciudadania"]  {--mat:#3DAA82;--mat-light:#E6F8F3;--mat-mid:#A8DFD0}
@@ -72,6 +91,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .btn-ghost:hover{background:var(--mat-light);color:var(--mat);border-color:var(--mat-mid)}
 .btn-sm{padding:5px 12px;font-size:12px}
 .btn-danger{background:var(--absent-bg);color:var(--absent);border:1px solid rgba(240,92,110,.3)}
+.btn:active {
+  transform: scale(0.96);
+}
 
 /* ── SYNC BADGE ── */
 .sync-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bg);border:1px solid var(--border);border-radius:99px;font-size:11px;color:var(--text3)}
@@ -99,13 +121,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .main{grid-area:main;overflow-y:auto;overflow-x:hidden}
 
 /* ── TABS ── */
-.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}
-.tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);margin-bottom:-1px;display:flex;align-items:center;gap:6px}
-.tab:hover{color:var(--text2)}
-.tab.active{color:var(--mat);border-bottom-color:var(--mat)}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.page-body{padding:24px}
+@keyframes fadeInTab {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tab-content.active {
+  display: block;
+  animation: fadeInTab 0.25s ease-out forwards;
+}
 
 /* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
@@ -161,6 +184,23 @@ table.planilla tbody tr:nth-child(8n+6) .row-name{color:var(--row-ft)}
 table.planilla tbody tr:nth-child(8n+7) .row-name{color:var(--row-gt)}
 table.planilla tbody tr:nth-child(8n+8) .row-name{color:var(--row-ht)}
 td.col-name{padding:10px 14px;border-right:1px solid var(--border)}
+
+/* Sombra de profundidad en columna fija */
+table.planilla td.col-name::after, table.planilla th.col-name::after {
+  content: "";
+  position: absolute;
+  top: 0; right: -5px; bottom: 0;
+  width: 5px;
+  background: linear-gradient(to right, rgba(0,0,0,0.06), transparent);
+  pointer-events: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  table.planilla td.col-name::after, table.planilla th.col-name::after {
+    background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
+  }
+}
+
 .student-cell{display:flex;align-items:center;gap:10px}
 .stu-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;flex-shrink:0;border:2px solid rgba(0,0,0,.08)}
 .stu-name-wrap .row-name{font-weight:700;font-size:12px;line-height:1.2;display:block}
