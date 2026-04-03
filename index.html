@@ -6,7 +6,6 @@
 <title>Asistencia · Pestalozzi</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-<!-- Firebase SDK (compat para uso sin bundler) -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
@@ -54,6 +53,7 @@
   }
   .sel, .input { background-color: var(--bg); color: var(--text); }
 }
+
 [data-materia="sociales"]    {--mat:#7B7FD4;--mat-light:#EEEFFE;--mat-mid:#C5C7F0}
 [data-materia="ciudadania"]  {--mat:#3DAA82;--mat-light:#E6F8F3;--mat-mid:#A8DFD0}
 [data-materia="matematicas"] {--mat:#E07060;--mat-light:#FEEEEC;--mat-mid:#F0B8B0}
@@ -91,9 +91,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .btn-ghost:hover{background:var(--mat-light);color:var(--mat);border-color:var(--mat-mid)}
 .btn-sm{padding:5px 12px;font-size:12px}
 .btn-danger{background:var(--absent-bg);color:var(--absent);border:1px solid rgba(240,92,110,.3)}
-.btn:active {
-  transform: scale(0.96);
-}
+.btn:active {transform: scale(0.96);}
 
 /* ── SYNC BADGE ── */
 .sync-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bg);border:1px solid var(--border);border-radius:99px;font-size:11px;color:var(--text3)}
@@ -121,6 +119,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .main{grid-area:main;overflow-y:auto;overflow-x:hidden}
 
 /* ── TABS ── */
+.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}
+.tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);margin-bottom:-1px;display:flex;align-items:center;gap:6px}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--mat);border-bottom-color:var(--mat)}
+.tab-content{display:none}
+
 @keyframes fadeInTab {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -129,6 +133,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   display: block;
   animation: fadeInTab 0.25s ease-out forwards;
 }
+.page-body{padding:24px}
 
 /* ── STATS ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
@@ -349,13 +354,11 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 <body>
 <div class="app">
 
-  <!-- LOGO -->
   <div class="logo-area">
     <div class="logo-icon">🎒</div>
     <div class="logo-text">Pestalozzi<span> Asist.</span></div>
   </div>
 
-  <!-- TOPBAR -->
   <div class="topbar">
     <div class="topbar-title">Registro de Asistencia<span id="topbarSub"></span></div>
     <select class="sel" id="selMateria" onchange="onMateriaChange()"><option value="">— Materia —</option></select>
@@ -369,7 +372,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <button class="btn btn-primary btn-sm" onclick="manualSave()">💾 Guardar</button>
   </div>
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="sidebar-section">Navegación</div>
     <div class="nav-item active" onclick="showTab('planilla',this)"><span class="nav-icon">📋</span>Planilla</div>
@@ -381,7 +383,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
     <div class="nav-item" onclick="showTab('config',this)"><span class="nav-icon">⚙️</span>Configuración</div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
     <div class="tabs-bar">
       <div class="tab active" data-tab="planilla" onclick="showTab('planilla',null)">📋 Planilla</div>
@@ -390,7 +391,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
       <div class="tab" data-tab="config"   onclick="showTab('config',null)">⚙️ Configuración</div>
     </div>
 
-    <!-- PLANILLA -->
     <div class="tab-content active" id="tab-planilla">
       <div class="page-body">
         <div class="stats-row">
@@ -405,7 +405,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
       </div>
     </div>
 
-    <!-- RESUMEN -->
     <div class="tab-content" id="tab-resumen">
       <div class="page-body">
         <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
@@ -421,7 +420,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
       </div>
     </div>
 
-    <!-- REPORTE -->
     <div class="tab-content" id="tab-reporte">
       <div class="page-body">
         <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center">
@@ -439,13 +437,11 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
       </div>
     </div>
 
-    <!-- CONFIG -->
     <div class="tab-content" id="tab-config">
       <div class="page-body">
         <div id="fbStatusBanner" class="fb-banner" style="display:none"></div>
         <div class="config-grid" style="margin-bottom:16px">
 
-          <!-- Institución -->
           <div class="config-card">
             <div class="config-card-title">🏫 Institución</div>
             <div class="form-group"><label class="form-label">Docente</label><input class="input" id="cfgTeacher" placeholder="Jhon Jairo Lara Martínez"></div>
@@ -454,7 +450,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
             <button class="btn btn-primary btn-sm mt-8" onclick="saveConfig()">💾 Guardar</button>
           </div>
 
-          <!-- Iconos -->
           <div class="config-card">
             <div class="config-card-title">🎨 Iconos de Estado</div>
             <div class="form-group"><label class="form-label">✅ Presente</label><div class="icon-picker" id="iconPickerP"></div></div>
@@ -465,7 +460,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
         </div>
 
         <div class="config-grid" style="margin-bottom:16px">
-          <!-- Grados -->
           <div class="config-card">
             <div class="config-card-title">🏫 Grados y Grupos</div>
             <div class="chip-list" id="gradesList"></div>
@@ -482,7 +476,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
             <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="cfgSun" onchange="savePlanConfig()" style="accent-color:var(--mat)"> Incluir domingos</label>
           </div>
 
-          <!-- Meses -->
           <div class="config-card">
             <div class="config-card-title">📆 Meses habilitados</div>
             <div id="monthsList" style="margin-bottom:12px"></div>
@@ -498,14 +491,12 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
           </div>
         </div>
 
-        <!-- Festivos -->
         <div class="config-card" style="margin-bottom:16px">
           <div class="config-card-title">🗓️ Días Festivos</div>
           <p class="text-dim mb-12">Clic en un día para marcarlo como festivo. Quedan bloqueados en el planillón.</p>
           <div class="festivos-wrap" id="festivosCalendario"></div>
         </div>
 
-        <!-- Estudiantes -->
         <div class="config-card">
           <div class="config-card-title">👨‍🎓 Estudiantes</div>
           <div class="config-grid" style="margin-bottom:16px">
@@ -544,7 +535,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
   </main>
 </div>
 
-<!-- MODAL asignar grupo -->
 <div class="modal-overlay" id="modalAssignGrade">
   <div class="modal">
     <div class="modal-title">Asignar / Mover grupo<span class="modal-close" onclick="closeModal('modalAssignGrade')">×</span></div>
@@ -1483,22 +1473,6 @@ async function confirmImport() {
   document.getElementById('uploadPreview').innerHTML=`<div style="background:var(--present-bg);border:1px solid rgba(52,199,123,.3);border-radius:var(--radius-sm);padding:10px;font-size:12px;color:var(--present)">✅ ${added} importados${sg?` (${sg} sin grupo)`:''}. ${skipped?skipped+' duplicados.':''}</div>`;
   toast(`${added} estudiantes importados`,'success');
 }
-
-// ════════════════════════════════════════════════════════════
-//  REGLAS DE FIRESTORE (mostrar al usuario)
-// ════════════════════════════════════════════════════════════
-// IMPORTANTE: En Firebase Console → Firestore → Reglas, pegar:
-/*
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
-    }
-  }
-}
-*/
-// Nota: estas reglas son abiertas. Para producción usar autenticación.
 
 // ════════════════════════════════════════════════════════════
 //  INIT
