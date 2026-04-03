@@ -14,7 +14,6 @@
    VARIABLES
 ═══════════════════════════════════════════ */
 :root {
-  /* Paleta principal */
   --bg: #F5F6FA; --white: #FFFFFF; --border: #E8EAF0; --border2: #D8DBE8;
   --text: #1A1D2E; --text2: #6B7094; --text3: #B0B4CC;
   --shadow-sm: 0 1px 4px rgba(60,70,110,.06);
@@ -36,7 +35,6 @@
   --row-h: #FFFAEC; --row-ht: #C08010;
 }
 
-/* Modo oscuro automático */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #12141C; --white: #1E212E; --border: #2A2E40; --border2: #3A3F55;
@@ -108,16 +106,15 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .group-item:hover{background:var(--bg)}
 .group-item.active{background:var(--mat-light);color:var(--mat);font-weight:700}
 .group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.sidebar-spacer{flex:1}
 
-/* ── MAIN ── */
-.main{grid-area:main;overflow-y:auto;overflow-x:hidden}
-
-/* ── TABS (NAVEGACIÓN SUPERIOR) ── */
+/* ── MAIN & TABS ── */
+.main{grid-area:main;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column}
 .tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto}
 .tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);margin-bottom:-1px;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .tab:hover{color:var(--text2)}
 .tab.active{color:var(--mat);border-bottom-color:var(--mat)}
-.tab-content{display:none}
+.tab-content{display:none; flex:1}
 
 @keyframes fadeInTab {
   from { opacity: 0; transform: translateY(8px); }
@@ -272,6 +269,7 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .upload-zone .uz-icon{font-size:32px;margin-bottom:8px}
 .upload-zone p{font-size:12px;color:var(--text2)}
 .upload-zone strong{color:var(--mat)}
+.icon-picker{display:flex;flex-wrap:wrap;gap:8px} /* CORRECCIÓN CUADRÍCULA ICONOS */
 
 /* ── FESTIVOS ── */
 .festivos-wrap{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
@@ -329,10 +327,9 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 .mt-12{margin-top:12px}
 .mb-12{margin-bottom:12px}
 
-/* MEDIA QUERIES (Responsividad para celulares) */
 @media(max-width:768px){
   .app{grid-template-columns:1fr;grid-template-areas:"logo""topbar""main"}
-  .sidebar{display:none} /* Se oculta el menú lateral izquierdo si el ancho es menor a 768px */
+  .sidebar{display:none}
   .config-grid{grid-template-columns:1fr}
   .new-grade-form{grid-template-columns:1fr 1fr}
 }
@@ -547,10 +544,9 @@ db.enablePersistence({ synchronizeTabs: true })
   .then(() => setSyncState('ok'))
   .catch(err => {
     if (err.code === 'failed-precondition') {
-      // Múltiples tabs — solo una puede tener persistencia
       setSyncState('ok');
     } else if (err.code === 'unimplemented') {
-      setSyncState('ok'); // Browser sin soporte, continúa online
+      setSyncState('ok'); 
     }
   });
 
@@ -1071,8 +1067,7 @@ async function manualSave() {
 }
 
 function updateStats(data) {
-  // Función vaciada intencionalmente a petición de quitar las estadísticas superiores.
-  // Se mantiene la estructura para evitar errores de referencia en el código.
+  // Función vaciada intencionalmente para limpiar la cabecera
 }
 
 // ════════════════════════════════════════════════════════════
