@@ -22,9 +22,7 @@
   --radius-sm: 8px; --radius: 14px; --radius-lg: 20px;
   --transition: .18s cubic-bezier(.4,0,.2,1);
   --mat: #2A60C0; --mat-light: #EDF4FF; --mat-mid: #94B4E0;
-  --present: #34C77B; --present-bg: #E8FAF1;
-  --absent: #F05C6E;  --absent-bg: #FEE9EC;
-  --excuse: #F0962A;  --excuse-bg: #FEF3E4;
+  --present-bg: #E8FAF1; --absent-bg: #FEE9EC; --excuse-bg: #FEF3E4;
   --row-a: #FFF0F2; --row-at: #D44A5A;
   --row-b: #F0EEFF; --row-bt: #5A52C0;
   --row-c: #EDFAF4; --row-ct: #1E8A52;
@@ -54,9 +52,7 @@
   --shadow-sm: 0 2px 6px rgba(25,103,210,.08);
   --shadow: 0 4px 16px rgba(25,103,210,.12);
   --shadow-lg: 0 8px 32px rgba(25,103,210,.15);
-  --present-bg: #CEEAD6; --present: #0D652D;
-  --absent-bg: #FAD2CF; --absent: #A50E0E;
-  --excuse-bg: #FEEFC3; --excuse: #E37400;
+  --present-bg: #CEEAD6; --absent-bg: #FAD2CF; --excuse-bg: #FEEFC3;
   --row-a: #F8FBFF; --row-b: #F4F8FE; --row-c: #F8FBFF; --row-d: #F4F8FE;
   --row-e: #F8FBFF; --row-f: #F4F8FE; --row-g: #F8FBFF; --row-h: #F4F8FE;
 }
@@ -99,16 +95,16 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2)}
 .btn-ghost:hover{background:var(--mat-light);color:var(--mat);border-color:var(--mat-mid)}
 .btn-sm{padding:5px 12px;font-size:12px}
-.btn-danger{background:var(--absent-bg);color:var(--absent);border:1px solid rgba(240,92,110,.3)}
+.btn-danger{background:var(--absent-bg);color:#D30000;border:1px solid rgba(211,0,0,.3)}
 .btn:active {transform: scale(0.96);}
 
 /* ── SYNC BADGE ── */
 .sync-badge{display:flex;align-items:center;gap:5px;padding:5px 10px;background:var(--bg);border:1px solid var(--border);border-radius:99px;font-size:11px;color:var(--text3)}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:background var(--transition)}
-.sync-dot.ok{background:var(--present)}
-.sync-dot.pending{background:var(--excuse);animation:pulse 1.2s infinite}
+.sync-dot.ok{background:#007A33}
+.sync-dot.pending{background:#FF8A00;animation:pulse 1.2s infinite}
 .sync-dot.loading{background:var(--mat);animation:pulse .8s infinite}
-.sync-dot.offline{background:var(--absent)}
+.sync-dot.offline{background:#D30000}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* ── SIDEBAR ── */
@@ -137,6 +133,14 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 }
 .page-body{padding:24px}
 
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm)}
+.stat-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
+.stat-info .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.stat-info .value{font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;line-height:1.1;margin-top:2px}
+.stat-info .sub{font-size:11px;color:var(--text3);margin-top:1px}
+
 /* ── PLANILLA ── */
 .planilla-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
 .planilla-toolbar{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -159,8 +163,8 @@ table.planilla .th-day.activo .dn{color:var(--mat);opacity:.7}
 table.planilla .th-day.activo .toggle-btn{background:var(--mat);border-color:var(--mat);color:#fff}
 table.planilla .th-day.finde{background:rgba(0,0,0,.02)}
 table.planilla .th-day.finde .dd{color:var(--text3)}
-table.planilla .th-day.festivo{background:rgba(240,92,110,.05)}
-table.planilla .th-day.festivo .dd{color:var(--absent);font-size:11px}
+table.planilla .th-day.festivo{background:rgba(211,0,0,.05)}
+table.planilla .th-day.festivo .dd{color:#D30000;font-size:11px}
 table.planilla .col-resumen{position:sticky;right:0;background:inherit;z-index:8;min-width:80px;border-left:2px solid var(--border)}
 table.planilla thead .col-resumen{z-index:12;background:var(--bg)}
 table.planilla tbody tr{border-bottom:1px solid var(--border);transition:filter var(--transition)}
@@ -205,24 +209,47 @@ table.planilla td.col-name::after, table.planilla th.col-name::after {
 td.col-att{text-align:center;padding:6px 2px;border-left:1px solid rgba(0,0,0,.04);vertical-align:middle}
 td.col-att.finde{background:rgba(0,0,0,.03)}
 td.col-att.inactivo{background:rgba(0,0,0,.02)}
-td.col-att.festivo{background:rgba(240,92,110,.06)}
-.att-dot{width:30px;height:30px;border-radius:50%;margin:auto;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;transition:transform .15s ease,box-shadow .15s ease;user-select:none}
+td.col-att.festivo{background:rgba(211,0,0,.06)}
+
+/* ── MARCADORES 3D (VOLUMÉTRICOS) ── */
+.att-dot {
+  width: 30px; height: 30px; border-radius: 50%;
+  margin: auto; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: transform .15s ease, box-shadow .15s ease;
+  user-select: none; position: relative;
+}
 .att-dot:hover{transform:scale(1.18)}
 .att-dot:active{transform:scale(.92)}
-.att-dot.P{background:var(--present);color:#fff;box-shadow:0 2px 6px rgba(52,199,123,.35)}
-.att-dot.A{background:var(--absent);color:#fff;box-shadow:0 2px 6px rgba(240,92,110,.35)}
-.att-dot.E{background:var(--excuse);color:#fff;box-shadow:0 2px 6px rgba(240,150,42,.35)}
+
+.att-dot.P { background: #007A33; box-shadow: 0 4px 10px rgba(0,122,51,0.3); }
+.att-dot.A { background: #D30000; box-shadow: 0 4px 10px rgba(211,0,0,0.3); }
+.att-dot.E { background: #FF8A00; box-shadow: 0 4px 10px rgba(255,138,0,0.3); }
+
+/* Esfera interior iluminada */
+.att-dot.P::after, .att-dot.A::after, .att-dot.E::after {
+  content: ''; position: absolute;
+  width: 14px; height: 14px; border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+}
+.att-dot.P::after { background: radial-gradient(circle at 35% 35%, #00E676 10%, #00A344 50%, #007A33 90%); }
+.att-dot.A::after { background: radial-gradient(circle at 35% 35%, #FF5252 10%, #E50000 50%, #D30000 90%); }
+.att-dot.E::after { background: radial-gradient(circle at 35% 35%, #FFD166 10%, #FFAA00 50%, #FF8A00 90%); }
+
 .att-dot.empty{background:transparent;border:1.5px dashed var(--border2);color:var(--text3);font-size:10px}
 .att-dot.blocked{background:rgba(0,0,0,.04);border:none;cursor:default;pointer-events:none}
+
 td.col-resumen{padding:6px 8px;text-align:center;vertical-align:middle}
 .resumen-cell{display:flex;flex-direction:column;align-items:center;gap:1px}
-.resumen-cell .rp{font-size:11px;font-weight:700;color:var(--present)}
-.resumen-cell .ra{font-size:11px;font-weight:700;color:var(--absent)}
-.resumen-cell .re{font-size:11px;font-weight:700;color:var(--excuse)}
+.resumen-cell .rp{font-size:11px;font-weight:700;color:#007A33}
+.resumen-cell .ra{font-size:11px;font-weight:700;color:#D30000}
+.resumen-cell .re{font-size:11px;font-weight:700;color:#FF8A00}
 .resumen-cell .rpct{font-size:9px;color:var(--text3);margin-top:1px}
+
 table.planilla tfoot td{background:var(--bg);border-top:2px solid var(--border);padding:8px 4px;text-align:center;font-size:10px;font-weight:700;border-left:1px solid var(--border)}
 table.planilla tfoot td.col-name{text-align:left;padding:8px 14px;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;border-left:none;background:var(--bg)}
 table.planilla tfoot td.col-resumen{background:var(--bg)}
+
 .att-legend{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:16px;align-items:center;font-size:11px;color:var(--text3);flex-wrap:wrap;background:var(--bg);border-radius:0 0 var(--radius) var(--radius)}
 .legend-item{display:flex;align-items:center;gap:5px}
 .legend-dot{width:10px;height:10px;border-radius:50%}
@@ -245,9 +272,9 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .pct-track{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden;min-width:60px}
 .pct-fill{height:100%;border-radius:99px;transition:width .4s ease}
 .chip{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700}
-.chip-ok{background:var(--present-bg);color:var(--present)}
-.chip-warn{background:var(--excuse-bg);color:var(--excuse)}
-.chip-bad{background:var(--absent-bg);color:var(--absent)}
+.chip-ok{background:rgba(0,122,51,.1);color:#007A33}
+.chip-warn{background:rgba(255,138,0,.1);color:#FF8A00}
+.chip-bad{background:rgba(211,0,0,.1);color:#D30000}
 
 /* ── REPORTE ── */
 .reporte-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
@@ -278,7 +305,6 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .upload-zone .uz-icon{font-size:32px;margin-bottom:8px}
 .upload-zone p{font-size:12px;color:var(--text2)}
 .upload-zone strong{color:var(--mat)}
-.icon-picker{display:flex;flex-wrap:wrap;gap:8px}
 
 /* ── FESTIVOS ── */
 .festivos-wrap{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
@@ -290,11 +316,11 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .cal-head{text-align:center;font-size:9px;font-weight:700;color:var(--text3);padding:3px 0;text-transform:uppercase}
 .cal-day{text-align:center;font-size:11px;padding:5px 2px;border-radius:6px;cursor:pointer;transition:all .12s;min-height:26px;display:flex;align-items:center;justify-content:center}
 .cal-day:hover{background:var(--mat-light)}
-.cal-day.festivo{background:var(--absent-bg);color:var(--absent);font-weight:700;border:1px solid rgba(240,92,110,.3)}
+.cal-day.festivo{background:rgba(211,0,0,.1);color:#D30000;font-weight:700;border:1px solid rgba(211,0,0,.3)}
 .cal-day.finde{color:var(--text3)}
 .cal-day.empty{pointer-events:none}
 .fes-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.fes-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;background:var(--absent-bg);color:var(--absent);border:1px solid rgba(240,92,110,.25)}
+.fes-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;background:rgba(211,0,0,.1);color:#D30000;border:1px solid rgba(211,0,0,.25)}
 .fes-chip .rm{cursor:pointer;opacity:.6}
 .fes-chip .rm:hover{opacity:1}
 
@@ -310,8 +336,8 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 /* ── TOAST ── */
 .toast-container{position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:8px}
 .toast{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;font-size:13px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;max-width:320px;animation:toastIn .25s ease}
-.toast.success{border-left:3px solid var(--present)}
-.toast.error{border-left:3px solid var(--absent)}
+.toast.success{border-left:3px solid #007A33}
+.toast.error{border-left:3px solid #D30000}
 .toast.info{border-left:3px solid var(--mat)}
 @keyframes toastIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
 
@@ -323,8 +349,8 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 
 /* ── FIREBASE STATUS BANNER ── */
 .fb-banner{background:var(--mat-light);border:1px solid var(--mat-mid);border-radius:var(--radius-sm);padding:10px 16px;font-size:12px;color:var(--mat);display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.fb-banner.error{background:var(--absent-bg);border-color:rgba(240,92,110,.3);color:var(--absent)}
-.fb-banner.success{background:var(--present-bg);border-color:rgba(52,199,123,.3);color:var(--present)}
+.fb-banner.error{background:rgba(211,0,0,.1);border-color:rgba(211,0,0,.3);color:#D30000}
+.fb-banner.success{background:rgba(0,122,51,.1);border-color:rgba(0,122,51,.3);color:#007A33}
 
 /* ── MISC ── */
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -381,6 +407,12 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 
     <div class="tab-content active" id="tab-planilla">
       <div class="page-body">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-icon" style="background:#EEF0FE;color:#2A60C0">📅</div><div class="stat-info"><div class="label">Clases</div><div class="value" id="stClases">—</div><div class="sub">días activos</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:rgba(0,122,51,.1);color:#007A33">P</div><div class="stat-info"><div class="label">Presencias</div><div class="value" id="stPresent" style="color:#007A33">—</div><div class="sub" id="stPresentPct"></div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:rgba(211,0,0,.1);color:#D30000">F</div><div class="stat-info"><div class="label">Fallas</div><div class="value" id="stAbsent" style="color:#D30000">—</div><div class="sub" id="stAbsentPct"></div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:rgba(255,138,0,.1);color:#FF8A00">E</div><div class="stat-info"><div class="label">Excusas</div><div class="value" id="stExcuse" style="color:#FF8A00">—</div><div class="sub" id="stExcusePct"></div></div></div>
+        </div>
         <div class="planilla-card" id="planillaCard">
           <div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia, grupo y mes</h3><p>Aparecerá el planillón completo del mes.</p></div>
         </div>
@@ -395,7 +427,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
         </div>
         <div class="table-card">
           <table class="data-table">
-            <thead><tr><th>#</th><th>Estudiante</th><th>Grupo</th><th>✅ P</th><th>❌ F</th><th>📋 E</th><th>% Asistencia</th><th>Estado</th></tr></thead>
+            <thead><tr><th>#</th><th>Estudiante</th><th>Grupo</th><th style="color:#007A33;font-size:13px">P</th><th style="color:#D30000;font-size:13px">F</th><th style="color:#FF8A00;font-size:13px">E</th><th>% Asistencia</th><th>Estado</th></tr></thead>
             <tbody id="resumenBody"><tr><td colspan="8" style="padding:40px;text-align:center;color:var(--text3)">Sin datos</td></tr></tbody>
           </table>
         </div>
@@ -433,9 +465,9 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
           </div>
           
           <div class="config-card">
-            <div class="config-card-title">🎨 Apariencia</div>
+            <div class="config-card-title">🎨 Apariencia Visual</div>
             <div class="form-group">
-              <label class="form-label">Tema del Sistema</label>
+              <label class="form-label mb-12">Tema del Sistema</label>
               <div style="display:flex;gap:10px;flex-wrap:wrap">
                 <button class="btn btn-ghost" id="btnThemeLight" onclick="setTheme('light')">☀️ Claro</button>
                 <button class="btn btn-ghost" id="btnThemeDark" onclick="setTheme('dark')">🌙 Oscuro</button>
@@ -443,11 +475,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
               </div>
             </div>
             <hr>
-            <div class="config-card-title" style="font-size:13px;margin-bottom:12px">Iconos de Estado</div>
-            <div class="form-group"><label class="form-label">✅ Presente</label><div class="icon-picker" id="iconPickerP"></div></div>
-            <div class="form-group"><label class="form-label">❌ Falla</label><div class="icon-picker" id="iconPickerA"></div></div>
-            <div class="form-group"><label class="form-label">📋 Excusa</label><div class="icon-picker" id="iconPickerE"></div></div>
-            <button class="btn btn-primary btn-sm mt-8" onclick="saveIcons()">Guardar iconos</button>
+            <p class="text-dim">Los iconos de estado en formato de texto fueron reemplazados por el nuevo sistema de renderizado volumétrico 3D de alto rendimiento para garantizar legibilidad masiva en la planilla.</p>
           </div>
         </div>
 
@@ -558,27 +586,23 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Habilitar persistencia offline — funciona sin internet
 db.enablePersistence({ synchronizeTabs: true })
   .then(() => setSyncState('ok'))
   .catch(err => {
-    if (err.code === 'failed-precondition') {
-      setSyncState('ok');
-    } else if (err.code === 'unimplemented') {
-      setSyncState('ok'); 
-    }
+    if (err.code === 'failed-precondition') setSyncState('ok');
+    else if (err.code === 'unimplemented') setSyncState('ok'); 
   });
 
 // ════════════════════════════════════════════════════════════
 //  BASE DE DATOS LOCAL (caché rápido)
 // ════════════════════════════════════════════════════════════
 const DB = {
-  config:     { teacher:'Jhon Jairo Lara Martínez', school:'I.E.D. Pestalozzi', year:2026, icons:{P:'✅',A:'❌',E:'📋'}, includeSat:false, includeSun:false, theme:'light' },
+  config:     { teacher:'Jhon Jairo Lara Martínez', school:'I.E.D. Pestalozzi', year:2026, includeSat:false, includeSun:false, theme:'light' },
   grades:     [],
   months:     [],
   students:   [],
-  attendance: {},   // [grade][month][date][code] = 'P'|'A'|'E'
-  classDays:  {},   // [month] = ['2026-01-05',...]
+  attendance: {},   
+  classDays:  {},   
   festivos:   []
 };
 
@@ -609,7 +633,6 @@ const ROW_COLORS = [
   {bg:'#FFF7EC',fg:'#C06A10'},{bg:'#EDF4FF',fg:'#2A60C0'},{bg:'#FFF0FA',fg:'#B03090'},
   {bg:'#F0FAF0',fg:'#2A8A20'},{bg:'#FFFAEC',fg:'#C08010'}
 ];
-const PASTEL_CHIPS = ROW_COLORS;
 
 // ════════════════════════════════════════════════════════════
 //  FIRESTORE — GUARDAR
@@ -647,7 +670,7 @@ async function fbSaveDay(grade, month, date, records) {
 }
 
 // ════════════════════════════════════════════════════════════
-//  FIRESTORE — CARGAR TODO AL INICIO
+//  FIRESTORE — CARGAR
 // ════════════════════════════════════════════════════════════
 async function fbLoadAll() {
   setSyncState('loading');
@@ -854,28 +877,18 @@ function renderSidebarGroups() {
 }
 
 function selectGroup(g) {
-  // Extraemos la materia correspondiente a este grupo
   const parts = parseMateriaGrupo(g);
   const selMat = document.getElementById('selMateria');
   const selGr = document.getElementById('selGrade');
   
-  // 1. Sincronizamos el select de materia
   if (selMat.querySelector(`option[value="${parts.materia}"]`)) {
     selMat.value = parts.materia;
   }
-  
-  // 2. Reconstruimos el select de grupos basado en la materia
   populateSelects();
-  
-  // 3. Seleccionamos el grupo exacto
   if (selGr.querySelector(`option[value="${g}"]`)) {
     selGr.value = g;
   }
-  
-  // 4. Forzamos el cambio a la pestaña de Planilla para visualizar el grupo
   showTab('planilla', null);
-  
-  // 5. Disparamos el evento de cambio para que cargue la info de la base de datos
   onGradeChange();
 }
 
@@ -914,19 +927,18 @@ function renderPlanilla() {
   const card=document.getElementById('planillaCard');
   if (!curGrade||!curMonth) {
     card.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia, grupo y mes</h3><p>Aparecerá el planillón completo del mes.</p></div>`;
-    return;
+    updateStats(null); return;
   }
   const students=DB.students.filter(s=>s.grade===curGrade);
   if (!students.length) {
     card.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agréguelos en ⚙️ Configuración.</p></div>`;
-    return;
+    updateStats(null); return;
   }
   const year=DB.config.year||new Date().getFullYear();
   const mesNum=MESES_NUM[curMonth]||1;
   const diasEnMes=new Date(year,mesNum,0).getDate();
   const classDays=getClassDays(curMonth);
   const festivos=getFestivos();
-  const icons=DB.config.icons;
 
   const allDays=Array.from({length:diasEnMes},(_,i)=>{
     const d=i+1;
@@ -941,7 +953,7 @@ function renderPlanilla() {
   const thDias=allDays.map(day=>{
     const blocked=day.isFinde||day.isFestivo;
     let cls='th-day'+(day.isFinde?' finde':day.isFestivo?' festivo':day.isClase?' activo':'');
-    const btnIcon=day.isFestivo?'<span style="font-size:8px;color:var(--absent);display:block">🔴</span>'
+    const btnIcon=day.isFestivo?'<span style="font-size:8px;color:#D30000;display:block">🔴</span>'
       :blocked?'<span style="display:block;height:22px"></span>'
       :`<button class="toggle-btn ${day.isClase?'activo':''}" onclick="toggleDay('${day.dateStr}')">${day.isClase?'✓':'+'}</button>`;
     return `<th class="${cls}"><span class="dn">${day.dName}</span><span class="dd">${day.d}</span>${btnIcon}</th>`;
@@ -953,14 +965,13 @@ function renderPlanilla() {
     const dayRecs=getAttDay(curGrade,curMonth,'__all__');
 
     const tdDias=allDays.map(day=>{
-      if (day.isFestivo) return `<td class="col-att festivo"><div class="att-dot blocked">🔴</div></td>`;
+      if (day.isFestivo) return `<td class="col-att festivo"><div class="att-dot blocked"></div></td>`;
       if (day.isFinde)   return `<td class="col-att finde"><div class="att-dot blocked"></div></td>`;
       if (!day.isClase)  return `<td class="col-att inactivo"><div class="att-dot blocked"></div></td>`;
       const rec=getAttDay(curGrade,curMonth,day.dateStr);
       const state=rec[s.code]||'';
       if (state==='P') stuP++; else if (state==='A') stuA++; else if (state==='E') stuE++;
-      const icon=state==='P'?icons.P:state==='A'?icons.A:state==='E'?icons.E:'';
-      return `<td class="col-att"><div class="att-dot ${state||'empty'}" onclick="cycleState('${s.code}','${day.dateStr}')">${icon}</div></td>`;
+      return `<td class="col-att"><div class="att-dot ${state||'empty'}" onclick="cycleState('${s.code}','${day.dateStr}')"></div></td>`;
     }).join('');
 
     const total=stuP+stuA+stuE;
@@ -987,9 +998,9 @@ function renderPlanilla() {
     const a=students.filter(s=>rec[s.code]==='A').length;
     const e=students.filter(s=>rec[s.code]==='E').length;
     return `<td style="font-size:9px;line-height:1.4">
-      ${p?`<div style="color:var(--present)">${p}</div>`:''}
-      ${a?`<div style="color:var(--absent)">${a}F</div>`:''}
-      ${e?`<div style="color:var(--excuse)">${e}E</div>`:''}
+      ${p?`<div style="color:#007A33">${p}</div>`:''}
+      ${a?`<div style="color:#D30000">${a}F</div>`:''}
+      ${e?`<div style="color:#FF8A00">${e}E</div>`:''}
     </td>`;
   }).join('');
 
@@ -1010,12 +1021,14 @@ function renderPlanilla() {
       </table>
     </div>
     <div class="att-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--present)"></div>Presente</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--absent)"></div>Falla</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--excuse)"></div>Excusa</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#007A33"></div>Presente</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#D30000"></div>Falla</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#FF8A00"></div>Excusa</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--border2);border:1px dashed var(--border2)"></div>Sin registro</div>
       <span style="margin-left:auto">Vacío → P → F → E → Vacío</span>
     </div>`;
+
+  updateStats({students,classDays,grade:curGrade,month:curMonth});
 }
 
 function toggleDay(dateStr) {
@@ -1079,6 +1092,25 @@ async function manualSave() {
   toast(ok?'✅ Guardado en Firebase':'⚠️ Guardado parcialmente',ok?'success':'info');
 }
 
+function updateStats(data) {
+  if (!data) {
+    ['stClases','stPresent','stAbsent','stExcuse'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—';});
+    return;
+  }
+  const {students,classDays,grade,month}=data;
+  let p=0,a=0,e=0;
+  students.forEach(s=>{ classDays.forEach(f=>{ const v=getAttDay(grade,month,f)[s.code]; if(v==='P')p++;else if(v==='A')a++;else if(v==='E')e++; }); });
+  const total=p+a+e;
+  document.getElementById('stClases').textContent=classDays.length;
+  document.getElementById('stPresent').textContent=p||'—';
+  document.getElementById('stAbsent').textContent=a||'—';
+  document.getElementById('stExcuse').textContent=e||'—';
+  if(total){
+    document.getElementById('stPresentPct').textContent=Math.round(p/total*100)+'%';
+    document.getElementById('stAbsentPct').textContent=Math.round(a/total*100)+'%';
+    document.getElementById('stExcusePct').textContent=Math.round(e/total*100)+'%';
+  }
+}
 
 // ════════════════════════════════════════════════════════════
 //  RESUMEN
@@ -1097,14 +1129,14 @@ function renderResumen() {
     const total=p+a+e,pct=total?Math.round(p/total*100):0;
     const st=pct>=80?'ok':pct>=60?'warn':'bad';
     const stLabel=pct>=80?'Regular':pct>=60?'En riesgo':'Crítico';
-    const pctColor=pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)';
+    const pctColor=pct>=80?'#007A33':pct>=60?'#FF8A00':'#D30000';
     return `<tr>
       <td style="color:var(--text3);font-size:11px">${i+1}</td>
       <td style="font-weight:600">${s.name}</td>
       <td style="font-size:12px;color:var(--text2)">${s.grade}</td>
-      <td style="color:var(--present);font-weight:700">${p}</td>
-      <td style="color:var(--absent);font-weight:700">${a}</td>
-      <td style="color:var(--excuse);font-weight:700">${e}</td>
+      <td style="color:#007A33;font-weight:700">${p}</td>
+      <td style="color:#D30000;font-weight:700">${a}</td>
+      <td style="color:#FF8A00;font-weight:700">${e}</td>
       <td><div class="pct-bar"><div class="pct-track"><div class="pct-fill" style="width:${pct}%;background:${pctColor}"></div></div><span style="font-size:12px;font-weight:700;min-width:34px">${pct}%</span></div></td>
       <td><span class="chip chip-${st}">${stLabel}</span></td>
     </tr>`;
@@ -1140,19 +1172,19 @@ function renderReporte() {
   if (vista==='year') {
     colHeaders=Object.keys(PERIODOS).map(p=>`<th style="text-align:center;font-size:10px;padding:8px 4px">${PERIODO_LABELS[p]}</th>`).join('')+'<th style="text-align:center;font-size:10px">Tot.F</th><th style="text-align:center;font-size:10px">Tot.E</th><th style="text-align:center;font-size:10px">%</th>';
     buildRow=(s,i)=>{
-      const pCells=Object.keys(PERIODOS).map(p=>{const st=getStats(s.code,s.grade,PERIODOS[p].filter(m=>DB.months.includes(m)));return `<td style="text-align:center;font-size:12px"><span style="color:var(--absent);font-weight:700">${st.a}</span>${st.e?`<span style="color:var(--excuse);font-size:10px">+${st.e}E</span>`:''}</td>`;}).join('');
+      const pCells=Object.keys(PERIODOS).map(p=>{const st=getStats(s.code,s.grade,PERIODOS[p].filter(m=>DB.months.includes(m)));return `<td style="text-align:center;font-size:12px"><span style="color:#D30000;font-weight:700">${st.a}</span>${st.e?`<span style="color:#FF8A00;font-size:10px">+${st.e}E</span>`:''}</td>`;}).join('');
       const all=getStats(s.code,s.grade,DB.months);const t=all.p+all.a+all.e,pct=t?Math.round(all.p/t*100):0;
-      const pc=pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)';
-      return `<tr><td style="color:var(--text3);font-size:11px">${i+1}</td><td style="font-weight:600">${s.name}</td>${pCells}<td style="text-align:center;font-weight:700;color:var(--absent)">${all.a}</td><td style="text-align:center;font-weight:700;color:var(--excuse)">${all.e}</td><td style="text-align:center;font-weight:700;color:${pc}">${pct}%</td></tr>`;
+      const pc=pct>=80?'#007A33':pct>=60?'#FF8A00':'#D30000';
+      return `<tr><td style="color:var(--text3);font-size:11px">${i+1}</td><td style="font-weight:600">${s.name}</td>${pCells}<td style="text-align:center;font-weight:700;color:#D30000">${all.a}</td><td style="text-align:center;font-weight:700;color:#FF8A00">${all.e}</td><td style="text-align:center;font-weight:700;color:${pc}">${pct}%</td></tr>`;
     };
   } else {
     const meses=getMeses(vista);
     colHeaders=meses.map(m=>`<th style="text-align:center;font-size:10px">${m}</th>`).join('')+'<th style="text-align:center;font-size:10px">Tot.F</th><th style="text-align:center;font-size:10px">Tot.E</th><th style="text-align:center;font-size:10px">%</th>';
     buildRow=(s,i)=>{
-      const mCells=meses.map(m=>{const st=getStats(s.code,s.grade,[m]);return `<td style="text-align:center;font-size:12px"><span style="color:var(--absent);font-weight:700">${st.a}</span>${st.e?`<span style="color:var(--excuse);font-size:10px">+${st.e}E</span>`:''}</td>`;}).join('');
+      const mCells=meses.map(m=>{const st=getStats(s.code,s.grade,[m]);return `<td style="text-align:center;font-size:12px"><span style="color:#D30000;font-weight:700">${st.a}</span>${st.e?`<span style="color:#FF8A00;font-size:10px">+${st.e}E</span>`:''}</td>`;}).join('');
       const all=getStats(s.code,s.grade,meses);const t=all.p+all.a+all.e,pct=t?Math.round(all.p/t*100):0;
-      const pc=pct>=80?'var(--present)':pct>=60?'var(--excuse)':'var(--absent)';
-      return `<tr><td style="color:var(--text3);font-size:11px">${i+1}</td><td style="font-weight:600">${s.name}</td>${mCells}<td style="text-align:center;font-weight:700;color:var(--absent)">${all.a}</td><td style="text-align:center;font-weight:700;color:var(--excuse)">${all.e}</td><td style="text-align:center;font-weight:700;color:${pc}">${pct}%</td></tr>`;
+      const pc=pct>=80?'#007A33':pct>=60?'#FF8A00':'#D30000';
+      return `<tr><td style="color:var(--text3);font-size:11px">${i+1}</td><td style="font-weight:600">${s.name}</td>${mCells}<td style="text-align:center;font-weight:700;color:#D30000">${all.a}</td><td style="text-align:center;font-weight:700;color:#FF8A00">${all.e}</td><td style="text-align:center;font-weight:700;color:${pc}">${pct}%</td></tr>`;
     };
   }
 
@@ -1187,31 +1219,20 @@ function printReport() {
 // ════════════════════════════════════════════════════════════
 //  CONFIGURACIÓN Y TEMAS
 // ════════════════════════════════════════════════════════════
-const ICON_OPTIONS={P:['✅','☑️','👍','🟢','⭐','🎯','✔️','🙋'],A:['❌','🔴','😴','⛔','✖️','🚫','💤','😶'],E:['📋','📝','🟡','⚠️','🔖','📌','🗒️','💬']};
-
 function setTheme(theme) {
   DB.config.theme = theme;
   document.documentElement.setAttribute('data-theme', theme);
   saveLocalCache();
   fbSaveConfig();
-  renderConfig(); // Actualiza el estado visual de los botones
+  renderConfig(); 
 }
 
 function renderConfig() {
-  // Renderizar selectores de iconos
-  ['P','A','E'].forEach(state=>{
-    const picker=document.getElementById('iconPicker'+state);
-    if (!picker) return;
-    picker.innerHTML=ICON_OPTIONS[state].map(icon=>`<div class="icon-opt ${DB.config.icons[state]===icon?'sel':''}" onclick="selectIcon('${state}','${icon}',this)" style="width:40px;height:40px;border-radius:10px;background:var(--bg);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .15s">${icon}</div>`).join('');
-  });
-  
-  // Actualizar estado de los botones de tema
   document.querySelectorAll('[id^="btnTheme"]').forEach(b => { b.classList.remove('btn-primary'); b.classList.add('btn-ghost'); });
   const activeBtnId = 'btnTheme' + (DB.config.theme === 'dark' ? 'Dark' : DB.config.theme === 'pastel' ? 'Pastel' : 'Light');
   const activeBtn = document.getElementById(activeBtnId);
   if (activeBtn) { activeBtn.classList.remove('btn-ghost'); activeBtn.classList.add('btn-primary'); }
 
-  // Resto de datos de config
   document.getElementById('cfgTeacher').value=DB.config.teacher||'';
   document.getElementById('cfgSchool').value=DB.config.school||'';
   document.getElementById('cfgYear').value=DB.config.year||2026;
@@ -1221,13 +1242,6 @@ function renderConfig() {
   const sfg=document.getElementById('stuFilterGrade');
   if (sfg&&![...sfg.options].find(o=>o.value==='__sg__')){ const o=document.createElement('option');o.value='__sg__';o.textContent='⚠ Sin grupo';sfg.appendChild(o); }
 }
-
-function selectIcon(state,icon,el) {
-  document.querySelectorAll('#iconPicker'+state+' div').forEach(e=>{ e.style.borderColor='var(--border)';e.style.background='var(--bg)'; });
-  el.style.borderColor='var(--mat)'; el.style.background='var(--mat-light)';
-  DB.config.icons[state]=icon;
-}
-function saveIcons() { saveLocalCache(); fbSaveConfig(); toast('Iconos guardados','success'); }
 
 function saveConfig() {
   DB.config.teacher=document.getElementById('cfgTeacher').value.trim();
@@ -1313,7 +1327,7 @@ function renderFestivos() {
     const heads=['D','L','M','X','J','V','S'].map(d=>`<div class="cal-head">${d}</div>`).join('');
     const empties=Array(pd).fill('<div class="cal-day empty"></div>').join('');
     const days=Array.from({length:dim},(_,i)=>{const d=i+1,ds=`${year}-${String(mn).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const dow=new Date(ds+'T12:00:00').getDay();const cls=['cal-day',f.includes(ds)?'festivo':'',dow===0||dow===6?'finde':'',ds===hoy?'hoy':''].filter(Boolean).join(' ');return `<div class="${cls}" onclick="toggleFestivo('${ds}')">${d}</div>`;}).join('');
-    return `<div><div class="fes-mes-head" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.ch').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''"><span>${mes}${fMes.length?` <span style="color:var(--absent);font-size:11px">(${fMes.length})</span>`:''}</span><span class="ch" style="transition:transform .2s;font-size:11px;color:var(--text3)">▼</span></div><div class="fes-mes-body"><div class="mini-cal">${heads}${empties}${days}</div>${chips?`<div class="fes-chips">${chips}</div>`:'<p class="text-dim mt-8">Sin festivos.</p>'}</div></div>`;
+    return `<div><div class="fes-mes-head" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.ch').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''"><span>${mes}${fMes.length?` <span style="color:#D30000;font-size:11px">(${fMes.length})</span>`:''}</span><span class="ch" style="transition:transform .2s;font-size:11px;color:var(--text3)">▼</span></div><div class="fes-mes-body"><div class="mini-cal">${heads}${empties}${days}</div>${chips?`<div class="fes-chips">${chips}</div>`:'<p class="text-dim mt-8">Sin festivos.</p>'}</div></div>`;
   }).join('');
 }
 
@@ -1339,17 +1353,17 @@ function renderStudentList() {
   let list=sinGrupo?DB.students.filter(s=>!s.grade):filter?DB.students.filter(s=>s.grade===filter):DB.students;
   const body=document.getElementById('studentListBody'); if (!body) return;
   const sinG=DB.students.filter(s=>!s.grade).length;
-  const warn=sinG>0&&!sinGrupo?`<tr><td colspan="5" style="padding:8px 14px;background:var(--absent-bg);font-size:12px;color:var(--absent)">⚠ ${sinG} sin grupo<button class="btn btn-ghost btn-sm" style="margin-left:8px" onclick="document.getElementById('stuFilterGrade').value='__sg__';renderStudentList()">Ver</button></td></tr>`:'';
+  const warn=sinG>0&&!sinGrupo?`<tr><td colspan="5" style="padding:8px 14px;background:rgba(211,0,0,.1);font-size:12px;color:#D30000">⚠ ${sinG} sin grupo<button class="btn btn-ghost btn-sm" style="margin-left:8px" onclick="document.getElementById('stuFilterGrade').value='__sg__';renderStudentList()">Ver</button></td></tr>`:'';
   if (!list.length){ body.innerHTML=warn+'<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text3)">Sin estudiantes</td></tr>'; return; }
   body.innerHTML=warn+list.map((s,i)=>{
     const sg=!s.grade;
-    const moveBg=sg?'background:var(--absent-bg);color:var(--absent);border:1px solid rgba(240,92,110,.3)':'background:var(--mat-light);color:var(--mat);border:1px solid var(--mat-mid)';
+    const moveBg=sg?'background:rgba(211,0,0,.1);color:#D30000;border:1px solid rgba(211,0,0,.3)':'background:var(--mat-light);color:var(--mat);border:1px solid var(--mat-mid)';
     const codeSafe=s.code.replace(/'/g,'');
-    return `<tr style="${sg?'background:rgba(240,92,110,.04)':''}">
+    return `<tr style="${sg?'background:rgba(211,0,0,.04)':''}">
       <td style="color:var(--text3);font-size:11px">${i+1}</td>
       <td style="font-family:monospace;font-size:11px;color:var(--text2)">${s.code}</td>
       <td style="font-weight:600">${s.name}</td>
-      <td>${sg?`<span style="color:var(--absent);font-size:11px;font-weight:700">⚠ Sin grupo</span>`:`<span style="font-size:12px;color:var(--text2)">${s.grade}</span>`}</td>
+      <td>${sg?`<span style="color:#D30000;font-size:11px;font-weight:700">⚠ Sin grupo</span>`:`<span style="font-size:12px;color:var(--text2)">${s.grade}</span>`}</td>
       <td style="display:flex;gap:6px">
         <button class="btn btn-sm" style="${moveBg}" onclick="openAssignGrade('${codeSafe}','${s.name.replace(/'/g,' ')}','${s.grade||''}')">${sg?'Asignar':'Mover'}</button>
         <button class="btn btn-sm btn-danger" onclick="removeStudent('${codeSafe}')">Eliminar</button>
@@ -1433,7 +1447,7 @@ async function confirmImport() {
   });
   await Promise.all(promises);
   _pending=[]; saveLocalCache(); renderStudentList();
-  document.getElementById('uploadPreview').innerHTML=`<div style="background:var(--present-bg);border:1px solid rgba(52,199,123,.3);border-radius:var(--radius-sm);padding:10px;font-size:12px;color:var(--present)">✅ ${added} importados${sg?` (${sg} sin grupo)`:''}. ${skipped?skipped+' duplicados.':''}</div>`;
+  document.getElementById('uploadPreview').innerHTML=`<div style="background:rgba(0,122,51,.1);border:1px solid rgba(0,122,51,.3);border-radius:var(--radius-sm);padding:10px;font-size:12px;color:#007A33">✅ ${added} importados${sg?` (${sg} sin grupo)`:''}. ${skipped?skipped+' duplicados.':''}</div>`;
   toast(`${added} estudiantes importados`,'success');
 }
 
