@@ -14,7 +14,7 @@
    VARIABLES
 ═══════════════════════════════════════════ */
 :root {
-  /* Paleta principal actualizada */
+  /* Paleta principal */
   --bg: #F5F6FA; --white: #FFFFFF; --border: #E8EAF0; --border2: #D8DBE8;
   --text: #1A1D2E; --text2: #6B7094; --text3: #B0B4CC;
   --shadow-sm: 0 1px 4px rgba(60,70,110,.06);
@@ -36,7 +36,7 @@
   --row-h: #FFFAEC; --row-ht: #C08010;
 }
 
-/* Activación automática del modo oscuro según el sistema operativo */
+/* Modo oscuro automático */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #12141C; --white: #1E212E; --border: #2A2E40; --border2: #3A3F55;
@@ -47,7 +47,6 @@
     --present-bg: rgba(52, 199, 123, 0.15);
     --absent-bg: rgba(240, 92, 110, 0.15);
     --excuse-bg: rgba(240, 150, 42, 0.15);
-    /* Simplificación de las filas para no saturar la vista oscura */
     --row-a: #232534; --row-b: #1E212E; --row-c: #232534; --row-d: #1E212E;
     --row-e: #232534; --row-f: #1E212E; --row-g: #232534; --row-h: #1E212E;
   }
@@ -105,21 +104,16 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 /* ── SIDEBAR ── */
 .sidebar{grid-area:sidebar;background:var(--white);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
 .sidebar-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);padding:12px 10px 6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:all var(--transition)}
-.nav-item:hover{background:var(--bg);color:var(--text)}
-.nav-item.active{background:var(--mat-light);color:var(--mat);font-weight:700}
-.nav-item .nav-icon{font-size:16px;width:20px;text-align:center}
 .group-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all var(--transition)}
 .group-item:hover{background:var(--bg)}
 .group-item.active{background:var(--mat-light);color:var(--mat);font-weight:700}
 .group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.sidebar-spacer{flex:1}
 
 /* ── MAIN ── */
 .main{grid-area:main;overflow-y:auto;overflow-x:hidden}
 
-/* ── TABS ── */
-.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:none;gap:0} /* Oculto por defecto en computadoras */
+/* ── TABS (NAVEGACIÓN SUPERIOR) ── */
+.tabs-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0;overflow-x:auto}
 .tab{padding:14px 20px;font-size:13px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);margin-bottom:-1px;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .tab:hover{color:var(--text2)}
 .tab.active{color:var(--mat);border-bottom-color:var(--mat)}
@@ -134,14 +128,6 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
   animation: fadeInTab 0.25s ease-out forwards;
 }
 .page-body{padding:24px}
-
-/* ── STATS ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm)}
-.stat-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.stat-info .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
-.stat-info .value{font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;line-height:1.1;margin-top:2px}
-.stat-info .sub{font-size:11px;color:var(--text3);margin-top:1px}
 
 /* ── PLANILLA ── */
 .planilla-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
@@ -346,9 +332,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 /* MEDIA QUERIES (Responsividad para celulares) */
 @media(max-width:768px){
   .app{grid-template-columns:1fr;grid-template-areas:"logo""topbar""main"}
-  .sidebar{display:none} /* Se oculta el menú lateral izquierdo */
-  .tabs-bar{display:flex;overflow-x:auto;padding:0 12px} /* Aparecen los botones superiores */
-  .stats-row{grid-template-columns:1fr 1fr}
+  .sidebar{display:none} /* Se oculta el menú lateral izquierdo si el ancho es menor a 768px */
   .config-grid{grid-template-columns:1fr}
   .new-grade-form{grid-template-columns:1fr 1fr}
 }
@@ -376,17 +360,12 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
   </div>
 
   <aside class="sidebar">
-    <div class="sidebar-section">Navegación</div>
-    <div class="nav-item active" onclick="showTab('planilla',this)"><span class="nav-icon">📋</span>Planilla</div>
-    <div class="nav-item" onclick="showTab('resumen',this)"><span class="nav-icon">📊</span>Resumen</div>
-    <div class="nav-item" onclick="showTab('reporte',this)"><span class="nav-icon">📄</span>Reporte</div>
-    <div class="sidebar-section" style="margin-top:8px">Grupos</div>
+    <div class="sidebar-section">Grupos</div>
     <div id="sidebarGroups"></div>
-    <div class="sidebar-spacer"></div>
-    <div class="nav-item" onclick="showTab('config',this)"><span class="nav-icon">⚙️</span>Configuración</div>
   </aside>
 
   <main class="main">
+    
     <div class="tabs-bar">
       <div class="tab active" data-tab="planilla" onclick="showTab('planilla',null)">📋 Planilla</div>
       <div class="tab" data-tab="resumen"  onclick="showTab('resumen',null)">📊 Resumen</div>
@@ -396,12 +375,6 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 
     <div class="tab-content active" id="tab-planilla">
       <div class="page-body">
-        <div class="stats-row">
-          <div class="stat-card"><div class="stat-icon" style="background:#EEF0FE">📅</div><div class="stat-info"><div class="label">Clases</div><div class="value" id="stClases">—</div><div class="sub">días activos</div></div></div>
-          <div class="stat-card"><div class="stat-icon" style="background:var(--present-bg)">✅</div><div class="stat-info"><div class="label">Presencias</div><div class="value" id="stPresent" style="color:var(--present)">—</div><div class="sub" id="stPresentPct"></div></div></div>
-          <div class="stat-card"><div class="stat-icon" style="background:var(--absent-bg)">❌</div><div class="stat-info"><div class="label">Fallas</div><div class="value" id="stAbsent" style="color:var(--absent)">—</div><div class="sub" id="stAbsentPct"></div></div></div>
-          <div class="stat-card"><div class="stat-icon" style="background:var(--excuse-bg)">📋</div><div class="stat-info"><div class="label">Excusas</div><div class="value" id="stExcuse" style="color:var(--excuse)">—</div><div class="sub" id="stExcusePct"></div></div></div>
-        </div>
         <div class="planilla-card" id="planillaCard">
           <div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia, grupo y mes</h3><p>Aparecerá el planillón completo del mes.</p></div>
         </div>
@@ -623,16 +596,6 @@ const ROW_COLORS = [
 const PASTEL_CHIPS = ROW_COLORS;
 
 // ════════════════════════════════════════════════════════════
-//  FIRESTORE — RUTAS
-//  config/           → doc 'settings'
-//  grupos/           → colección, doc por grupo
-//  estudiantes/      → colección, doc por código
-//  asistencia/{grade}/{month}/{date} → doc con campos {code: estado}
-//  classDays/        → doc 'data' con {month: [fechas]}
-//  festivos/         → doc 'data' con {dates: [...]}
-// ════════════════════════════════════════════════════════════
-
-// ════════════════════════════════════════════════════════════
 //  FIRESTORE — GUARDAR
 // ════════════════════════════════════════════════════════════
 async function fbSaveConfig() {
@@ -678,7 +641,6 @@ async function fbDeleteStudent(code) {
 }
 
 // Guardar asistencia de un día completo
-// Path: asistencia/{gradeKey}/{month}/{date}
 async function fbSaveDay(grade, month, date, records) {
   try {
     const gradeKey = grade.replace(/[^a-zA-Z0-9]/g,'_');
@@ -700,7 +662,6 @@ async function fbSaveDay(grade, month, date, records) {
 async function fbLoadAll() {
   setSyncState('loading');
   try {
-    // Config
     const cfgDoc = await db.collection('config').doc('settings').get();
     if (cfgDoc.exists) Object.assign(DB.config, cfgDoc.data());
 
@@ -716,11 +677,9 @@ async function fbLoadAll() {
     const cdDoc = await db.collection('config').doc('classDays').get();
     if (cdDoc.exists) DB.classDays = cdDoc.data() || {};
 
-    // Estudiantes
     const stuSnap = await db.collection('estudiantes').get();
     DB.students = stuSnap.docs.map(d => d.data());
 
-    // Si no hay meses, poner defaults
     if (!DB.months.length) {
       DB.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
     }
@@ -738,7 +697,6 @@ async function fbLoadAll() {
   }
 }
 
-// Cargar asistencia de un mes específico
 async function fbLoadMonth(grade, month) {
   try {
     const gradeKey = grade.replace(/[^a-zA-Z0-9]/g,'_');
@@ -754,9 +712,7 @@ async function fbLoadMonth(grade, month) {
   }
 }
 
-// Listener en tiempo real para el mes activo
 function fbListenMonth(grade, month) {
-  // Desconectar listeners previos
   _listeners.forEach(u => u());
   _listeners = [];
 
@@ -927,7 +883,6 @@ function onGradeChange() {
   curSession=curGrade;
   if (curGrade) document.documentElement.setAttribute('data-materia',getMateriaKey(curGrade));
   renderPlanilla(); renderSidebarGroups(); updateTopbarSub();
-  // Cargar asistencia del mes si ya está seleccionado
   if (curGrade && curMonth) { fbLoadMonth(curGrade,curMonth).then(()=>{ fbListenMonth(curGrade,curMonth); renderPlanilla(); }); }
 }
 function onMonthChange() {
@@ -984,7 +939,7 @@ function renderPlanilla() {
   const tbody=students.map((s,i)=>{
     const c=ROW_COLORS[i%ROW_COLORS.length];
     let stuP=0,stuA=0,stuE=0;
-    const dayRecs=getAttDay(curGrade,curMonth,'__all__');// usamos el día a día
+    const dayRecs=getAttDay(curGrade,curMonth,'__all__');
 
     const tdDias=allDays.map(day=>{
       if (day.isFestivo) return `<td class="col-att festivo"><div class="att-dot blocked">🔴</div></td>`;
@@ -1059,7 +1014,6 @@ function toggleDay(dateStr) {
   const idx=days.indexOf(dateStr);
   if (idx===-1) {
     days.push(dateStr); days.sort();
-    // Pre-rellenar con P por defecto
     const rec={};
     DB.students.filter(s=>s.grade===curGrade).forEach(s=>{ rec[s.code]='P'; });
     setAttDay(curGrade,curMonth,dateStr,rec);
@@ -1079,7 +1033,6 @@ function cycleState(code, dateStr) {
   rec[code]  = cycle[(cycle.indexOf(cur)+1)%cycle.length];
   setAttDay(curGrade,curMonth,dateStr,rec);
   saveLocalCache();
-  // Guardar en Firebase con debounce por día
   clearTimeout(_saveTimer);
   setSyncState('pending');
   _saveTimer = setTimeout(()=>{ fbSaveDay(curGrade,curMonth,dateStr,rec); }, 1500);
@@ -1118,23 +1071,8 @@ async function manualSave() {
 }
 
 function updateStats(data) {
-  if (!data) {
-    ['stClases','stPresent','stAbsent','stExcuse'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—';});
-    return;
-  }
-  const {students,classDays,grade,month}=data;
-  let p=0,a=0,e=0;
-  students.forEach(s=>{ classDays.forEach(f=>{ const v=getAttDay(grade,month,f)[s.code]; if(v==='P')p++;else if(v==='A')a++;else if(v==='E')e++; }); });
-  const total=p+a+e;
-  document.getElementById('stClases').textContent=classDays.length;
-  document.getElementById('stPresent').textContent=p||'—';
-  document.getElementById('stAbsent').textContent=a||'—';
-  document.getElementById('stExcuse').textContent=e||'—';
-  if(total){
-    document.getElementById('stPresentPct').textContent=Math.round(p/total*100)+'%';
-    document.getElementById('stAbsentPct').textContent=Math.round(a/total*100)+'%';
-    document.getElementById('stExcusePct').textContent=Math.round(e/total*100)+'%';
-  }
+  // Función vaciada intencionalmente a petición de quitar las estadísticas superiores.
+  // Se mantiene la estructura para evitar errores de referencia en el código.
 }
 
 // ════════════════════════════════════════════════════════════
