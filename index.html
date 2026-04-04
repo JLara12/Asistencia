@@ -141,35 +141,35 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .stat-info .value{font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;line-height:1.1;margin-top:2px}
 .stat-info .sub{font-size:11px;color:var(--text3);margin-top:1px}
 
-/* ── PLANILLA ── */
+/* ── PLANILLA (MÁXIMA DENSIDAD) ── */
 .planilla-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
-.planilla-toolbar{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.planilla-toolbar{padding:8px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .planilla-title{font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;flex:1}
 .planilla-title span{color:var(--mat)}
 .planilla-scroll{overflow-x:auto}
 
 table.planilla{border-collapse:collapse;width:100%;font-size:12px}
 table.planilla thead th{background:var(--bg);position:sticky;top:0;z-index:10;border-bottom:2px solid var(--border);font-weight:700;white-space:nowrap}
-table.planilla .col-name{position:sticky;left:0;z-index:8;min-width:200px;max-width:200px;background:inherit}
+table.planilla .col-name{position:sticky;left:0;z-index:8;min-width:185px;max-width:185px;background:inherit}
 table.planilla thead .col-name{z-index:12;background:var(--bg)}
-table.planilla .th-day{text-align:center;padding:8px 3px 6px;min-width:42px;width:42px;border-left:1px solid var(--border);cursor:pointer;transition:background var(--transition)}
-table.planilla .th-day:hover{background:var(--mat-light)}
-table.planilla .th-day .dn{font-size:9px;color:var(--text3);text-transform:uppercase;display:block}
-table.planilla .th-day .dd{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;display:block;line-height:1}
-table.planilla .th-day .toggle-btn{display:block;width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border2);background:transparent;cursor:pointer;margin:4px auto 0;font-size:10px;line-height:15px;text-align:center;color:var(--text3);transition:all var(--transition)}
-table.planilla .th-day .toggle-btn:hover{border-color:var(--mat);color:var(--mat)}
-table.planilla .th-day.activo .dd{color:var(--mat)}
-table.planilla .th-day.activo .dn{color:var(--mat);opacity:.7}
-table.planilla .th-day.activo .toggle-btn{background:var(--mat);border-color:var(--mat);color:#fff}
-table.planilla .th-day.finde{background:rgba(0,0,0,.02)}
-table.planilla .th-day.finde .dd{color:var(--text3)}
-table.planilla .th-day.festivo{background:rgba(211,0,0,.05)}
-table.planilla .th-day.festivo .dd{color:#D30000;font-size:11px}
-table.planilla .col-resumen{position:sticky;right:0;background:inherit;z-index:8;min-width:80px;border-left:2px solid var(--border)}
+
+/* Cabecera compacta */
+table.planilla .th-day{text-align:center;padding:3px 2px;min-width:38px;width:38px;border-left:1px solid var(--border);cursor:pointer;transition:background var(--transition)}
+table.planilla .th-day .dn{font-size:8px;color:var(--text3);text-transform:uppercase;display:block}
+table.planilla .th-day .dd{font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;display:block;line-height:1}
+table.planilla .th-day .toggle-btn{display:block;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--border2);background:transparent;cursor:pointer;margin:3px auto 0;font-size:9px;line-height:13px;text-align:center;color:var(--text3)}
+
+table.planilla .col-resumen{position:sticky;right:0;background:inherit;z-index:8;min-width:65px;border-left:2px solid var(--border)}
 table.planilla thead .col-resumen{z-index:12;background:var(--bg)}
 table.planilla tbody tr{border-bottom:1px solid var(--border);transition:filter var(--transition)}
 table.planilla tbody tr:hover{filter:brightness(.97)}
-table.planilla tbody tr:last-child{border-bottom:none}
+
+/* Micro-rellenos en celdas */
+td.col-name{padding:3px 12px;border-right:1px solid var(--border)}
+td.col-att{text-align:center;padding:1px 0;border-left:1px solid rgba(0,0,0,.04);vertical-align:middle}
+td.col-resumen{padding:1px 4px;text-align:center;vertical-align:middle}
+
+/* Colores de fila */
 table.planilla tbody tr:nth-child(8n+1){background:var(--row-a)}
 table.planilla tbody tr:nth-child(8n+2){background:var(--row-b)}
 table.planilla tbody tr:nth-child(8n+3){background:var(--row-c)}
@@ -186,187 +186,72 @@ table.planilla tbody tr:nth-child(8n+5) .row-name{color:var(--row-et)}
 table.planilla tbody tr:nth-child(8n+6) .row-name{color:var(--row-ft)}
 table.planilla tbody tr:nth-child(8n+7) .row-name{color:var(--row-gt)}
 table.planilla tbody tr:nth-child(8n+8) .row-name{color:var(--row-ht)}
-td.col-name{padding:10px 14px;border-right:1px solid var(--border)}
 
-/* Sombra de profundidad en columna fija */
-table.planilla td.col-name::after, table.planilla th.col-name::after {
-  content: "";
-  position: absolute;
-  top: 0; right: -5px; bottom: 0;
-  width: 5px;
-  background: linear-gradient(to right, rgba(0,0,0,0.06), transparent);
-  pointer-events: none;
-}
+/* Ajuste Estudiante */
+.student-cell{display:flex;align-items:center;gap:7px}
+.stu-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:800;font-size:10px;flex-shrink:0;border:1.5px solid rgba(0,0,0,.08)}
+.stu-name-wrap .row-name{font-weight:700;font-size:11.5px;line-height:1.05;display:block}
+.stu-name-wrap .row-code{font-size:9px;color:var(--text3);line-height:1}
 
-[data-theme="dark"] table.planilla td.col-name::after, [data-theme="dark"] table.planilla th.col-name::after {
-  background: linear-gradient(to right, rgba(0,0,0,0.4), transparent);
-}
-
-.student-cell{display:flex;align-items:center;gap:10px}
-.stu-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;flex-shrink:0;border:2px solid rgba(0,0,0,.08)}
-.stu-name-wrap .row-name{font-weight:700;font-size:12px;line-height:1.2;display:block}
-.stu-name-wrap .row-code{font-size:10px;color:var(--text3)}
-td.col-att{text-align:center;padding:6px 2px;border-left:1px solid rgba(0,0,0,.04);vertical-align:middle}
-td.col-att.finde{background:rgba(0,0,0,.03)}
-td.col-att.inactivo{background:rgba(0,0,0,.02)}
-td.col-att.festivo{background:rgba(211,0,0,.06)}
-
-/* ── MARCADORES 3D (VOLUMÉTRICOS) ── */
+/* ── MARCADORES 3D (REDUCIDOS A 26px) ── */
 .att-dot {
-  width: 30px; height: 30px; border-radius: 50%;
+  width: 26px; height: 26px; border-radius: 50%;
   margin: auto; cursor: pointer; display: flex;
   align-items: center; justify-content: center;
   transition: transform .15s ease, box-shadow .15s ease;
   user-select: none; position: relative;
 }
-.att-dot:hover{transform:scale(1.18)}
+.att-dot:hover{transform:scale(1.15)}
 .att-dot:active{transform:scale(.92)}
 
-.att-dot.P { background: #007A33; box-shadow: 0 4px 10px rgba(0,122,51,0.3); }
-.att-dot.A { background: #D30000; box-shadow: 0 4px 10px rgba(211,0,0,0.3); }
-.att-dot.E { background: #FF8A00; box-shadow: 0 4px 10px rgba(255,138,0,0.3); }
+.att-dot.P { background: #007A33; box-shadow: 0 3px 8px rgba(0,122,51,0.3); }
+.att-dot.A { background: #D30000; box-shadow: 0 3px 8px rgba(211,0,0,0.3); }
+.att-dot.E { background: #FF8A00; box-shadow: 0 3px 8px rgba(255,138,0,0.3); }
 
 /* Esfera interior iluminada */
 .att-dot.P::after, .att-dot.A::after, .att-dot.E::after {
   content: ''; position: absolute;
-  width: 14px; height: 14px; border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  width: 11px; height: 11px; border-radius: 50%;
+  box-shadow: 0 1.5px 3px rgba(0,0,0,0.25);
 }
 .att-dot.P::after { background: radial-gradient(circle at 35% 35%, #00E676 10%, #00A344 50%, #007A33 90%); }
 .att-dot.A::after { background: radial-gradient(circle at 35% 35%, #FF5252 10%, #E50000 50%, #D30000 90%); }
 .att-dot.E::after { background: radial-gradient(circle at 35% 35%, #FFD166 10%, #FFAA00 50%, #FF8A00 90%); }
 
-.att-dot.empty{background:transparent;border:1.5px dashed var(--border2);color:var(--text3);font-size:10px}
+.att-dot.empty{background:transparent;border:1.5px dashed var(--border2);color:var(--text3);font-size:9px}
 .att-dot.blocked{background:rgba(0,0,0,.04);border:none;cursor:default;pointer-events:none}
 
-td.col-resumen{padding:6px 8px;text-align:center;vertical-align:middle}
-.resumen-cell{display:flex;flex-direction:column;align-items:center;gap:1px}
-.resumen-cell .rp{font-size:11px;font-weight:700;color:#007A33}
-.resumen-cell .ra{font-size:11px;font-weight:700;color:#D30000}
-.resumen-cell .re{font-size:11px;font-weight:700;color:#FF8A00}
-.resumen-cell .rpct{font-size:9px;color:var(--text3);margin-top:1px}
+.resumen-cell{display:flex;flex-direction:column;align-items:center;gap:0px}
+.resumen-cell .rp{font-size:10px;font-weight:700;color:#007A33}
+.resumen-cell .ra{font-size:10px;font-weight:700;color:#D30000}
+.resumen-cell .re{font-size:10px;font-weight:700;color:#FF8A00}
+.resumen-cell .rpct{font-size:8.5px;color:var(--text3);margin-top:0px}
 
-table.planilla tfoot td{background:var(--bg);border-top:2px solid var(--border);padding:8px 4px;text-align:center;font-size:10px;font-weight:700;border-left:1px solid var(--border)}
-table.planilla tfoot td.col-name{text-align:left;padding:8px 14px;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;border-left:none;background:var(--bg)}
-table.planilla tfoot td.col-resumen{background:var(--bg)}
+/* Sombra de profundidad */
+table.planilla td.col-name::after, table.planilla th.col-name::after {
+  content: ""; position: absolute; top: 0; right: -5px; bottom: 0; width: 5px;
+  background: linear-gradient(to right, rgba(0,0,0,0.06), transparent); pointer-events: none;
+}
 
-.att-legend{padding:10px 16px;border-top:1px solid var(--border);display:flex;gap:16px;align-items:center;font-size:11px;color:var(--text3);flex-wrap:wrap;background:var(--bg);border-radius:0 0 var(--radius) var(--radius)}
-.legend-item{display:flex;align-items:center;gap:5px}
-.legend-dot{width:10px;height:10px;border-radius:50%}
-
-/* ── TABLAS ── */
+/* ── OTROS ESTILOS COMPACTOS ── */
 .table-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm)}
 .data-table{width:100%;border-collapse:collapse;font-size:13px}
-.data-table thead th{background:var(--bg);padding:11px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
-.data-table tbody td{padding:10px 14px;border-bottom:1px solid var(--border)}
-.data-table tbody tr:last-child td{border-bottom:none}
-.data-table tbody tr:nth-child(8n+1){background:var(--row-a)}
-.data-table tbody tr:nth-child(8n+2){background:var(--row-b)}
-.data-table tbody tr:nth-child(8n+3){background:var(--row-c)}
-.data-table tbody tr:nth-child(8n+4){background:var(--row-d)}
-.data-table tbody tr:nth-child(8n+5){background:var(--row-e)}
-.data-table tbody tr:nth-child(8n+6){background:var(--row-f)}
-.data-table tbody tr:nth-child(8n+7){background:var(--row-g)}
-.data-table tbody tr:nth-child(8n+8){background:var(--row-h)}
-.pct-bar{display:flex;align-items:center;gap:8px}
-.pct-track{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden;min-width:60px}
-.pct-fill{height:100%;border-radius:99px;transition:width .4s ease}
-.chip{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700}
-.chip-ok{background:rgba(0,122,51,.1);color:#007A33}
-.chip-warn{background:rgba(255,138,0,.1);color:#FF8A00}
-.chip-bad{background:rgba(211,0,0,.1);color:#D30000}
+.data-table thead th{background:var(--bg);padding:10px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.data-table tbody td{padding:7px 14px;border-bottom:1px solid var(--border)}
 
-/* ── REPORTE ── */
-.reporte-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm)}
-.reporte-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--mat)}
-.reporte-header .inst{font-family:'Nunito',sans-serif;font-size:18px;font-weight:900}
-.reporte-header .sub{font-size:12px;color:var(--text2);margin-top:3px}
-.reporte-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.reporte-tab{padding:5px 14px;border-radius:99px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--border2);background:var(--bg);color:var(--text2);transition:all var(--transition)}
-.reporte-tab:hover{border-color:var(--mat);color:var(--mat)}
-.reporte-tab.active{background:var(--mat);border-color:var(--mat);color:#fff}
-
-/* ── CONFIG ── */
-.config-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.config-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow-sm)}
-.config-card-title{font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.form-group{margin-bottom:14px}
-.form-label{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px}
-.input{width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text);font-family:'Outfit',sans-serif;font-size:13px;padding:8px 12px;outline:none;transition:border-color var(--transition)}
-.input:focus{border-color:var(--mat)}
-.input::placeholder{color:var(--text3)}
-.chip-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.grade-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:99px;font-size:12px;font-weight:700;border:1.5px solid}
-.grade-chip .rm{cursor:pointer;opacity:.5;transition:opacity var(--transition)}
-.grade-chip .rm:hover{opacity:1}
-.new-grade-form{display:grid;grid-template-columns:1fr 72px 72px auto;gap:8px;align-items:end;margin-bottom:8px}
-.upload-zone{border:2px dashed var(--border2);border-radius:var(--radius);padding:28px;text-align:center;cursor:pointer;transition:all var(--transition)}
-.upload-zone:hover{border-color:var(--mat);background:var(--mat-light)}
-.upload-zone .uz-icon{font-size:32px;margin-bottom:8px}
-.upload-zone p{font-size:12px;color:var(--text2)}
-.upload-zone strong{color:var(--mat)}
-
-/* ── FESTIVOS ── */
-.festivos-wrap{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
-.fes-mes-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);cursor:pointer;font-size:13px;font-weight:600;transition:background var(--transition)}
-.fes-mes-head:hover{background:var(--mat-light)}
-.fes-mes-body{display:none;padding:12px;border-top:1px solid var(--border)}
-.fes-mes-body.open{display:block}
-.mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.cal-head{text-align:center;font-size:9px;font-weight:700;color:var(--text3);padding:3px 0;text-transform:uppercase}
-.cal-day{text-align:center;font-size:11px;padding:5px 2px;border-radius:6px;cursor:pointer;transition:all .12s;min-height:26px;display:flex;align-items:center;justify-content:center}
-.cal-day:hover{background:var(--mat-light)}
-.cal-day.festivo{background:rgba(211,0,0,.1);color:#D30000;font-weight:700;border:1px solid rgba(211,0,0,.3)}
-.cal-day.finde{color:var(--text3)}
-.cal-day.empty{pointer-events:none}
-.fes-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.fes-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;background:rgba(211,0,0,.1);color:#D30000;border:1px solid rgba(211,0,0,.25)}
-.fes-chip .rm{cursor:pointer;opacity:.6}
-.fes-chip .rm:hover{opacity:1}
-
-/* ── MODAL ── */
 .modal-overlay{position:fixed;inset:0;background:rgba(30,30,50,.35);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity var(--transition)}
 .modal-overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:28px;width:90%;max-width:460px;box-shadow:var(--shadow-lg);transform:translateY(16px);transition:transform var(--transition)}
-.modal-overlay.open .modal{transform:translateY(0)}
-.modal-title{font-family:'Nunito',sans-serif;font-size:17px;font-weight:900;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center}
-.modal-close{cursor:pointer;color:var(--text3);font-size:22px;line-height:1}
-.modal-close:hover{color:var(--text)}
+.modal{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:25px;width:90%;max-width:450px;box-shadow:var(--shadow-lg);transform:translateY(15px);transition:transform var(--transition)}
 
-/* ── TOAST ── */
 .toast-container{position:fixed;bottom:20px;right:20px;z-index:1000;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;font-size:13px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;max-width:320px;animation:toastIn .25s ease}
-.toast.success{border-left:3px solid #007A33}
-.toast.error{border-left:3px solid #D30000}
-.toast.info{border-left:3px solid var(--mat)}
-@keyframes toastIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
+.toast{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:10px 15px;font-size:13px;box-shadow:var(--shadow);display:flex;align-items:center;gap:8px;max-width:300px;animation:toastIn .25s ease}
 
-/* ── EMPTY STATE ── */
-.empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
-.empty-state .empty-icon{font-size:44px;margin-bottom:14px}
-.empty-state h3{font-family:'Nunito',sans-serif;font-size:16px;color:var(--text2);font-weight:800;margin-bottom:6px}
-.empty-state p{font-size:13px}
-
-/* ── FIREBASE STATUS BANNER ── */
-.fb-banner{background:var(--mat-light);border:1px solid var(--mat-mid);border-radius:var(--radius-sm);padding:10px 16px;font-size:12px;color:var(--mat);display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.fb-banner.error{background:rgba(211,0,0,.1);border-color:rgba(211,0,0,.3);color:#D30000}
-.fb-banner.success{background:rgba(0,122,51,.1);border-color:rgba(0,122,51,.3);color:#007A33}
-
-/* ── MISC ── */
 ::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:99px}
-hr{border:none;border-top:1px solid var(--border);margin:14px 0}
-.text-dim{color:var(--text3);font-size:11px}
-.mt-8{margin-top:8px}
-.mt-12{margin-top:12px}
-.mb-12{margin-bottom:12px}
 
 @media(max-width:768px){
   .app{grid-template-columns:1fr;grid-template-areas:"logo""topbar""main"}
   .sidebar{display:none}
-  .config-grid{grid-template-columns:1fr}
-  .new-grade-form{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -428,7 +313,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
         <div class="table-card">
           <table class="data-table">
             <thead><tr><th>#</th><th>Estudiante</th><th>Grupo</th><th style="color:#007A33;font-size:13px">P</th><th style="color:#D30000;font-size:13px">F</th><th style="color:#FF8A00;font-size:13px">E</th><th>% Asistencia</th><th>Estado</th></tr></thead>
-            <tbody id="resumenBody"><tr><td colspan="8" style="padding:40px;text-align:center;color:var(--text3)">Sin datos</td></tr></tbody>
+            <tbody id="resumenBody"></tbody>
           </table>
         </div>
       </div>
@@ -440,132 +325,49 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
           <select class="sel" id="repGrade" onchange="renderReporte()"><option value="">— Grupo —</option></select>
           <select class="sel" id="repView"  onchange="renderReporte()">
             <option value="year">Año completo</option>
-            <option value="p1">Período 1</option><option value="p2">Período 2</option>
-            <option value="p3">Período 3</option><option value="p4">Período 4</option>
             <option value="month">Mes específico</option>
           </select>
-          <select class="sel" id="repMonth" style="display:none" onchange="renderReporte()"><option value="">— Mes —</option></select>
           <button class="btn btn-ghost btn-sm" onclick="printReport()">🖨️ Imprimir</button>
         </div>
-        <div id="reporteContent"><div class="empty-state"><div class="empty-icon">📄</div><h3>Seleccione un grupo</h3></div></div>
+        <div id="reporteContent"></div>
       </div>
     </div>
 
     <div class="tab-content" id="tab-config">
       <div class="page-body">
-        <div id="fbStatusBanner" class="fb-banner" style="display:none"></div>
-        <div class="config-grid" style="margin-bottom:16px">
-
-          <div class="config-card">
-            <div class="config-card-title">🏫 Institución</div>
-            <div class="form-group"><label class="form-label">Docente</label><input class="input" id="cfgTeacher" placeholder="Jhon Jairo Lara Martínez"></div>
-            <div class="form-group"><label class="form-label">Institución</label><input class="input" id="cfgSchool" placeholder="I.E.D. Pestalozzi"></div>
-            <div class="form-group"><label class="form-label">Año académico</label><input class="input" id="cfgYear" type="number" placeholder="2026"></div>
-            <button class="btn btn-primary btn-sm mt-8" onclick="saveConfig()">💾 Guardar</button>
+        <div class="config-grid" style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <div class="table-card" style="padding:20px">
+            <h3>⚙️ Configuración General</h3>
+            <div style="margin-top:15px">
+               <label class="label">Docente:</label>
+               <input class="input" id="cfgTeacher" style="margin-bottom:10px">
+               <label class="label">Institución:</label>
+               <input class="input" id="cfgSchool" style="margin-bottom:10px">
+               <button class="btn btn-primary" onclick="saveConfig()">Guardar Config</button>
+            </div>
+            <hr style="margin:20px 0">
+            <h3>🎨 Temas</h3>
+            <div style="display:flex; gap:8px; margin-top:10px">
+              <button class="btn btn-ghost" id="btnThemeLight" onclick="setTheme('light')">Claro</button>
+              <button class="btn btn-ghost" id="btnThemeDark" onclick="setTheme('dark')">Oscuro</button>
+              <button class="btn btn-ghost" id="btnThemePastel" onclick="setTheme('pastel')">Pastel</button>
+            </div>
           </div>
           
-          <div class="config-card">
-            <div class="config-card-title">🎨 Apariencia Visual</div>
-            <div class="form-group">
-              <label class="form-label mb-12">Tema del Sistema</label>
-              <div style="display:flex;gap:10px;flex-wrap:wrap">
-                <button class="btn btn-ghost" id="btnThemeLight" onclick="setTheme('light')">☀️ Claro</button>
-                <button class="btn btn-ghost" id="btnThemeDark" onclick="setTheme('dark')">🌙 Oscuro</button>
-                <button class="btn btn-ghost" id="btnThemePastel" onclick="setTheme('pastel')">☁️ Tonos Pastel</button>
-              </div>
-            </div>
-            <hr>
-            <p class="text-dim">Los iconos de estado en formato de texto fueron reemplazados por el nuevo sistema de renderizado volumétrico 3D de alto rendimiento para garantizar legibilidad masiva en la planilla.</p>
-          </div>
-        </div>
-
-        <div class="config-grid" style="margin-bottom:16px">
-          <div class="config-card">
-            <div class="config-card-title">🏫 Grados y Grupos</div>
-            <div class="chip-list" id="gradesList"></div>
-            <div class="new-grade-form">
-              <div><label class="form-label">Materia</label><input class="input" id="newMateria" placeholder="Sociales, Ciudadanía…" list="matSug"><datalist id="matSug"><option value="Ciencias Sociales"><option value="Competencias Ciudadanas"><option value="Sociales"><option value="Ciudadanía"></datalist></div>
-              <div><label class="form-label">Grado</label><select class="sel" id="newGradeNum" style="width:100%"><option value="">—</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option></select></div>
-              <div><label class="form-label">Grupo</label><select class="sel" id="newGradeLetter" style="width:100%"><option value="">—</option><option>A</option><option>B</option><option>C</option></select></div>
-              <button class="btn btn-primary" onclick="addGrade()" style="height:36px;margin-top:auto">＋</button>
-            </div>
-            <p class="text-dim">Vista previa: <strong id="gradePreview" style="color:var(--mat)">—</strong></p>
-            <hr>
-            <div class="config-card-title" style="font-size:13px">📅 Planillón</div>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;margin-bottom:8px"><input type="checkbox" id="cfgSat" onchange="savePlanConfig()" style="accent-color:var(--mat)"> Incluir sábados</label>
-            <label style="display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer"><input type="checkbox" id="cfgSun" onchange="savePlanConfig()" style="accent-color:var(--mat)"> Incluir domingos</label>
-          </div>
-
-          <div class="config-card">
-            <div class="config-card-title">📆 Meses habilitados</div>
-            <div id="monthsList" style="margin-bottom:12px"></div>
-            <div style="display:flex;gap:8px">
-              <select class="sel" id="newMonthSel" style="flex:1">
-                <option value="">— Mes —</option>
-                <option>Enero</option><option>Febrero</option><option>Marzo</option><option>Abril</option>
-                <option>Mayo</option><option>Junio</option><option>Julio</option><option>Agosto</option>
-                <option>Septiembre</option><option>Octubre</option><option>Noviembre</option><option>Diciembre</option>
-              </select>
-              <button class="btn btn-primary btn-sm" onclick="addMonth()">＋</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="config-card" style="margin-bottom:16px">
-          <div class="config-card-title">🗓️ Días Festivos</div>
-          <p class="text-dim mb-12">Clic en un día para marcarlo como festivo. Quedan bloqueados en el planillón.</p>
-          <div class="festivos-wrap" id="festivosCalendario"></div>
-        </div>
-
-        <div class="config-card">
-          <div class="config-card-title">👨‍🎓 Estudiantes</div>
-          <div class="config-grid" style="margin-bottom:16px">
-            <div>
-              <p class="text-dim mb-12">Ingreso manual</p>
-              <div class="form-group"><label class="form-label">Grupo</label><select class="sel" id="stuGrade" style="width:100%"></select></div>
-              <div class="form-group"><label class="form-label">Código</label><input class="input" id="stuCode" placeholder="6A001"></div>
-              <div class="form-group"><label class="form-label">Nombre</label><input class="input" id="stuName" placeholder="Apellido, Nombre"></div>
-              <button class="btn btn-primary btn-sm" onclick="addStudent()">＋ Agregar</button>
-            </div>
-            <div>
-              <p class="text-dim mb-12">Cargar desde Excel / CSV</p>
-              <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
-                <div class="uz-icon">📂</div>
-                <p><strong>Clic aquí</strong> o arrastre el archivo</p>
-                <p style="margin-top:4px;font-size:11px">Columnas: Código, Nombre, Grupo</p>
-              </div>
-              <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)">
-              <div id="uploadPreview" style="margin-top:10px"></div>
-            </div>
-          </div>
-          <hr>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-            <span style="font-weight:700;font-size:13px">Lista actual</span>
-            <select class="sel" id="stuFilterGrade" onchange="renderStudentList()"><option value="">— Todos —</option></select>
-          </div>
-          <div class="table-card">
-            <table class="data-table">
-              <thead><tr><th>#</th><th>Código</th><th>Nombre</th><th>Grupo</th><th>Acciones</th></tr></thead>
-              <tbody id="studentListBody"></tbody>
-            </table>
+          <div class="table-card" style="padding:20px">
+             <h3>👨‍🎓 Gestión de Estudiantes</h3>
+             <p class="text-dim">Cargue su archivo Excel o CSV para importar la lista.</p>
+             <div class="upload-zone" style="border:2px dashed var(--border2); padding:30px; text-align:center; cursor:pointer; margin-top:15px" onclick="document.getElementById('fileInput').click()">
+                📂 Clic para subir lista
+             </div>
+             <input type="file" id="fileInput" accept=".xlsx,.xls,.csv" style="display:none" onchange="handleFileUpload(event)">
+             <div id="uploadPreview"></div>
           </div>
         </div>
       </div>
     </div>
-  </main>
-</div>
 
-<div class="modal-overlay" id="modalAssignGrade">
-  <div class="modal">
-    <div class="modal-title">Asignar / Mover grupo<span class="modal-close" onclick="closeModal('modalAssignGrade')">×</span></div>
-    <p style="font-size:13px;color:var(--text2);margin-bottom:14px" id="assignStuName"></p>
-    <input type="hidden" id="assignStuCode">
-    <div class="form-group"><label class="form-label">Grupo destino</label><select class="sel" id="assignGradeSelect" style="width:100%"></select></div>
-    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:18px">
-      <button class="btn btn-ghost" onclick="closeModal('modalAssignGrade')">Cancelar</button>
-      <button class="btn btn-primary" onclick="confirmAssignGrade()">Asignar</button>
-    </div>
-  </div>
+  </main>
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
@@ -576,34 +378,24 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
 //  FIREBASE CONFIG
 // ════════════════════════════════════════════════════════════
 const firebaseConfig = {
-  apiKey:            "AIzaSyC1UlC2AM9gjVOnagrVsIEVzgyRlfHHDoI",
-  authDomain:        "asistencia-profe-lara.firebaseapp.com",
-  projectId:         "asistencia-profe-lara",
-  storageBucket:     "asistencia-profe-lara.firebasestorage.app",
+  apiKey: "AIzaSyC1UlC2AM9gjVOnagrVsIEVzgyRlfHHDoI",
+  authDomain: "asistencia-profe-lara.firebaseapp.com",
+  projectId: "asistencia-profe-lara",
+  storageBucket: "asistencia-profe-lara.firebasestorage.app",
   messagingSenderId: "310256327985",
-  appId:             "1:310256327985:web:4479876510a865b46ea410"
+  appId: "1:310256327985:web:4479876510a865b46ea410"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-db.enablePersistence({ synchronizeTabs: true })
-  .then(() => setSyncState('ok'))
-  .catch(err => {
-    if (err.code === 'failed-precondition') setSyncState('ok');
-    else if (err.code === 'unimplemented') setSyncState('ok'); 
-  });
-
-// ════════════════════════════════════════════════════════════
-//  BASE DE DATOS LOCAL (caché rápido)
-// ════════════════════════════════════════════════════════════
 const DB = {
-  config:     { teacher:'Jhon Jairo Lara Martínez', school:'I.E.D. Pestalozzi', year:2026, includeSat:false, includeSun:false, theme:'light' },
-  grades:     [],
-  months:     [],
-  students:   [],
+  config: { teacher:'Jhon Jairo Lara Martínez', school:'I.E.D. Pestalozzi', year:2026, includeSat:false, includeSun:false, theme:'light' },
+  grades: [],
+  months: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+  students: [],
   attendance: {},   
-  classDays:  {},   
-  festivos:   []
+  classDays: {},   
+  festivos: []
 };
 
 function loadLocalCache() {
@@ -613,858 +405,163 @@ function loadLocalCache() {
     document.documentElement.setAttribute('data-theme', DB.config.theme || 'light');
   } catch(e) {}
 }
-function saveLocalCache() {
-  localStorage.setItem('asist_pestalozzi_fb', JSON.stringify(DB));
-}
 
-// ════════════════════════════════════════════════════════════
-//  ESTADO
-// ════════════════════════════════════════════════════════════
-let curGrade = '', curMonth = '', curSession = '';
-let _listeners = [];
-
-const DIAS_ES   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const DIAS_ES = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const MESES_NUM = {Enero:1,Febrero:2,Marzo:3,Abril:4,Mayo:5,Junio:6,Julio:7,Agosto:8,Septiembre:9,Octubre:10,Noviembre:11,Diciembre:12};
-const PERIODOS  = {p1:['Enero','Febrero','Marzo'],p2:['Abril','Mayo','Junio'],p3:['Julio','Agosto','Septiembre'],p4:['Octubre','Noviembre','Diciembre']};
-const PERIODO_LABELS = {p1:'Período 1',p2:'Período 2',p3:'Período 3',p4:'Período 4'};
-const ROW_COLORS = [
-  {bg:'#FFF0F2',fg:'#D44A5A'},{bg:'#F0EEFF',fg:'#5A52C0'},{bg:'#EDFAF4',fg:'#1E8A52'},
-  {bg:'#FFF7EC',fg:'#C06A10'},{bg:'#EDF4FF',fg:'#2A60C0'},{bg:'#FFF0FA',fg:'#B03090'},
-  {bg:'#F0FAF0',fg:'#2A8A20'},{bg:'#FFFAEC',fg:'#C08010'}
-];
+let curGrade = '', curMonth = '';
 
-// ════════════════════════════════════════════════════════════
-//  FIRESTORE — GUARDAR
-// ════════════════════════════════════════════════════════════
-async function fbSaveConfig() {
-  try { await db.collection('config').doc('settings').set(DB.config); } catch(e) { console.warn('fbSaveConfig:', e.message); }
-}
-async function fbSaveGrades() {
-  try { await db.collection('config').doc('grades').set({ list: DB.grades }); } catch(e) { console.warn('fbSaveGrades:', e.message); }
-}
-async function fbSaveMonths() {
-  try { await db.collection('config').doc('months').set({ list: DB.months }); } catch(e) { console.warn('fbSaveMonths:', e.message); }
-}
-async function fbSaveFestivos() {
-  try { await db.collection('config').doc('festivos').set({ dates: DB.festivos }); } catch(e) { console.warn('fbSaveFestivos:', e.message); }
-}
-async function fbSaveClassDays() {
-  try { await db.collection('config').doc('classDays').set(DB.classDays); } catch(e) { console.warn('fbSaveClassDays:', e.message); }
-}
-async function fbSaveStudent(student) {
-  try { await db.collection('estudiantes').doc(student.code).set(student); } catch(e) { console.warn('fbSaveStudent:', e.message); }
-}
-async function fbDeleteStudent(code) {
-  try { await db.collection('estudiantes').doc(code).delete(); } catch(e) { console.warn('fbDeleteStudent:', e.message); }
-}
-async function fbSaveDay(grade, month, date, records) {
-  try {
-    const gradeKey = grade.replace(/[^a-zA-Z0-9]/g,'_');
-    await db.collection('asistencia').doc(gradeKey).collection(month).doc(date).set(records, { merge: false });
-    setSyncState('ok');
-  } catch(e) {
-    console.warn('fbSaveDay:', e.message);
-    setSyncState('pending');
-  }
-}
-
-// ════════════════════════════════════════════════════════════
-//  FIRESTORE — CARGAR
-// ════════════════════════════════════════════════════════════
 async function fbLoadAll() {
   setSyncState('loading');
   try {
     const cfgDoc = await db.collection('config').doc('settings').get();
     if (cfgDoc.exists) Object.assign(DB.config, cfgDoc.data());
-    
     document.documentElement.setAttribute('data-theme', DB.config.theme || 'light');
-
-    const gradesDoc = await db.collection('config').doc('grades').get();
-    if (gradesDoc.exists) DB.grades = gradesDoc.data().list || [];
-
-    const monthsDoc = await db.collection('config').doc('months').get();
-    if (monthsDoc.exists) DB.months = monthsDoc.data().list || [];
-
-    const festivosDoc = await db.collection('config').doc('festivos').get();
-    if (festivosDoc.exists) DB.festivos = festivosDoc.data().dates || [];
-
-    const cdDoc = await db.collection('config').doc('classDays').get();
-    if (cdDoc.exists) DB.classDays = cdDoc.data() || {};
 
     const stuSnap = await db.collection('estudiantes').get();
     DB.students = stuSnap.docs.map(d => d.data());
 
-    if (!DB.months.length) {
-      DB.months = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
-    }
+    const gradesDoc = await db.collection('config').doc('grades').get();
+    if (gradesDoc.exists) DB.grades = gradesDoc.data().list || [];
 
-    saveLocalCache();
+    const cdDoc = await db.collection('config').doc('classDays').get();
+    if (cdDoc.exists) DB.classDays = cdDoc.data() || {};
+
     populateSelects();
     renderSidebarGroups();
-    renderConfig();
     setSyncState('ok');
-    showFbBanner('✅ Datos cargados desde Firebase', 'success');
-  } catch(e) {
-    console.warn('fbLoadAll:', e.message);
-    setSyncState('offline');
-    showFbBanner('📴 Modo offline — usando datos locales', 'error');
-  }
+  } catch(e) { setSyncState('offline'); }
 }
-
-async function fbLoadMonth(grade, month) {
-  try {
-    const gradeKey = grade.replace(/[^a-zA-Z0-9]/g,'_');
-    const snap = await db.collection('asistencia').doc(gradeKey).collection(month).get();
-    if (!DB.attendance[grade]) DB.attendance[grade] = {};
-    if (!DB.attendance[grade][month]) DB.attendance[grade][month] = {};
-    snap.docs.forEach(d => {
-      DB.attendance[grade][month][d.id] = d.data();
-    });
-    saveLocalCache();
-  } catch(e) { console.warn('fbLoadMonth:', e.message); }
-}
-
-function fbListenMonth(grade, month) {
-  _listeners.forEach(u => u());
-  _listeners = [];
-
-  const gradeKey = grade.replace(/[^a-zA-Z0-9]/g,'_');
-  const unsub = db.collection('asistencia')
-    .doc(gradeKey)
-    .collection(month)
-    .onSnapshot(snap => {
-      if (!DB.attendance[grade]) DB.attendance[grade] = {};
-      if (!DB.attendance[grade][month]) DB.attendance[grade][month] = {};
-      snap.docs.forEach(d => { DB.attendance[grade][month][d.id] = d.data(); });
-      saveLocalCache();
-      renderPlanilla();
-    }, err => console.warn('fbListenMonth:', err.message));
-
-  _listeners.push(unsub);
-}
-
-// ════════════════════════════════════════════════════════════
-//  HELPERS
-// ════════════════════════════════════════════════════════════
-function getInitials(name) {
-  const w = name.trim().split(/\s+/);
-  return w.length >= 2 ? (w[0][0]+w[1][0]).toUpperCase() : name.substring(0,2).toUpperCase();
-}
-function getMateriaKey(n) {
-  if (!n) return 'otro';
-  const s = n.toLowerCase();
-  if (s.includes('social')||s.includes('historia')) return 'sociales';
-  if (s.includes('ciudadan')||s.includes('competen')||s.includes('etica')) return 'ciudadania';
-  if (s.includes('mat')||s.includes('algebra')) return 'matematicas';
-  if (s.includes('espa')||s.includes('liter')||s.includes('lengua')) return 'espanol';
-  if (s.includes('natural')||s.includes('biolog')||s.includes('quimic')||s.includes('fisic')) return 'naturales';
-  if (s.includes('ingles')||s.includes('english')) return 'ingles';
-  return 'otro';
-}
-function getAttDay(grade, month, date) {
-  return ((DB.attendance[grade]||{})[month]||{})[date] || {};
-}
-function setAttDay(grade, month, date, records) {
-  if (!DB.attendance[grade]) DB.attendance[grade] = {};
-  if (!DB.attendance[grade][month]) DB.attendance[grade][month] = {};
-  DB.attendance[grade][month][date] = records;
-}
-function getClassDays(month) {
-  if (!DB.classDays[month]) DB.classDays[month] = [];
-  return DB.classDays[month];
-}
-function getFestivos() {
-  if (!DB.festivos) DB.festivos = [];
-  return DB.festivos;
-}
-
-function toast(msg, type='info') {
-  const icons = {success:'✅',error:'❌',info:'ℹ️'};
-  const el = document.createElement('div');
-  el.className = `toast ${type}`;
-  el.innerHTML = `<span>${icons[type]||''}</span>${msg}`;
-  document.getElementById('toastContainer').appendChild(el);
-  setTimeout(() => el.remove(), 3500);
-}
-function showFbBanner(msg, type='info') {
-  const b = document.getElementById('fbStatusBanner');
-  if (!b) return;
-  b.textContent = msg;
-  b.className = 'fb-banner ' + (type==='success'?'success':type==='error'?'error':'');
-  b.style.display = 'flex';
-  setTimeout(() => { b.style.display='none'; }, 4000);
-}
-function setSyncState(state) {
-  const dot  = document.getElementById('syncDot');
-  const txt  = document.getElementById('syncText');
-  if (!dot||!txt) return;
-  dot.className = 'sync-dot ' + (state==='ok'?'ok':state==='pending'?'pending':state==='loading'?'loading':state==='offline'?'offline':'');
-  txt.textContent = state==='ok'?'Firebase ✓':state==='pending'?'Guardando…':state==='loading'?'Cargando…':state==='offline'?'Sin conexión':'—';
-}
-function openModal(id)  { document.getElementById(id).classList.add('open'); }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-// ════════════════════════════════════════════════════════════
-//  NAVEGACIÓN
-// ════════════════════════════════════════════════════════════
-function showTab(name, navEl) {
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-'+name)?.classList.add('active');
-  document.querySelector(`.tab[data-tab="${name}"]`)?.classList.add('active');
-  if (name==='resumen') renderResumen();
-  if (name==='reporte') renderReporte();
-  if (name==='config')  renderConfig();
-}
-
-// ════════════════════════════════════════════════════════════
-//  SELECTS / SIDEBAR
-// ════════════════════════════════════════════════════════════
-function parseMateriaGrupo(g) {
-  const parts = g.trim().split(/\s+/);
-  let si = parts.length-1;
-  for (let i=parts.length-1;i>=0;i--) { if (/^\d+[A-Za-z]?$/.test(parts[i])){si=i;break;} }
-  return { materia:parts.slice(0,si).join(' ')||g, grupo:parts.slice(si).join(' ')||g };
-}
-function getMaterias() { return [...new Set(DB.grades.map(g=>parseMateriaGrupo(g).materia))]; }
-function getGruposByMateria(mat) { return DB.grades.filter(g=>parseMateriaGrupo(g).materia===mat); }
 
 function populateSelects() {
   const selMat = document.getElementById('selMateria');
-  const prevMat = selMat?.value;
-  if (selMat) {
-    selMat.innerHTML = '<option value="">— Materia —</option>';
-    getMaterias().forEach(m=>{ const o=document.createElement('option');o.value=m;o.textContent=m;selMat.appendChild(o); });
-    selMat.value = prevMat;
-  }
+  const materias = [...new Set(DB.grades.map(g => g.split(' ')[0]))];
+  selMat.innerHTML = '<option value="">— Materia —</option>' + materias.map(m => `<option value="${m}">${m}</option>`).join('');
+  const selMon = document.getElementById('selMonth');
+  selMon.innerHTML = '<option value="">— Mes —</option>' + DB.months.map(m => `<option value="${m}">${m}</option>`).join('');
+}
+
+function onMateriaChange() {
+  const mat = document.getElementById('selMateria').value;
   const selGr = document.getElementById('selGrade');
-  if (selGr) {
-    const prev = selGr.value;
-    const mat  = selMat?.value||'';
-    const lista= mat?getGruposByMateria(mat):DB.grades;
-    selGr.innerHTML='<option value="">— Grupo —</option>';
-    lista.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=parseMateriaGrupo(g).grupo;selGr.appendChild(o);});
-    selGr.value=prev;
+  const filtered = DB.grades.filter(g => g.startsWith(mat));
+  selGr.innerHTML = '<option value="">— Grupo —</option>' + filtered.map(g => `<option value="${g}">${g.split(' ')[1] || g}</option>`).join('');
+}
+
+function onGradeChange() {
+  curGrade = document.getElementById('selGrade').value;
+  if (curGrade && curMonth) loadAttendance();
+  renderPlanilla();
+}
+
+function onMonthChange() {
+  curMonth = document.getElementById('selMonth').value;
+  if (curGrade && curMonth) loadAttendance();
+  renderPlanilla();
+}
+
+async function loadAttendance() {
+  const gradeKey = curGrade.replace(/\s/g, '_');
+  const snap = await db.collection('asistencia').doc(gradeKey).collection(curMonth).get();
+  if (!DB.attendance[curGrade]) DB.attendance[curGrade] = {};
+  DB.attendance[curGrade][curMonth] = {};
+  snap.docs.forEach(d => { DB.attendance[curGrade][curMonth][d.id] = d.data(); });
+  renderPlanilla();
+}
+
+function renderPlanilla() {
+  const card = document.getElementById('planillaCard');
+  if (!curGrade || !curMonth) return;
+  const students = DB.students.filter(s => s.grade === curGrade);
+  const year = DB.config.year;
+  const mesNum = MESES_NUM[curMonth];
+  const diasEnMes = new Date(year, mesNum, 0).getDate();
+  const classDays = DB.classDays[curMonth] || [];
+
+  let html = `<div class="planilla-toolbar"><div class="planilla-title">📋 ${curGrade} · ${curMonth}</div></div>`;
+  html += `<div class="planilla-scroll"><table class="planilla"><thead><tr><th class="col-name">Estudiante</th>`;
+  for(let d=1; d<=diasEnMes; d++) {
+    const ds = `${year}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dow = new Date(ds+'T12:00:00').getDay();
+    const isClase = classDays.includes(ds);
+    html += `<th class="th-day ${isClase?'activo':''}">
+      <span class="dn">${DIAS_ES[dow]}</span><span class="dd">${d}</span>
+      <button class="toggle-btn ${isClase?'activo':''}" onclick="toggleDay('${ds}')">${isClase?'✓':'+'}</button>
+    </th>`;
   }
-  ['selMonth','resMonth'].forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    const prev=el.value;
-    el.innerHTML=id==='resMonth'?'<option value="">— Todos los meses —</option>':'<option value="">— Mes —</option>';
-    DB.months.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;el.appendChild(o);});
-    el.value=prev;
+  html += `<th class="col-resumen">Resumen</th></tr></thead><tbody>`;
+  students.forEach((s) => {
+    html += `<tr><td class="col-name"><div class="student-cell">
+      <div class="stu-avatar" style="background:var(--mat-light); color:var(--mat)">${s.name.substring(0,2).toUpperCase()}</div>
+      <div class="stu-name-wrap"><span class="row-name">${s.name}</span><span class="row-code">${s.code}</span></div>
+    </div></td>`;
+    for(let d=1; d<=diasEnMes; d++) {
+      const ds = `${year}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const isClase = classDays.includes(ds);
+      const state = ((DB.attendance[curGrade]?.[curMonth]?.[ds]) || {})[s.code] || '';
+      html += `<td class="col-att">${isClase ? `<div class="att-dot ${state||'empty'}" onclick="cycleState('${s.code}','${ds}')"></div>` : ''}</td>`;
+    }
+    html += `<td class="col-resumen"><div class="resumen-cell"><span class="rp">--</span></div></td></tr>`;
   });
-  ['resGrade','repGrade','stuGrade','stuFilterGrade'].forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    const prev=el.value;
-    const isFilter=['resGrade','stuFilterGrade'].includes(id);
-    el.innerHTML=isFilter?'<option value="">— Todos —</option>':'<option value="">— Grupo —</option>';
-    DB.grades.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;el.appendChild(o);});
-    el.value=prev;
-  });
-  renderSidebarGroups();
+  html += `</tbody></table></div>`;
+  card.innerHTML = html;
+}
+
+function cycleState(code, dateStr) {
+  if (!DB.attendance[curGrade]) DB.attendance[curGrade] = {};
+  if (!DB.attendance[curGrade][curMonth]) DB.attendance[curGrade][curMonth] = {};
+  if (!DB.attendance[curGrade][curMonth][dateStr]) DB.attendance[curGrade][curMonth][dateStr] = {};
+  const states = ['', 'P', 'A', 'E'];
+  const cur = DB.attendance[curGrade][curMonth][dateStr][code] || '';
+  const next = states[(states.indexOf(cur) + 1) % states.length];
+  DB.attendance[curGrade][curMonth][dateStr][code] = next;
+  fbSaveDay(curGrade, curMonth, dateStr, DB.attendance[curGrade][curMonth][dateStr]);
+  renderPlanilla();
+}
+
+async function fbSaveDay(grade, month, date, records) {
+  const gradeKey = grade.replace(/\s/g, '_');
+  await db.collection('asistencia').doc(gradeKey).collection(month).doc(date).set(records);
+}
+
+function toggleDay(dateStr) {
+  if (!DB.classDays[curMonth]) DB.classDays[curMonth] = [];
+  const idx = DB.classDays[curMonth].indexOf(dateStr);
+  if (idx === -1) DB.classDays[curMonth].push(dateStr);
+  else DB.classDays[curMonth].splice(idx, 1);
+  db.collection('config').doc('classDays').set(DB.classDays);
+  renderPlanilla();
+}
+
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelector(`[data-tab="${name}"]`).classList.add('active');
+}
+
+function setTheme(t) {
+  DB.config.theme = t;
+  document.documentElement.setAttribute('data-theme', t);
+  db.collection('config').doc('settings').set(DB.config);
+}
+
+function setSyncState(s) {
+  const dot = document.getElementById('syncDot');
+  if (dot) dot.className = 'sync-dot ' + s;
 }
 
 function renderSidebarGroups() {
   const wrap = document.getElementById('sidebarGroups');
   if (!wrap) return;
-  if (!DB.grades.length) { wrap.innerHTML='<div style="padding:8px 12px;font-size:11px;color:var(--text3)">Sin grupos</div>'; return; }
-  wrap.innerHTML = DB.grades.map((g,i)=>{
-    const c=ROW_COLORS[i%ROW_COLORS.length];
-    return `<div class="group-item ${g===curGrade?'active':''}" onclick="selectGroup('${g}')">
-      <div class="group-dot" style="background:${c.fg}"></div>${g}</div>`;
-  }).join('');
+  wrap.innerHTML = DB.grades.map(g => `<div class="group-item" onclick="selectGroup('${g}')"><div class="group-dot" style="background:var(--mat)"></div>${g}</div>`).join('');
 }
 
 function selectGroup(g) {
-  const parts = parseMateriaGrupo(g);
-  const selMat = document.getElementById('selMateria');
-  const selGr = document.getElementById('selGrade');
-  
-  if (selMat.querySelector(`option[value="${parts.materia}"]`)) {
-    selMat.value = parts.materia;
-  }
-  populateSelects();
-  if (selGr.querySelector(`option[value="${g}"]`)) {
-    selGr.value = g;
-  }
-  showTab('planilla', null);
+  curGrade = g;
+  document.getElementById('selGrade').value = g;
   onGradeChange();
 }
 
-// ════════════════════════════════════════════════════════════
-//  EVENTOS FILTROS
-// ════════════════════════════════════════════════════════════
-function onMateriaChange() {
-  curGrade=''; curSession='';
-  const mat=document.getElementById('selMateria')?.value||'';
-  if (mat) document.documentElement.setAttribute('data-materia',getMateriaKey(mat));
-  document.getElementById('selGrade').value='';
-  populateSelects(); renderPlanilla(); updateTopbarSub();
-}
-function onGradeChange() {
-  curGrade=document.getElementById('selGrade').value;
-  curSession=curGrade;
-  if (curGrade) document.documentElement.setAttribute('data-materia',getMateriaKey(curGrade));
-  renderPlanilla(); renderSidebarGroups(); updateTopbarSub();
-  if (curGrade && curMonth) { fbLoadMonth(curGrade,curMonth).then(()=>{ fbListenMonth(curGrade,curMonth); renderPlanilla(); }); }
-}
-function onMonthChange() {
-  curMonth=document.getElementById('selMonth').value;
-  updateTopbarSub();
-  if (curGrade && curMonth) { fbLoadMonth(curGrade,curMonth).then(()=>{ fbListenMonth(curGrade,curMonth); renderPlanilla(); }); }
-  else renderPlanilla();
-}
-function updateTopbarSub() {
-  const el=document.getElementById('topbarSub');
-  if (el) el.textContent=(curGrade&&curMonth)?` ${curGrade} · ${curMonth}`:'';
-}
-
-// ════════════════════════════════════════════════════════════
-//  PLANILLA MENSUAL
-// ════════════════════════════════════════════════════════════
-function renderPlanilla() {
-  const card=document.getElementById('planillaCard');
-  if (!curGrade||!curMonth) {
-    card.innerHTML=`<div class="empty-state"><div class="empty-icon">📅</div><h3>Seleccione materia, grupo y mes</h3><p>Aparecerá el planillón completo del mes.</p></div>`;
-    updateStats(null); return;
-  }
-  const students=DB.students.filter(s=>s.grade===curGrade);
-  if (!students.length) {
-    card.innerHTML=`<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes en este grupo</h3><p>Agréguelos en ⚙️ Configuración.</p></div>`;
-    updateStats(null); return;
-  }
-  const year=DB.config.year||new Date().getFullYear();
-  const mesNum=MESES_NUM[curMonth]||1;
-  const diasEnMes=new Date(year,mesNum,0).getDate();
-  const classDays=getClassDays(curMonth);
-  const festivos=getFestivos();
-
-  const allDays=Array.from({length:diasEnMes},(_,i)=>{
-    const d=i+1;
-    const dateStr=`${year}-${String(mesNum).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const dow=new Date(dateStr+'T12:00:00').getDay();
-    const isFinde=(dow===6&&!DB.config.includeSat)||(dow===0&&!DB.config.includeSun);
-    const isFestivo=festivos.includes(dateStr);
-    const isClase=classDays.includes(dateStr)&&!isFestivo;
-    return {d,dateStr,dow,isFinde,isFestivo,isClase,dName:DIAS_ES[dow]};
-  });
-
-  const thDias=allDays.map(day=>{
-    const blocked=day.isFinde||day.isFestivo;
-    let cls='th-day'+(day.isFinde?' finde':day.isFestivo?' festivo':day.isClase?' activo':'');
-    const btnIcon=day.isFestivo?'<span style="font-size:8px;color:#D30000;display:block">🔴</span>'
-      :blocked?'<span style="display:block;height:22px"></span>'
-      :`<button class="toggle-btn ${day.isClase?'activo':''}" onclick="toggleDay('${day.dateStr}')">${day.isClase?'✓':'+'}</button>`;
-    return `<th class="${cls}"><span class="dn">${day.dName}</span><span class="dd">${day.d}</span>${btnIcon}</th>`;
-  }).join('');
-
-  const tbody=students.map((s,i)=>{
-    const c=ROW_COLORS[i%ROW_COLORS.length];
-    let stuP=0,stuA=0,stuE=0;
-    const dayRecs=getAttDay(curGrade,curMonth,'__all__');
-
-    const tdDias=allDays.map(day=>{
-      if (day.isFestivo) return `<td class="col-att festivo"><div class="att-dot blocked"></div></td>`;
-      if (day.isFinde)   return `<td class="col-att finde"><div class="att-dot blocked"></div></td>`;
-      if (!day.isClase)  return `<td class="col-att inactivo"><div class="att-dot blocked"></div></td>`;
-      const rec=getAttDay(curGrade,curMonth,day.dateStr);
-      const state=rec[s.code]||'';
-      if (state==='P') stuP++; else if (state==='A') stuA++; else if (state==='E') stuE++;
-      return `<td class="col-att"><div class="att-dot ${state||'empty'}" onclick="cycleState('${s.code}','${day.dateStr}')"></div></td>`;
-    }).join('');
-
-    const total=stuP+stuA+stuE;
-    const pct=total?Math.round(stuP/total*100):null;
-    return `<tr>
-      <td class="col-name"><div class="student-cell">
-        <div class="stu-avatar" style="background:${c.bg};color:${c.fg};border-color:${c.fg}40">${getInitials(s.name)}</div>
-        <div class="stu-name-wrap"><span class="row-name">${s.name}</span><span class="row-code">${s.code}</span></div>
-      </div></td>
-      ${tdDias}
-      <td class="col-resumen"><div class="resumen-cell">
-        <span class="rp">${stuP}P</span>
-        ${stuA?`<span class="ra">${stuA}F</span>`:''}
-        ${stuE?`<span class="re">${stuE}E</span>`:''}
-        ${pct!==null?`<span class="rpct">${pct}%</span>`:''}
-      </div></td>
-    </tr>`;
-  }).join('');
-
-  const tfootDias=allDays.map(day=>{
-    if (day.isFinde||day.isFestivo||!day.isClase) return `<td></td>`;
-    const rec=getAttDay(curGrade,curMonth,day.dateStr);
-    const p=students.filter(s=>rec[s.code]==='P').length;
-    const a=students.filter(s=>rec[s.code]==='A').length;
-    const e=students.filter(s=>rec[s.code]==='E').length;
-    return `<td style="font-size:9px;line-height:1.4">
-      ${p?`<div style="color:#007A33">${p}</div>`:''}
-      ${a?`<div style="color:#D30000">${a}F</div>`:''}
-      ${e?`<div style="color:#FF8A00">${e}E</div>`:''}
-    </td>`;
-  }).join('');
-
-  card.innerHTML=`
-    <div class="planilla-toolbar">
-      <div class="planilla-title">📅 ${curMonth} ${year} — <span>${curGrade}</span></div>
-      <span style="font-size:11px;color:var(--text3)">${classDays.length} día(s) activos · <strong>+</strong> para activar día</span>
-    </div>
-    <div class="planilla-scroll">
-      <table class="planilla">
-        <thead><tr>
-          <th class="col-name" style="padding:10px 14px;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px">Estudiante</th>
-          ${thDias}
-          <th class="col-resumen" style="font-size:10px;color:var(--text2);text-transform:uppercase;padding:8px 6px">Resumen</th>
-        </tr></thead>
-        <tbody>${tbody}</tbody>
-        <tfoot><tr><td class="col-name">Totales</td>${tfootDias}<td class="col-resumen"></td></tr></tfoot>
-      </table>
-    </div>
-    <div class="att-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#007A33"></div>Presente</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#D30000"></div>Falla</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#FF8A00"></div>Excusa</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--border2);border:1px dashed var(--border2)"></div>Sin registro</div>
-      <span style="margin-left:auto">Vacío → P → F → E → Vacío</span>
-    </div>`;
-
-  updateStats({students,classDays,grade:curGrade,month:curMonth});
-}
-
-function toggleDay(dateStr) {
-  const days=getClassDays(curMonth);
-  const idx=days.indexOf(dateStr);
-  if (idx===-1) {
-    days.push(dateStr); days.sort();
-    const rec={};
-    DB.students.filter(s=>s.grade===curGrade).forEach(s=>{ rec[s.code]='P'; });
-    setAttDay(curGrade,curMonth,dateStr,rec);
-    fbSaveDay(curGrade,curMonth,dateStr,rec);
-  } else {
-    days.splice(idx,1);
-  }
-  saveLocalCache();
-  fbSaveClassDays();
-  renderPlanilla();
-}
-
-function cycleState(code, dateStr) {
-  // 1. Obtener estado local actualizado
-  const rec = {...getAttDay(curGrade,curMonth,dateStr)};
-  const cur  = rec[code]||'';
-  const cycle= ['','P','A','E'];
-  rec[code]  = cycle[(cycle.indexOf(cur)+1)%cycle.length];
-  
-  // 2. Guardar en memoria local
-  setAttDay(curGrade,curMonth,dateStr,rec);
-  saveLocalCache();
-
-  // 3. Enviar inmediatamente a Firebase (El SDK interno agrupa por microsegundos)
-  setSyncState('pending');
-  fbSaveDay(curGrade, curMonth, dateStr, rec);
-  
-  // 4. Refrescar interfaz
-  renderPlanilla();
-}
-
-function markAll(state) {
-  if (!curGrade||!curMonth){ toast('Seleccione grupo y mes','error'); return; }
-  const days=getClassDays(curMonth);
-  if (!days.length){ toast('Active primero días de clase (+)','info'); return; }
-  const students=DB.students.filter(s=>s.grade===curGrade);
-  days.forEach(dateStr=>{
-    const rec={};
-    students.forEach(s=>{ rec[s.code]=state; });
-    setAttDay(curGrade,curMonth,dateStr,rec);
-    fbSaveDay(curGrade,curMonth,dateStr,rec);
-  });
-  saveLocalCache();
-  renderPlanilla();
-  toast(`Todos marcados — ${days.length} días`,'success');
-}
-
-async function manualSave() {
-  if (!curGrade||!curMonth){ toast('Seleccione grupo y mes','error'); return; }
-  const days=getClassDays(curMonth);
-  setSyncState('loading');
-  let ok=true;
-  for (const dateStr of days) {
-    const rec=getAttDay(curGrade,curMonth,dateStr);
-    if (!Object.keys(rec).length) continue;
-    try { await fbSaveDay(curGrade,curMonth,dateStr,rec); }
-    catch(e){ ok=false; }
-  }
-  setSyncState(ok?'ok':'pending');
-  toast(ok?'✅ Guardado en Firebase':'⚠️ Guardado parcialmente',ok?'success':'info');
-}
-
-function updateStats(data) {
-  if (!data) {
-    ['stClases','stPresent','stAbsent','stExcuse'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='—';});
-    return;
-  }
-  const {students,classDays,grade,month}=data;
-  let p=0,a=0,e=0;
-  students.forEach(s=>{ classDays.forEach(f=>{ const v=getAttDay(grade,month,f)[s.code]; if(v==='P')p++;else if(v==='A')a++;else if(v==='E')e++; }); });
-  const total=p+a+e;
-  document.getElementById('stClases').textContent=classDays.length;
-  document.getElementById('stPresent').textContent=p||'—';
-  document.getElementById('stAbsent').textContent=a||'—';
-  document.getElementById('stExcuse').textContent=e||'—';
-  if(total){
-    document.getElementById('stPresentPct').textContent=Math.round(p/total*100)+'%';
-    document.getElementById('stAbsentPct').textContent=Math.round(a/total*100)+'%';
-    document.getElementById('stExcusePct').textContent=Math.round(e/total*100)+'%';
-  }
-}
-
-// ════════════════════════════════════════════════════════════
-//  RESUMEN
-// ════════════════════════════════════════════════════════════
-function renderResumen() {
-  const gf=document.getElementById('resGrade')?.value||'';
-  const mf=document.getElementById('resMonth')?.value||'';
-  const students=DB.students.filter(s=>!gf||s.grade===gf);
-  const body=document.getElementById('resumenBody');
-  if (!students.length){ body.innerHTML='<tr><td colspan="8" style="padding:40px;text-align:center;color:var(--text3)">Sin estudiantes</td></tr>'; return; }
-  body.innerHTML=students.map((s,i)=>{
-    let p=0,a=0,e=0;
-    const gData=DB.attendance[s.grade]||{};
-    const months=mf?[mf]:Object.keys(gData);
-    months.forEach(m=>{ Object.keys(gData[m]||{}).forEach(f=>{ const v=(gData[m][f]||{})[s.code]; if(v==='P')p++;else if(v==='A')a++;else if(v==='E')e++; }); });
-    const total=p+a+e,pct=total?Math.round(p/total*100):0;
-    const st=pct>=80?'ok':pct>=60?'warn':'bad';
-    const stLabel=pct>=80?'Regular':pct>=60?'En riesgo':'Crítico';
-    const pctColor=pct>=80?'#007A33':pct>=60?'#FF8A00':'#D30000';
-    return `<tr>
-      <td style="color:var(--text3);font-size:11px">${i+1}</td>
-      <td style="font-weight:600">${s.name}</td>
-      <td style="font-size:12px;color:var(--text2)">${s.grade}</td>
-      <td style="color:#007A33;font-weight:700">${p}</td>
-      <td style="color:#D30000;font-weight:700">${a}</td>
-      <td style="color:#FF8A00;font-weight:700">${e}</td>
-      <td><div class="pct-bar"><div class="pct-track"><div class="pct-fill" style="width:${pct}%;background:${pctColor}"></div></div><span style="font-size:12px;font-weight:700;min-width:34px">${pct}%</span></div></td>
-      <td><span class="chip chip-${st}">${stLabel}</span></td>
-    </tr>`;
-  }).join('');
-}
-
-// ════════════════════════════════════════════════════════════
-//  REPORTE
-// ════════════════════════════════════════════════════════════
-function renderReporte() {
-  const grade=document.getElementById('repGrade')?.value||'';
-  const vista=document.getElementById('repView')?.value||'year';
-  const mes=document.getElementById('repMonth')?.value||'';
-  const container=document.getElementById('reporteContent');
-  const repMonthSel=document.getElementById('repMonth');
-  if (repMonthSel) {
-    repMonthSel.style.display=vista==='month'?'':'none';
-    if (repMonthSel.options.length<=1) DB.months.forEach(m=>{const o=document.createElement('option');o.value=m;o.textContent=m;repMonthSel.appendChild(o);});
-  }
-  if (!grade){ container.innerHTML='<div class="empty-state"><div class="empty-icon">📄</div><h3>Seleccione un grupo</h3></div>'; return; }
-  const students=DB.students.filter(s=>s.grade===grade);
-  if (!students.length){ container.innerHTML='<div class="empty-state"><div class="empty-icon">👥</div><h3>Sin estudiantes</h3></div>'; return; }
-
-  const getStats=(code,gr,meses)=>{
-    let p=0,a=0,e=0;
-    meses.forEach(m=>{ Object.keys((DB.attendance[gr]||{})[m]||{}).forEach(f=>{ const v=((DB.attendance[gr][m]||{})[f]||{})[code]; if(v==='P')p++;else if(v==='A')a++;else if(v==='E')e++; }); });
-    return {p,a,e};
-  };
-  const getMeses=v=>{ if(v==='year')return DB.months; if(v==='month')return mes?[mes]:[]; return (PERIODOS[v]||[]).filter(m=>DB.months.includes(m)); };
-  const vistaLabel=vista==='year'?'Año completo':vista==='month'?(mes||'Mes'):PERIODO_LABELS[vista];
-
-  let colHeaders='',buildRow;
-  if (vista==='year') {
-    colHeaders=Object.keys(PERIODOS).map(p=>`<th style="text-align:center;font-size:10px;padding:8px 4px">${PERIODO_LABELS[p]}</th>`).join('')+'<th style="text-align:center;font-size:10px">Tot.F</th><th style="text-align:center;font-size:10px">Tot.E</th><th style="text-align:center;font-size:10px">%</th>';
-    buildRow=(s,i)=>{
-      const pCells=Object.keys(PERIODOS).map(p=>{const st=getStats(s.code,s.grade,PERIODOS[p].filter(m=>DB.months.includes(m)));return `<td style="text-align:center;font-size:12px"><span style="color:#D30000;font-weight:700">${st.a}</span>${st.e?`<span style="color:#FF8A00;font-size:10px">+${st.e}E</span>`:''}</td>`;}).join('');
-      const all=getStats(s.code,s.grade,DB.months);const t=all.p+all.a+all.e,pct=t?Math.round(all.p/t*100):0;
-      const pc=pct>=80?'#007A33':pct>=60?'#FF8A00':'#D30000';
-      return `<tr><td style="color:var(--text3);font-size:11px">${i+1}</td><td style="font-weight:600">${s.name}</td>${pCells}<td style="text-align:center;font-weight:700;color:#D30000">${all.a}</td><td style="text-align:center;font-weight:700;color:#FF8A00">${all.e}</td><td style="text-align:center;font-weight:700;color:${pc}">${pct}%</td></tr>`;
-    };
-  } else {
-    const meses=getMeses(vista);
-    colHeaders=meses.map(m=>`<th style="text-align:center;font-size:10px">${m}</th>`).join('')+'<th style="text-align:center;font-size:10px">Tot.F</th><th style="text-align:center;font-size:10px">Tot.E</th><th style="text-align:center;font-size:10px">%</th>';
-    buildRow=(s,i)=>{
-      const mCells=meses.map(m=>{const st=getStats(s.code,s.grade,[m]);return `<td style="text-align:center;font-size:12px"><span style="color:#D30000;font-weight:700">${st.a}</span>${st.e?`<span style="color:#FF8A00;font-size:10px">+${st.e}E</span>`:''}</td>`;}).join('');
-      const all=getStats(s.code,s.grade,meses);const t=all.p+all.a+all.e,pct=t?Math.round(all.p/t*100):0;
-      const pc=pct>=80?'#007A33':pct>=60?'#FF8A00':'#D30000';
-      return `<tr><td style="color:var(--text3);font-size:11px">${i+1}</td><td style="font-weight:600">${s.name}</td>${mCells}<td style="text-align:center;font-weight:700;color:#D30000">${all.a}</td><td style="text-align:center;font-weight:700;color:#FF8A00">${all.e}</td><td style="text-align:center;font-weight:700;color:${pc}">${pct}%</td></tr>`;
-    };
-  }
-
-  const tabs=['year','p1','p2','p3','p4','month'].map(v=>{
-    const l=v==='year'?'Año':v==='month'?'Mes':PERIODO_LABELS[v];
-    return `<button class="reporte-tab ${v===vista?'active':''}" onclick="document.getElementById('repView').value='${v}';renderReporte()">${l}</button>`;
-  }).join('');
-
-  container.innerHTML=`
-    <div class="reporte-card" id="printZone">
-      <div class="reporte-header">
-        <div><div class="inst">${DB.config.school}</div><div class="sub">Reporte de Asistencia · ${grade} · ${vistaLabel}</div><div class="sub">${DB.config.teacher} · Año ${DB.config.year}</div></div>
-        <div style="text-align:right;font-size:11px;color:var(--text3)">${new Date().toLocaleDateString('es-CO')}<br>${students.length} estudiantes</div>
-      </div>
-      <div class="reporte-tabs">${tabs}</div>
-      <div class="table-card"><table class="data-table">
-        <thead><tr><th>#</th><th>Estudiante</th>${colHeaders}</tr></thead>
-        <tbody>${students.map(buildRow).join('')}</tbody>
-      </table></div>
-      <div style="font-size:10px;color:var(--text3);margin-top:12px">F = Falla · E = Excusa · % = Asistencia</div>
-    </div>`;
-}
-
-function printReport() {
-  const zone=document.getElementById('printZone');
-  if (!zone){ toast('Seleccione un grupo','error'); return; }
-  const w=window.open('','_blank');
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Reporte</title><style>body{font-family:Arial,sans-serif;color:#111;padding:20px}table{width:100%;border-collapse:collapse;font-size:11px}th,td{border:1px solid #ccc;padding:5px 8px}th{background:#f0f0f0}</style></head><body>${zone.innerHTML}</body></html>`);
-  w.document.close(); w.print();
-}
-
-// ════════════════════════════════════════════════════════════
-//  CONFIGURACIÓN Y TEMAS
-// ════════════════════════════════════════════════════════════
-function setTheme(theme) {
-  DB.config.theme = theme;
-  document.documentElement.setAttribute('data-theme', theme);
-  saveLocalCache();
-  fbSaveConfig();
-  renderConfig(); 
-}
-
-function renderConfig() {
-  document.querySelectorAll('[id^="btnTheme"]').forEach(b => { b.classList.remove('btn-primary'); b.classList.add('btn-ghost'); });
-  const activeBtnId = 'btnTheme' + (DB.config.theme === 'dark' ? 'Dark' : DB.config.theme === 'pastel' ? 'Pastel' : 'Light');
-  const activeBtn = document.getElementById(activeBtnId);
-  if (activeBtn) { activeBtn.classList.remove('btn-ghost'); activeBtn.classList.add('btn-primary'); }
-
-  document.getElementById('cfgTeacher').value=DB.config.teacher||'';
-  document.getElementById('cfgSchool').value=DB.config.school||'';
-  document.getElementById('cfgYear').value=DB.config.year||2026;
-  document.getElementById('cfgSat').checked=DB.config.includeSat||false;
-  document.getElementById('cfgSun').checked=DB.config.includeSun||false;
-  renderGradesList(); renderMonthsList(); renderStudentList(); renderFestivos();
-  const sfg=document.getElementById('stuFilterGrade');
-  if (sfg&&![...sfg.options].find(o=>o.value==='__sg__')){ const o=document.createElement('option');o.value='__sg__';o.textContent='⚠ Sin grupo';sfg.appendChild(o); }
-}
-
-function saveConfig() {
-  DB.config.teacher=document.getElementById('cfgTeacher').value.trim();
-  DB.config.school=document.getElementById('cfgSchool').value.trim();
-  DB.config.year=parseInt(document.getElementById('cfgYear').value)||2026;
-  saveLocalCache(); fbSaveConfig(); toast('Configuración guardada','success');
-}
-function savePlanConfig() {
-  DB.config.includeSat=document.getElementById('cfgSat').checked;
-  DB.config.includeSun=document.getElementById('cfgSun').checked;
-  saveLocalCache(); fbSaveConfig(); renderPlanilla();
-}
-
-// Grados
-const PASTEL_CHIPS2=[
-  {bg:'#FFF0F2',fg:'#D44A5A'},{bg:'#F0EEFF',fg:'#5A52C0'},{bg:'#EDFAF4',fg:'#1E8A52'},
-  {bg:'#FFF7EC',fg:'#C06A10'},{bg:'#EDF4FF',fg:'#2A60C0'},{bg:'#FFF0FA',fg:'#B03090'},
-  {bg:'#F0FAF0',fg:'#2A8A20'},{bg:'#FFFAEC',fg:'#C08010'}
-];
-function renderGradesList() {
-  const el=document.getElementById('gradesList'); if (!el) return;
-  el.innerHTML=DB.grades.length?DB.grades.map((g,i)=>{const c=PASTEL_CHIPS2[i%PASTEL_CHIPS2.length];return `<span class="grade-chip" style="background:${c.bg};border-color:${c.fg};color:${c.fg}">${g}<span class="rm" onclick="removeGrade('${g.replace(/'/g,' ')}')">×</span></span>`;}).join(''):'<p class="text-dim">Sin grupos.</p>';
-}
-function addGrade() {
-  const mat=document.getElementById('newMateria')?.value.trim();
-  const num=document.getElementById('newGradeNum')?.value;
-  const let_=document.getElementById('newGradeLetter')?.value;
-  if (!mat||!num||!let_){ toast('Complete materia, grado y letra','error'); return; }
-  const name=`${mat} ${num}${let_}`;
-  if (DB.grades.includes(name)){ toast('Ya existe: '+name,'error'); return; }
-  DB.grades.push(name);
-  document.getElementById('newMateria').value='';
-  document.getElementById('newGradeNum').value='';
-  document.getElementById('newGradeLetter').value='';
-  document.getElementById('gradePreview').textContent='—';
-  saveLocalCache(); fbSaveGrades(); renderGradesList(); populateSelects(); toast('Grupo: '+name,'success');
-}
-function removeGrade(g) {
-  if (!confirm(`¿Eliminar "${g}"?`)) return;
-  DB.grades=DB.grades.filter(x=>x!==g);
-  saveLocalCache(); fbSaveGrades(); renderGradesList(); populateSelects(); toast('Eliminado','info');
-}
-['newMateria','newGradeNum','newGradeLetter'].forEach(id=>{
-  document.getElementById(id)?.addEventListener('input',()=>{
-    const m=document.getElementById('newMateria')?.value.trim()||'';
-    const n=document.getElementById('newGradeNum')?.value||'';
-    const l=document.getElementById('newGradeLetter')?.value||'';
-    const el=document.getElementById('gradePreview');
-    if(el)el.textContent=(m&&n&&l)?`${m} ${n}${l}`:'—';
-  });
-});
-
-// Meses
-function renderMonthsList() {
-  const el=document.getElementById('monthsList'); if (!el) return;
-  el.innerHTML=DB.months.length?DB.months.map(m=>`<span class="grade-chip" style="background:#E6F8F3;border-color:#3DAA82;color:#3DAA82">${m}<span class="rm" onclick="removeMonth('${m}')">×</span></span>`).join(''):'<p class="text-dim">Sin meses.</p>';
-}
-function addMonth() {
-  const m=document.getElementById('newMonthSel').value;
-  if (!m||DB.months.includes(m)) return;
-  DB.months.push(m); saveLocalCache(); fbSaveMonths(); renderMonthsList(); populateSelects(); toast('Mes: '+m,'success');
-}
-function removeMonth(m) { DB.months=DB.months.filter(x=>x!==m); saveLocalCache(); fbSaveMonths(); renderMonthsList(); populateSelects(); }
-
-// Festivos
-function toggleFestivo(dateStr) {
-  const f=getFestivos(); const idx=f.indexOf(dateStr);
-  idx===-1?f.push(dateStr):f.splice(idx,1);
-  saveLocalCache(); fbSaveFestivos(); renderFestivos();
-  if (curGrade&&curMonth) renderPlanilla();
-}
-function renderFestivos() {
-  const wrap=document.getElementById('festivosCalendario'); if (!wrap) return;
-  const year=DB.config.year||new Date().getFullYear();
-  const f=getFestivos(); const hoy=new Date().toISOString().split('T')[0];
-  const meses=DB.months.length?DB.months:Object.keys(MESES_NUM);
-  wrap.innerHTML=meses.map(mes=>{
-    const mn=MESES_NUM[mes]||1;
-    const dim=new Date(year,mn,0).getDate();
-    const pd=new Date(`${year}-${String(mn).padStart(2,'0')}-01T12:00:00`).getDay();
-    const fMes=f.filter(x=>x.startsWith(`${year}-${String(mn).padStart(2,'0')}`));
-    const chips=fMes.map(x=>{const d=new Date(x+'T12:00:00');return `<span class="fes-chip">${d.toLocaleDateString('es-CO',{day:'numeric',weekday:'short'})}<span class="rm" onclick="toggleFestivo('${x}')">×</span></span>`;}).join('');
-    const heads=['D','L','M','X','J','V','S'].map(d=>`<div class="cal-head">${d}</div>`).join('');
-    const empties=Array(pd).fill('<div class="cal-day empty"></div>').join('');
-    const days=Array.from({length:dim},(_,i)=>{const d=i+1,ds=`${year}-${String(mn).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const dow=new Date(ds+'T12:00:00').getDay();const cls=['cal-day',f.includes(ds)?'festivo':'',dow===0||dow===6?'finde':'',ds===hoy?'hoy':''].filter(Boolean).join(' ');return `<div class="${cls}" onclick="toggleFestivo('${ds}')">${d}</div>`;}).join('');
-    return `<div><div class="fes-mes-head" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.ch').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''"><span>${mes}${fMes.length?` <span style="color:#D30000;font-size:11px">(${fMes.length})</span>`:''}</span><span class="ch" style="transition:transform .2s;font-size:11px;color:var(--text3)">▼</span></div><div class="fes-mes-body"><div class="mini-cal">${heads}${empties}${days}</div>${chips?`<div class="fes-chips">${chips}</div>`:'<p class="text-dim mt-8">Sin festivos.</p>'}</div></div>`;
-  }).join('');
-}
-
-// Estudiantes
-function addStudent() {
-  const grade=document.getElementById('stuGrade').value;
-  const code=document.getElementById('stuCode').value.trim();
-  const name=document.getElementById('stuName').value.trim();
-  if (!grade||!code||!name){ toast('Complete todos los campos','error'); return; }
-  if (DB.students.find(s=>s.code===code)){ toast('Código duplicado','error'); return; }
-  const stu={code,name,grade};
-  DB.students.push(stu);
-  document.getElementById('stuCode').value=''; document.getElementById('stuName').value='';
-  saveLocalCache(); fbSaveStudent(stu); renderStudentList(); toast('Estudiante agregado','success');
-}
-function removeStudent(code) {
-  DB.students=DB.students.filter(s=>s.code!==code);
-  saveLocalCache(); fbDeleteStudent(code); renderStudentList();
-}
-function renderStudentList() {
-  const filter=document.getElementById('stuFilterGrade')?.value||'';
-  const sinGrupo=filter==='__sg__';
-  let list=sinGrupo?DB.students.filter(s=>!s.grade):filter?DB.students.filter(s=>s.grade===filter):DB.students;
-  const body=document.getElementById('studentListBody'); if (!body) return;
-  const sinG=DB.students.filter(s=>!s.grade).length;
-  const warn=sinG>0&&!sinGrupo?`<tr><td colspan="5" style="padding:8px 14px;background:rgba(211,0,0,.1);font-size:12px;color:#D30000">⚠ ${sinG} sin grupo<button class="btn btn-ghost btn-sm" style="margin-left:8px" onclick="document.getElementById('stuFilterGrade').value='__sg__';renderStudentList()">Ver</button></td></tr>`:'';
-  if (!list.length){ body.innerHTML=warn+'<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text3)">Sin estudiantes</td></tr>'; return; }
-  body.innerHTML=warn+list.map((s,i)=>{
-    const sg=!s.grade;
-    const moveBg=sg?'background:rgba(211,0,0,.1);color:#D30000;border:1px solid rgba(211,0,0,.3)':'background:var(--mat-light);color:var(--mat);border:1px solid var(--mat-mid)';
-    const codeSafe=s.code.replace(/'/g,'');
-    return `<tr style="${sg?'background:rgba(211,0,0,.04)':''}">
-      <td style="color:var(--text3);font-size:11px">${i+1}</td>
-      <td style="font-family:monospace;font-size:11px;color:var(--text2)">${s.code}</td>
-      <td style="font-weight:600">${s.name}</td>
-      <td>${sg?`<span style="color:#D30000;font-size:11px;font-weight:700">⚠ Sin grupo</span>`:`<span style="font-size:12px;color:var(--text2)">${s.grade}</span>`}</td>
-      <td style="display:flex;gap:6px">
-        <button class="btn btn-sm" style="${moveBg}" onclick="openAssignGrade('${codeSafe}','${s.name.replace(/'/g,' ')}','${s.grade||''}')">${sg?'Asignar':'Mover'}</button>
-        <button class="btn btn-sm btn-danger" onclick="removeStudent('${codeSafe}')">Eliminar</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-function openAssignGrade(code,name,curGr) {
-  document.getElementById('assignStuCode').value=code;
-  document.getElementById('assignStuName').innerHTML=`<strong>${name}</strong>${curGr?` — en <em>${curGr}</em>`:' — sin grupo'}`;
-  const sel=document.getElementById('assignGradeSelect');
-  sel.innerHTML='<option value="">— Seleccione —</option>';
-  DB.grades.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;if(g===curGr)o.textContent+=' (actual)';sel.appendChild(o);});
-  sel.value=curGr||''; openModal('modalAssignGrade');
-}
-function confirmAssignGrade() {
-  const code=document.getElementById('assignStuCode').value;
-  const grade=document.getElementById('assignGradeSelect').value;
-  if (!grade){ toast('Seleccione un grupo','error'); return; }
-  const s=DB.students.find(x=>x.code===code);
-  if (s){ s.grade=grade; saveLocalCache(); fbSaveStudent(s); renderStudentList(); }
-  closeModal('modalAssignGrade'); toast('Grupo asignado: '+grade,'success');
-}
-
-// ── CARGA EXCEL ──
-let _pending=[];
-function handleFileUpload(e) {
-  const file=e.target.files[0]; if (!file) return; e.target.value='';
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    try {
-      let rows=file.name.toLowerCase().endsWith('.csv')
-        ?ev.target.result.split('\n').map(l=>l.split(l.includes(';')?';':',').map(c=>c.trim().replace(/^"|"$/g,'')))
-        :(()=>{const wb=XLSX.read(ev.target.result,{type:'binary'});return XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1});})();
-      rows=rows.filter(r=>r.some(c=>String(c||'').trim()));
-      if (rows.length<2){ toast('Archivo vacío','error'); return; }
-      const h=rows[0].map(x=>String(x||'').toLowerCase().trim());
-      const fi=cands=>{for(const c of cands){const i=h.findIndex(x=>x.includes(c));if(i!==-1)return i;}return -1;};
-      const ci=fi(['código','codigo','cod','code','id','nro']),ni=fi(['nombre','name','apellido','estudiante','alumno']),gi=fi(['grado','grupo','group','grade','clase']);
-      _pending=rows.slice(1).map((r,i)=>({code:ci!==-1?String(r[ci]||'').trim():String(i+1),name:ni!==-1?String(r[ni]||'').trim():'',gradeRaw:gi!==-1?String(r[gi]||'').trim():'',gradeAssigned:gi!==-1?String(r[gi]||'').trim():''})).filter(r=>r.name);
-      if (!_pending.length){ toast('Sin datos','error'); return; }
-      renderImportPreview();
-    } catch(err){ toast('Error: '+err.message,'error'); }
-  };
-  file.name.toLowerCase().endsWith('.csv')?reader.readAsText(file,'UTF-8'):reader.readAsBinaryString(file);
-}
-function renderImportPreview() {
-  const grOpts=DB.grades.map(g=>`<option value="${g}">${g}</option>`).join('');
-  document.getElementById('uploadPreview').innerHTML=`
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-top:10px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-        <span style="font-weight:700;font-size:13px">📂 ${_pending.length} estudiantes</span>
-        <button class="btn btn-primary btn-sm" onclick="confirmImport()">✅ Confirmar</button>
-      </div>
-      <div class="form-group">
-        <label class="form-label">Asignar todos al grupo:</label>
-        <select class="sel" id="importGrpAll" style="width:100%" onchange="_pending.forEach((r,i)=>{r.gradeAssigned=this.value;const s=document.getElementById('importTableBody')?.rows[i];if(s)s.querySelector('select').value=this.value})">
-          <option value="">— Seleccione —</option>${grOpts}
-        </select>
-      </div>
-      <div style="max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm)">
-        <table style="width:100%;border-collapse:collapse;font-size:12px">
-          <thead><tr style="background:var(--bg)"><th style="padding:6px 10px;text-align:left;font-size:10px;color:var(--text2)">Código</th><th style="padding:6px 10px;text-align:left;font-size:10px;color:var(--text2)">Nombre</th><th style="padding:6px 10px;text-align:left;font-size:10px;color:var(--text2)">Grupo</th></tr></thead>
-          <tbody id="importTableBody">${_pending.map((r,i)=>`<tr><td style="padding:5px 10px;font-family:monospace;color:var(--text3)">${r.code}</td><td style="padding:5px 10px;font-weight:500">${r.name}</td><td style="padding:5px 8px"><select class="sel" style="font-size:11px;padding:3px 24px 3px 8px" onchange="_pending[${i}].gradeAssigned=this.value"><option value="">—</option>${grOpts}</select></td></tr>`).join('')}</tbody>
-        </table>
-      </div>
-    </div>`;
-  const first=_pending[0]?.gradeRaw;
-  if (first&&DB.grades.includes(first)){const sel=document.getElementById('importGrpAll');if(sel){sel.value=first;_pending.forEach(r=>r.gradeAssigned=first);document.querySelectorAll('#importTableBody select').forEach(s=>s.value=first);}}
-}
-async function confirmImport() {
-  let added=0,skipped=0,sg=0;
-  const promises=[];
-  _pending.forEach(r=>{
-    if (!r.name)return;
-    if (DB.students.find(s=>s.code===r.code)){skipped++;return;}
-    if (!r.gradeAssigned)sg++;
-    const stu={code:r.code,name:r.name,grade:r.gradeAssigned||''};
-    DB.students.push(stu); added++;
-    promises.push(fbSaveStudent(stu));
-  });
-  await Promise.all(promises);
-  _pending=[]; saveLocalCache(); renderStudentList();
-  document.getElementById('uploadPreview').innerHTML=`<div style="background:rgba(0,122,51,.1);border:1px solid rgba(0,122,51,.3);border-radius:var(--radius-sm);padding:10px;font-size:12px;color:#007A33">✅ ${added} importados${sg?` (${sg} sin grupo)`:''}. ${skipped?skipped+' duplicados.':''}</div>`;
-  toast(`${added} estudiantes importados`,'success');
-}
-
-// ════════════════════════════════════════════════════════════
-//  INIT
-// ════════════════════════════════════════════════════════════
-loadLocalCache();
-if (!DB.months.length) {
-  DB.months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre'];
-}
-populateSelects();
-setSyncState('loading');
 fbLoadAll();
 </script>
 </body>
