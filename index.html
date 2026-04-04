@@ -436,7 +436,7 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
         </div>
         <div class="table-card">
           <table class="data-table">
-            <thead><tr><th>#</th><th>Estudiante</th><th>Grupo</th><th style="color:#007A33;font-size:13px">P</th><th style="color:#D30000;font-size:13px">F</th><th style="color:#FF8A00;font-size:13px">E</th><th>% Asistencia</th><th>Estado</th></tr></thead>
+            <thead><tr><th>#</th><th>Estudiante</th><th>Grupo</th><th style="color:#007A33;font-size:13px">Presente</th><th style="color:#D30000;font-size:13px">Falla</th><th style="color:#FF8A00;font-size:13px">Excusa</th><th>% Asistencia</th><th>Estado</th></tr></thead>
             <tbody id="resumenBody"><tr><td colspan="8" style="padding:40px;text-align:center;color:var(--text3)">Sin datos</td></tr></tbody>
           </table>
         </div>
@@ -1068,7 +1068,6 @@ function renderPlanilla() {
           <th class="col-resumen" style="font-size:10px;color:var(--text2);text-transform:uppercase;padding:8px 6px">Resumen</th>
         </tr></thead>
         <tbody>${tbody}</tbody>
-        <tfoot><tr><td class="col-name">Totales</td>${tfootDias}<td class="col-resumen"></td></tr></tfoot>
       </table>
     </div>
     <div class="att-legend">
@@ -1394,30 +1393,59 @@ function toggleFestivo(dateStr) {
 function toggleCalDay(dateStr, dow) {
   const isFinde = (dow===0||dow===6);
   const f = getFestivos();
-  const cd = getClassDays(dateStr.substring(5,7)==='01'?'Enero':
-    Object.keys(MESES_NUM).find(k=>MESES_NUM[k]===parseInt(dateStr.substring(5,7)))||'');
-  // Obtener classDays del mes correspondiente
   const mesNum = parseInt(dateStr.substring(5,7));
   const mesNombre = Object.keys(MESES_NUM).find(k=>MESES_NUM[k]===mesNum)||'';
   const classDays = getClassDays(mesNombre);
 
   if (calMode==='clase') {
-    // Quitar de festivos si estaba
     const fi=f.indexOf(dateStr); if(fi!==-1) f.splice(fi,1);
-    // Agregar a classDays si no está
     if (!classDays.includes(dateStr)) { classDays.push(dateStr); classDays.sort(); }
-    else { classDays.splice(classDays.indexOf(dateStr),1); } // toggle off
+    else { classDays.splice(classDays.indexOf(dateStr),1); }
   } else if (calMode==='festivo') {
-    // Quitar de classDays si estaba
     const ci=classDays.indexOf(dateStr); if(ci!==-1) classDays.splice(ci,1);
-    // Toggle festivo
     const fi=f.indexOf(dateStr); fi===-1?f.push(dateStr):f.splice(fi,1);
   } else if (calMode==='limpiar') {
     const fi=f.indexOf(dateStr); if(fi!==-1) f.splice(fi,1);
     const ci=classDays.indexOf(dateStr); if(ci!==-1) classDays.splice(ci,1);
   }
   saveLocalCache(); fbSaveFestivos(); fbSaveClassDays();
-  renderFestivos();
+
+  // Actualizar solo el día clickeado sin redibujar el calendario completo
+  const dayEl = document.querySelector(`.cal-day[onclick="toggleCalDay('${dateStr}',${dow})"]`);
+  if (dayEl) {
+    const isFestivo = f.includes(dateStr);
+    const isClase   = classDays.includes(dateStr) && !isFestivo;
+    dayEl.className = 'cal-day' +
+      (isFestivo ? ' festivo' : isClase ? ' clase' : isFinde ? ' finde' : '') +
+      (dayEl.classList.contains('hoy') ? ' hoy' : '');
+  }
+
+  // Actualizar el resumen del mes (nº clases · nº festivos) en el encabezado
+  const year = DB.config.year || new Date().getFullYear();
+  const pad  = String(mesNum).padStart(2,'0');
+  const prefix = `${year}-${pad}`;
+  const cMes = classDays.filter(x=>x.startsWith(prefix)).length;
+  const fMes = f.filter(x=>x.startsWith(prefix)).length;
+  // El resumen está en el span dentro del fes-mes-head del mes correspondiente
+  if (dayEl) {
+    const body = dayEl.closest('.fes-mes-body');
+    if (body) {
+      const head = body.previousElementSibling;
+      if (head) {
+        const resSpan = head.querySelector('span > span');
+        if (resSpan) resSpan.textContent = `${cMes} clases · ${fMes} festivos`;
+        else {
+          const mainSpan = head.querySelector('span');
+          if (mainSpan) {
+            // reemplazar texto del mes manteniendo el span de resumen
+            const txt = mesNombre;
+            mainSpan.innerHTML = `${txt}<span style="font-size:10px;color:var(--text3);margin-left:4px">${cMes} clases · ${fMes} festivos</span>`;
+          }
+        }
+      }
+    }
+  }
+
   if (curGrade&&curMonth) renderPlanilla();
 }
 
