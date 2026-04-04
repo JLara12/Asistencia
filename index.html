@@ -240,8 +240,8 @@ td.col-att.festivo{background:rgba(211,0,0,.06)}
 .att-dot.empty{background:transparent;border:1.5px dashed var(--border2);color:var(--text3);font-size:10px}
 .att-dot.blocked{background:rgba(0,0,0,.04);border:none;cursor:default;pointer-events:none}
 
-td.col-resumen{padding:6px 8px;text-align:center;vertical-align:middle}
-.resumen-cell{display:flex;flex-direction:column;align-items:center;gap:1px}
+td.col-resumen{padding:2px 6px;text-align:center;vertical-align:middle}
+.resumen-cell{display:flex;flex-direction:column;align-items:center;gap:0}
 .resumen-cell .rp{font-size:11px;font-weight:700;color:#007A33}
 .resumen-cell .ra{font-size:11px;font-weight:700;color:#D30000}
 .resumen-cell .re{font-size:11px;font-weight:700;color:#FF8A00}
@@ -1010,9 +1010,9 @@ function renderPlanilla() {
       </div></td>
       ${tdDias}
       <td class="col-resumen"><div class="resumen-cell">
-        <span class="rp">${stuP}P</span>
-        ${stuA?`<span class="ra">${stuA}F</span>`:''}
-        ${stuE?`<span class="re">${stuE}E</span>`:''}
+        <span class="rp">${stuP} Presente${stuP!==1?'s':''}</span>
+        ${stuA?`<span class="ra">${stuA} Falla${stuA!==1?'s':''}</span>`:''}
+        ${stuE?`<span class="re">${stuE} Excusa${stuE!==1?'s':''}</span>`:''}
         ${pct!==null?`<span class="rpct">${pct}%</span>`:''}
       </div></td>
     </tr>`;
