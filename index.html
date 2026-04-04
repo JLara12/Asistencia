@@ -355,6 +355,12 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .fb-banner.error{background:rgba(211,0,0,.1);border-color:rgba(211,0,0,.3);color:#D30000}
 .fb-banner.success{background:rgba(0,122,51,.1);border-color:rgba(0,122,51,.3);color:#007A33}
 
+/* ── TOGGLE SWITCH ── */
+.toggle-track{width:34px;height:18px;border-radius:99px;background:var(--border2);position:relative;transition:background var(--transition)}
+.toggle-track.on{background:var(--mat)}
+.toggle-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left var(--transition)}
+.toggle-track.on .toggle-thumb{left:18px}
+
 /* ── MISC ── */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -650,6 +656,18 @@ function saveLocalCache() {
 // ════════════════════════════════════════════════════════════
 let curGrade = '', curMonth = '', curSession = '';
 let _listeners = [];
+let _hideFinde = false;
+
+function toggleHideFinde() {
+  _hideFinde = !_hideFinde;
+  // Actualizar visual del track
+  const track = document.querySelector('#switchFinde .toggle-track');
+  if (track) track.classList.toggle('on', _hideFinde);
+  // Ocultar/mostrar columnas de finde en la tabla
+  document.querySelectorAll('.finde-col').forEach(el => {
+    el.style.display = _hideFinde ? 'none' : '';
+  });
+}
 
 const DIAS_ES   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const MESES_NUM = {Enero:1,Febrero:2,Marzo:3,Abril:4,Mayo:5,Junio:6,Julio:7,Agosto:8,Septiembre:9,Octubre:10,Noviembre:11,Diciembre:12};
@@ -983,7 +1001,8 @@ function renderPlanilla() {
     const btnIcon=day.isFestivo?'<span style="font-size:8px;color:#D30000;display:block">🔴</span>'
       :blocked?'<span style="display:block;height:22px"></span>'
       :`<button class="toggle-btn ${day.isClase?'activo':''}" onclick="toggleDay('${day.dateStr}')">${day.isClase?'✓':'+'}</button>`;
-    return `<th class="${cls}"><span class="dn">${day.dName}</span><span class="dd">${day.d}</span>${btnIcon}</th>`;
+    const findeAttr = day.isFinde ? `class="${cls} finde-col" style="${_hideFinde?'display:none':''}"` : `class="${cls}"`;
+    return `<th ${findeAttr}><span class="dn">${day.dName}</span><span class="dd">${day.d}</span>${btnIcon}</th>`;
   }).join('');
 
   const tbody=students.map((s,i)=>{
@@ -993,7 +1012,7 @@ function renderPlanilla() {
 
     const tdDias=allDays.map(day=>{
       if (day.isFestivo) return `<td class="col-att festivo"><div class="att-dot blocked"></div></td>`;
-      if (day.isFinde)   return `<td class="col-att finde"><div class="att-dot blocked"></div></td>`;
+      if (day.isFinde)   return `<td class="col-att finde finde-col" style="${_hideFinde?'display:none':''}"><div class="att-dot blocked"></div></td>`;
       if (!day.isClase)  return `<td class="col-att inactivo"><div class="att-dot blocked"></div></td>`;
       const rec=getAttDay(curGrade,curMonth,day.dateStr);
       const state=rec[s.code]||'';
@@ -1013,13 +1032,12 @@ function renderPlanilla() {
         <span class="rp">${stuP} Presente${stuP!==1?'s':''}</span>
         ${stuA?`<span class="ra">${stuA} Falla${stuA!==1?'s':''}</span>`:''}
         ${stuE?`<span class="re">${stuE} Excusa${stuE!==1?'s':''}</span>`:''}
-        ${pct!==null?`<span class="rpct">${pct}%</span>`:''}
       </div></td>
     </tr>`;
   }).join('');
 
   const tfootDias=allDays.map(day=>{
-    if (day.isFinde||day.isFestivo||!day.isClase) return `<td></td>`;
+    if (day.isFinde||day.isFestivo||!day.isClase) return `<td${day.isFinde?` class="finde-col" style="${_hideFinde?'display:none':''}"`:''} ></td>`;
     const rec=getAttDay(curGrade,curMonth,day.dateStr);
     const p=students.filter(s=>rec[s.code]==='P').length;
     const a=students.filter(s=>rec[s.code]==='A').length;
@@ -1035,6 +1053,12 @@ function renderPlanilla() {
     <div class="planilla-toolbar">
       <div class="planilla-title">📅 ${curMonth} ${year} — <span>${curGrade}</span></div>
       <span style="font-size:11px;color:var(--text3)">${classDays.length} día(s) activos · <strong>+</strong> para activar día</span>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;cursor:pointer;margin-left:auto;color:var(--text2);user-select:none">
+        <div class="toggle-switch" id="switchFinde" onclick="toggleHideFinde()" title="Ocultar/mostrar fines de semana">
+          <div class="toggle-track ${_hideFinde?'on':''}"><div class="toggle-thumb"></div></div>
+        </div>
+        Ocultar fines de semana
+      </label>
     </div>
     <div class="planilla-scroll">
       <table class="planilla">
