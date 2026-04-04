@@ -621,7 +621,6 @@ function saveLocalCache() {
 //  ESTADO
 // ════════════════════════════════════════════════════════════
 let curGrade = '', curMonth = '', curSession = '';
-let _saveTimer = null;
 let _listeners = [];
 
 const DIAS_ES   = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
@@ -1049,15 +1048,21 @@ function toggleDay(dateStr) {
 }
 
 function cycleState(code, dateStr) {
+  // 1. Obtener estado local actualizado
   const rec = {...getAttDay(curGrade,curMonth,dateStr)};
   const cur  = rec[code]||'';
   const cycle= ['','P','A','E'];
   rec[code]  = cycle[(cycle.indexOf(cur)+1)%cycle.length];
+  
+  // 2. Guardar en memoria local
   setAttDay(curGrade,curMonth,dateStr,rec);
   saveLocalCache();
-  clearTimeout(_saveTimer);
+
+  // 3. Enviar inmediatamente a Firebase (El SDK interno agrupa por microsegundos)
   setSyncState('pending');
-  _saveTimer = setTimeout(()=>{ fbSaveDay(curGrade,curMonth,dateStr,rec); }, 1500);
+  fbSaveDay(curGrade, curMonth, dateStr, rec);
+  
+  // 4. Refrescar interfaz
   renderPlanilla();
 }
 
