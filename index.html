@@ -71,10 +71,10 @@
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 
 /* ── LAYOUT ── */
-.app{display:grid;grid-template-rows:60px 1fr;grid-template-columns:220px 1fr;grid-template-areas:"logo topbar""sidebar main";min-height:100vh}
+.app{display:grid;grid-template-rows:60px 1fr;grid-template-columns:160px 1fr;grid-template-areas:"logo topbar""sidebar main";min-height:100vh}
 
 /* ── LOGO ── */
-.logo-area{grid-area:logo;background:var(--white);border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:10px}
+.logo-area{grid-area:logo;background:var(--white);border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px}
 .logo-icon{width:32px;height:32px;background:var(--mat);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background var(--transition)}
 .logo-text{font-family:'Nunito',sans-serif;font-weight:900;font-size:15px;letter-spacing:-.3px}
 .logo-text span{color:var(--mat);transition:color var(--transition)}
@@ -108,9 +108,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* ── SIDEBAR ── */
-.sidebar{grid-area:sidebar;background:var(--white);border-right:1px solid var(--border);padding:16px 12px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
-.sidebar-section{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);padding:12px 10px 6px}
-.group-item{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:var(--radius-sm);cursor:pointer;font-size:12px;font-weight:500;color:var(--text2);transition:all var(--transition)}
+.sidebar{grid-area:sidebar;background:var(--white);border-right:1px solid var(--border);padding:12px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.sidebar-section{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3);padding:10px 8px 5px}
+.group-item{display:flex;align-items:center;gap:6px;padding:6px 8px;border-radius:var(--radius-sm);cursor:pointer;font-size:11px;font-weight:500;color:var(--text2);transition:all var(--transition)}
 .group-item:hover{background:var(--bg)}
 .group-item.active{background:var(--mat-light);color:var(--mat);font-weight:700}
 .group-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
@@ -134,7 +134,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-
 .page-body{padding:24px}
 
 /* ── STATS ── */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stats-row{display:none}
 .stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:var(--shadow-sm)}
 .stat-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;flex-shrink:0}
 .stat-info .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
@@ -186,7 +186,7 @@ table.planilla tbody tr:nth-child(8n+5) .row-name{color:var(--row-et)}
 table.planilla tbody tr:nth-child(8n+6) .row-name{color:var(--row-ft)}
 table.planilla tbody tr:nth-child(8n+7) .row-name{color:var(--row-gt)}
 table.planilla tbody tr:nth-child(8n+8) .row-name{color:var(--row-ht)}
-td.col-name{padding:10px 14px;border-right:1px solid var(--border)}
+td.col-name{padding:6px 10px;border-right:1px solid var(--border)}
 
 /* Sombra de profundidad en columna fija */
 table.planilla td.col-name::after, table.planilla th.col-name::after {
@@ -203,17 +203,17 @@ table.planilla td.col-name::after, table.planilla th.col-name::after {
 }
 
 .student-cell{display:flex;align-items:center;gap:10px}
-.stu-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:12px;flex-shrink:0;border:2px solid rgba(0,0,0,.08)}
+.stu-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:10px;flex-shrink:0;border:2px solid rgba(0,0,0,.08)}
 .stu-name-wrap .row-name{font-weight:700;font-size:12px;line-height:1.2;display:block}
 .stu-name-wrap .row-code{font-size:10px;color:var(--text3)}
-td.col-att{text-align:center;padding:6px 2px;border-left:1px solid rgba(0,0,0,.04);vertical-align:middle}
+td.col-att{text-align:center;padding:3px 2px;border-left:1px solid rgba(0,0,0,.04);vertical-align:middle}
 td.col-att.finde{background:rgba(0,0,0,.03)}
 td.col-att.inactivo{background:rgba(0,0,0,.02)}
 td.col-att.festivo{background:rgba(211,0,0,.06)}
 
 /* ── MARCADORES 3D (VOLUMÉTRICOS) ── */
 .att-dot {
-  width: 30px; height: 30px; border-radius: 50%;
+  width: 24px; height: 24px; border-radius: 50%;
   margin: auto; cursor: pointer; display: flex;
   align-items: center; justify-content: center;
   transition: transform .15s ease, box-shadow .15s ease;
@@ -222,19 +222,20 @@ td.col-att.festivo{background:rgba(211,0,0,.06)}
 .att-dot:hover{transform:scale(1.18)}
 .att-dot:active{transform:scale(.92)}
 
-.att-dot.P { background: #007A33; box-shadow: 0 4px 10px rgba(0,122,51,0.3); }
-.att-dot.A { background: #D30000; box-shadow: 0 4px 10px rgba(211,0,0,0.3); }
-.att-dot.E { background: #FF8A00; box-shadow: 0 4px 10px rgba(255,138,0,0.3); }
+/* Colores pasteles: verde salvia, rojo rosado, amarillo ocre suave */
+.att-dot.P { background: #6BAE8A; box-shadow: 0 3px 8px rgba(107,174,138,0.35); }
+.att-dot.A { background: #D97B7B; box-shadow: 0 3px 8px rgba(217,123,123,0.35); }
+.att-dot.E { background: #D4A45A; box-shadow: 0 3px 8px rgba(212,164,90,0.35); }
 
 /* Esfera interior iluminada */
 .att-dot.P::after, .att-dot.A::after, .att-dot.E::after {
   content: ''; position: absolute;
-  width: 14px; height: 14px; border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+  width: 11px; height: 11px; border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
 }
-.att-dot.P::after { background: radial-gradient(circle at 35% 35%, #00E676 10%, #00A344 50%, #007A33 90%); }
-.att-dot.A::after { background: radial-gradient(circle at 35% 35%, #FF5252 10%, #E50000 50%, #D30000 90%); }
-.att-dot.E::after { background: radial-gradient(circle at 35% 35%, #FFD166 10%, #FFAA00 50%, #FF8A00 90%); }
+.att-dot.P::after { background: radial-gradient(circle at 35% 35%, #A8D8BC 10%, #7BBF9E 50%, #6BAE8A 90%); }
+.att-dot.A::after { background: radial-gradient(circle at 35% 35%, #ECA8A8 10%, #D98B8B 50%, #D97B7B 90%); }
+.att-dot.E::after { background: radial-gradient(circle at 35% 35%, #EAC98A 10%, #DAB46A 50%, #D4A45A 90%); }
 
 .att-dot.empty{background:transparent;border:1.5px dashed var(--border2);color:var(--text3);font-size:10px}
 .att-dot.blocked{background:rgba(0,0,0,.04);border:none;cursor:default;pointer-events:none}
@@ -314,10 +315,12 @@ table.planilla tfoot td.col-resumen{background:var(--bg)}
 .fes-mes-body.open{display:block}
 .mini-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 .cal-head{text-align:center;font-size:9px;font-weight:700;color:var(--text3);padding:3px 0;text-transform:uppercase}
-.cal-day{text-align:center;font-size:11px;padding:5px 2px;border-radius:6px;cursor:pointer;transition:all .12s;min-height:26px;display:flex;align-items:center;justify-content:center}
-.cal-day:hover{background:var(--mat-light)}
-.cal-day.festivo{background:rgba(211,0,0,.1);color:#D30000;font-weight:700;border:1px solid rgba(211,0,0,.3)}
-.cal-day.finde{color:var(--text3)}
+.cal-day{text-align:center;font-size:11px;padding:4px 2px;border-radius:6px;cursor:pointer;transition:all .12s;min-height:24px;display:flex;align-items:center;justify-content:center}
+.cal-day:hover{filter:brightness(.9)}
+.cal-day.clase{background:#C8E6C9;color:#2E7D32;font-weight:700;border:1px solid #81C784}
+.cal-day.festivo{background:rgba(211,0,0,.12);color:#D30000;font-weight:700;border:1px solid rgba(211,0,0,.4)}
+.cal-day.finde{color:var(--text3);background:rgba(0,0,0,.04)}
+.cal-day.hoy{outline:2px solid rgba(90,82,192,.5);outline-offset:1px}
 .cal-day.empty{pointer-events:none}
 .fes-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .fes-chip{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;background:rgba(211,0,0,.1);color:#D30000;border:1px solid rgba(211,0,0,.25)}
@@ -475,6 +478,14 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
               </div>
             </div>
             <hr>
+            <div class="config-card-title" style="font-size:13px;margin-bottom:12px">🔵 Marcadores Volumétricos</div>
+            <p class="text-dim mb-12">Personaliza color, tamaño y símbolo de cada marcador.</p>
+            <div id="markerConfigList" style="display:flex;flex-direction:column;gap:10px"></div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <button class="btn btn-primary btn-sm" onclick="saveMarkerConfig()">💾 Aplicar cambios</button>
+              <button class="btn btn-ghost btn-sm" onclick="resetMarkerConfig()">↺ Restaurar</button>
+            </div>
+            <hr>
             <p class="text-dim">Los iconos de estado en formato de texto fueron reemplazados por el nuevo sistema de renderizado volumétrico 3D de alto rendimiento para garantizar legibilidad masiva en la planilla.</p>
           </div>
         </div>
@@ -512,8 +523,25 @@ hr{border:none;border-top:1px solid var(--border);margin:14px 0}
         </div>
 
         <div class="config-card" style="margin-bottom:16px">
-          <div class="config-card-title">🗓️ Días Festivos</div>
-          <p class="text-dim mb-12">Clic en un día para marcarlo como festivo. Quedan bloqueados en el planillón.</p>
+          <div class="config-card-title">🗓️ Calendario Escolar</div>
+          <p class="text-dim mb-12">Configura los días de clase, festivos y fines de semana. Haz clic en un día para cambiar su tipo.</p>
+
+          <!-- Leyenda del calendario -->
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px;font-size:11px">
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:#C8E6C9;border:1px solid #81C784"></div><span>Día de clase</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(211,0,0,.12);border:1px solid rgba(211,0,0,.4)"></div><span>Festivo</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(0,0,0,.06)"></div><span>Fin de semana</span></div>
+            <div style="display:flex;align-items:center;gap:5px"><div style="width:12px;height:12px;border-radius:3px;background:rgba(90,82,192,.12);border:1px solid rgba(90,82,192,.4)"></div><span>Hoy</span></div>
+          </div>
+
+          <!-- Selector de modo de clic -->
+          <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+            <span style="font-size:11px;font-weight:700;color:var(--text2);margin-top:6px">Modo clic:</span>
+            <button class="btn btn-sm" id="calModeClase" onclick="setCalMode('clase')" style="background:#C8E6C9;color:#2E7D32;border:1px solid #81C784">✅ Día de clase</button>
+            <button class="btn btn-ghost btn-sm" id="calModeFestivo" onclick="setCalMode('festivo')">🔴 Festivo</button>
+            <button class="btn btn-ghost btn-sm" id="calModeLimpiar" onclick="setCalMode('limpiar')">🧹 Limpiar</button>
+          </div>
+
           <div class="festivos-wrap" id="festivosCalendario"></div>
         </div>
 
@@ -1020,9 +1048,7 @@ function renderPlanilla() {
       </table>
     </div>
     <div class="att-legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#007A33"></div>Presente</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#D30000"></div>Falla</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#FF8A00"></div>Excusa</div>
+      ${(()=>{const cfg=loadMarkerConfig();return cfg.map(m=>`<div class="legend-item"><div class="legend-dot" style="background:${m.color}"></div>${m.label}</div>`).join('')})()}
       <div class="legend-item"><div class="legend-dot" style="background:var(--border2);border:1px dashed var(--border2)"></div>Sin registro</div>
       <span style="margin-left:auto">Vacío → P → F → E → Vacío</span>
     </div>`;
@@ -1243,7 +1269,7 @@ function renderConfig() {
   document.getElementById('cfgYear').value=DB.config.year||2026;
   document.getElementById('cfgSat').checked=DB.config.includeSat||false;
   document.getElementById('cfgSun').checked=DB.config.includeSun||false;
-  renderGradesList(); renderMonthsList(); renderStudentList(); renderFestivos();
+  renderGradesList(); renderMonthsList(); renderStudentList(); renderFestivos(); renderMarkerConfigList();
   const sfg=document.getElementById('stuFilterGrade');
   if (sfg&&![...sfg.options].find(o=>o.value==='__sg__')){ const o=document.createElement('option');o.value='__sg__';o.textContent='⚠ Sin grupo';sfg.appendChild(o); }
 }
@@ -1311,13 +1337,66 @@ function addMonth() {
 }
 function removeMonth(m) { DB.months=DB.months.filter(x=>x!==m); saveLocalCache(); fbSaveMonths(); renderMonthsList(); populateSelects(); }
 
-// Festivos
+// ── MODO CALENDARIO ──
+let calMode = 'clase'; // 'clase' | 'festivo' | 'limpiar'
+function setCalMode(mode) {
+  calMode = mode;
+  ['calModeClase','calModeFestivo','calModeLimpiar'].forEach(id => {
+    const b = document.getElementById(id);
+    if (!b) return;
+    b.classList.remove('btn-primary');
+    b.classList.add('btn-ghost');
+    b.style.background = '';
+    b.style.color = '';
+    b.style.border = '';
+  });
+  const map = {
+    clase:   {id:'calModeClase',   bg:'#C8E6C9',color:'#2E7D32',border:'1px solid #81C784'},
+    festivo: {id:'calModeFestivo', bg:'rgba(211,0,0,.12)',color:'#D30000',border:'1px solid rgba(211,0,0,.4)'},
+    limpiar: {id:'calModeLimpiar', bg:'rgba(0,0,0,.08)',color:'var(--text2)',border:'1px solid var(--border2)'}
+  };
+  const s = map[mode]; if (!s) return;
+  const b = document.getElementById(s.id);
+  if (b) { b.classList.remove('btn-ghost'); b.style.background=s.bg; b.style.color=s.color; b.style.border=s.border; }
+}
+
 function toggleFestivo(dateStr) {
   const f=getFestivos(); const idx=f.indexOf(dateStr);
   idx===-1?f.push(dateStr):f.splice(idx,1);
   saveLocalCache(); fbSaveFestivos(); renderFestivos();
   if (curGrade&&curMonth) renderPlanilla();
 }
+
+function toggleCalDay(dateStr, dow) {
+  const isFinde = (dow===0||dow===6);
+  const f = getFestivos();
+  const cd = getClassDays(dateStr.substring(5,7)==='01'?'Enero':
+    Object.keys(MESES_NUM).find(k=>MESES_NUM[k]===parseInt(dateStr.substring(5,7)))||'');
+  // Obtener classDays del mes correspondiente
+  const mesNum = parseInt(dateStr.substring(5,7));
+  const mesNombre = Object.keys(MESES_NUM).find(k=>MESES_NUM[k]===mesNum)||'';
+  const classDays = getClassDays(mesNombre);
+
+  if (calMode==='clase') {
+    // Quitar de festivos si estaba
+    const fi=f.indexOf(dateStr); if(fi!==-1) f.splice(fi,1);
+    // Agregar a classDays si no está
+    if (!classDays.includes(dateStr)) { classDays.push(dateStr); classDays.sort(); }
+    else { classDays.splice(classDays.indexOf(dateStr),1); } // toggle off
+  } else if (calMode==='festivo') {
+    // Quitar de classDays si estaba
+    const ci=classDays.indexOf(dateStr); if(ci!==-1) classDays.splice(ci,1);
+    // Toggle festivo
+    const fi=f.indexOf(dateStr); fi===-1?f.push(dateStr):f.splice(fi,1);
+  } else if (calMode==='limpiar') {
+    const fi=f.indexOf(dateStr); if(fi!==-1) f.splice(fi,1);
+    const ci=classDays.indexOf(dateStr); if(ci!==-1) classDays.splice(ci,1);
+  }
+  saveLocalCache(); fbSaveFestivos(); fbSaveClassDays();
+  renderFestivos();
+  if (curGrade&&curMonth) renderPlanilla();
+}
+
 function renderFestivos() {
   const wrap=document.getElementById('festivosCalendario'); if (!wrap) return;
   const year=DB.config.year||new Date().getFullYear();
@@ -1327,14 +1406,137 @@ function renderFestivos() {
     const mn=MESES_NUM[mes]||1;
     const dim=new Date(year,mn,0).getDate();
     const pd=new Date(`${year}-${String(mn).padStart(2,'0')}-01T12:00:00`).getDay();
+    const classDays=getClassDays(mes);
     const fMes=f.filter(x=>x.startsWith(`${year}-${String(mn).padStart(2,'0')}`));
-    const chips=fMes.map(x=>{const d=new Date(x+'T12:00:00');return `<span class="fes-chip">${d.toLocaleDateString('es-CO',{day:'numeric',weekday:'short'})}<span class="rm" onclick="toggleFestivo('${x}')">×</span></span>`;}).join('');
+    const claseMes=classDays.filter(x=>x.startsWith(`${year}-${String(mn).padStart(2,'0')}`));
     const heads=['D','L','M','X','J','V','S'].map(d=>`<div class="cal-head">${d}</div>`).join('');
     const empties=Array(pd).fill('<div class="cal-day empty"></div>').join('');
-    const days=Array.from({length:dim},(_,i)=>{const d=i+1,ds=`${year}-${String(mn).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const dow=new Date(ds+'T12:00:00').getDay();const cls=['cal-day',f.includes(ds)?'festivo':'',dow===0||dow===6?'finde':'',ds===hoy?'hoy':''].filter(Boolean).join(' ');return `<div class="${cls}" onclick="toggleFestivo('${ds}')">${d}</div>`;}).join('');
-    return `<div><div class="fes-mes-head" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.ch').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''"><span>${mes}${fMes.length?` <span style="color:#D30000;font-size:11px">(${fMes.length})</span>`:''}</span><span class="ch" style="transition:transform .2s;font-size:11px;color:var(--text3)">▼</span></div><div class="fes-mes-body"><div class="mini-cal">${heads}${empties}${days}</div>${chips?`<div class="fes-chips">${chips}</div>`:'<p class="text-dim mt-8">Sin festivos.</p>'}</div></div>`;
+    const days=Array.from({length:dim},(_,i)=>{
+      const d=i+1,ds=`${year}-${String(mn).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+      const dow=new Date(ds+'T12:00:00').getDay();
+      const isFinde=dow===0||dow===6;
+      const isFestivo=f.includes(ds);
+      const isClase=classDays.includes(ds)&&!isFestivo;
+      const isHoy=ds===hoy;
+      let cls='cal-day';
+      if (isFestivo) cls+=' festivo';
+      else if (isClase) cls+=' clase';
+      else if (isFinde) cls+=' finde';
+      if (isHoy) cls+=' hoy';
+      return `<div class="${cls}" onclick="toggleCalDay('${ds}',${dow})">${d}</div>`;
+    }).join('');
+    const resumen=`<span style="font-size:10px;color:var(--text3);margin-left:4px">${claseMes.length} clases · ${fMes.length} festivos</span>`;
+    return `<div><div class="fes-mes-head" onclick="this.nextElementSibling.classList.toggle('open');this.querySelector('.ch').style.transform=this.nextElementSibling.classList.contains('open')?'rotate(180deg)':''"><span>${mes}${resumen}</span><span class="ch" style="transition:transform .2s;font-size:11px;color:var(--text3)">▼</span></div><div class="fes-mes-body"><div class="mini-cal">${heads}${empties}${days}</div></div></div>`;
   }).join('');
 }
+
+// ── CONFIGURACIÓN DE MARCADORES VOLUMÉTRICOS ──
+const MARKER_DEFAULTS = [
+  { key:'P', label:'Presente', emoji:'✅', color:'#6BAE8A', size:24 },
+  { key:'A', label:'Falla',    emoji:'❌', color:'#D97B7B', size:24 },
+  { key:'E', label:'Excusa',   emoji:'⚠️', color:'#D4A45A', size:24 }
+];
+
+function loadMarkerConfig() {
+  try {
+    const s = localStorage.getItem('asist_markers');
+    if (s) return JSON.parse(s);
+  } catch(e){}
+  return JSON.parse(JSON.stringify(MARKER_DEFAULTS));
+}
+function saveMarkerConfigToStorage(cfg) {
+  localStorage.setItem('asist_markers', JSON.stringify(cfg));
+}
+
+function renderMarkerConfigList() {
+  const el = document.getElementById('markerConfigList'); if (!el) return;
+  const cfg = loadMarkerConfig();
+  el.innerHTML = cfg.map((m,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm)">
+      <div style="width:${m.size}px;height:${m.size}px;border-radius:50%;background:${m.color};box-shadow:0 3px 8px ${m.color}55;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:${Math.round(m.size*0.5)}px">${m.emoji}</div>
+      <div style="flex:1;display:grid;grid-template-columns:1fr 1fr 80px 60px;gap:8px;align-items:center">
+        <div>
+          <div class="form-label" style="margin-bottom:3px">Etiqueta</div>
+          <input class="input" value="${m.label}" id="mLabel_${m.key}" style="font-size:12px;padding:5px 8px" oninput="previewMarker('${m.key}')">
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:3px">Emoji/Símbolo</div>
+          <input class="input" value="${m.emoji}" id="mEmoji_${m.key}" style="font-size:16px;padding:5px 8px;text-align:center" maxlength="4" oninput="previewMarker('${m.key}')">
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:3px">Color</div>
+          <input type="color" value="${m.color}" id="mColor_${m.key}" style="width:100%;height:32px;border:none;border-radius:6px;cursor:pointer;background:none" oninput="previewMarker('${m.key}')">
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:3px">Tamaño</div>
+          <input type="number" class="input" value="${m.size}" id="mSize_${m.key}" min="16" max="40" style="font-size:12px;padding:5px 8px" oninput="previewMarker('${m.key}')">
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function previewMarker(key) {
+  // Actualizar la vista previa en tiempo real del dot
+  const color = document.getElementById('mColor_'+key)?.value || '#6BAE8A';
+  const size  = parseInt(document.getElementById('mSize_'+key)?.value)||24;
+  const emoji = document.getElementById('mEmoji_'+key)?.value || '';
+  // Actualizar preview dentro del mismo row
+  const rows = document.querySelectorAll('#markerConfigList > div');
+  rows.forEach(row=>{
+    const inp = row.querySelector(`#mColor_${key}`);
+    if (!inp) return;
+    const preview = row.querySelector('div:first-child');
+    if (preview) {
+      preview.style.width=size+'px';preview.style.height=size+'px';
+      preview.style.background=color;preview.style.boxShadow=`0 3px 8px ${color}55`;
+      preview.style.fontSize=Math.round(size*0.5)+'px';preview.textContent=emoji;
+    }
+  });
+}
+
+function saveMarkerConfig() {
+  const keys = ['P','A','E'];
+  const cfg = keys.map(key=>({
+    key,
+    label: document.getElementById('mLabel_'+key)?.value.trim()||key,
+    emoji: document.getElementById('mEmoji_'+key)?.value||'',
+    color: document.getElementById('mColor_'+key)?.value||'#888',
+    size:  parseInt(document.getElementById('mSize_'+key)?.value)||24
+  }));
+  saveMarkerConfigToStorage(cfg);
+  applyMarkerStyles(cfg);
+  toast('Marcadores actualizados','success');
+}
+
+function resetMarkerConfig() {
+  saveMarkerConfigToStorage(JSON.parse(JSON.stringify(MARKER_DEFAULTS)));
+  applyMarkerStyles(MARKER_DEFAULTS);
+  renderMarkerConfigList();
+  toast('Marcadores restaurados','info');
+}
+
+function applyMarkerStyles(cfg) {
+  const styleId = 'dynamicMarkerStyle';
+  let el = document.getElementById(styleId);
+  if (!el) { el=document.createElement('style'); el.id=styleId; document.head.appendChild(el); }
+  el.textContent = cfg.map(m=>`
+    .att-dot.${m.key}{
+      width:${m.size}px;height:${m.size}px;
+      background:${m.color};
+      box-shadow:0 3px 8px ${m.color}55;
+    }
+    .att-dot.${m.key}::after{display:none;}
+  `).join('');
+  // Actualizar leyenda en planilla si está visible
+  const legend = document.querySelector('.att-legend');
+  if (legend) {
+    const items = legend.querySelectorAll('.legend-item');
+    cfg.forEach((m,i)=>{ if(items[i]){ const dot=items[i].querySelector('.legend-dot'); if(dot) dot.style.background=m.color; items[i].lastChild.textContent=m.label; } });
+  }
+}
+
+// Inicializar marcadores al cargar
+(function initMarkers(){ applyMarkerStyles(loadMarkerConfig()); })();
 
 // Estudiantes
 function addStudent() {
